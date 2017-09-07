@@ -1,6 +1,6 @@
 # Contributing to Broccoli
 
-We'd love for you to contribute to our source code and to make AngularJS even better than it is
+We'd love for you to contribute to our source code and to make Broccoli even better than it is
 today! Here are the guidelines we'd like you to follow:
 
  - [Issues and Bugs](#issue)
@@ -127,12 +127,7 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 ## <a name="commit"></a> Git Commit Guidelines
 
 We have very precise rules over how our git commit messages can be formatted.  This leads to **more
-readable messages** that are easy to follow when looking through the **project history**.  But also,
-we use the git commit messages to **generate the AngularJS change log**.
-
-The commit message formatting can be added using a typical git workflow or through the use of a CLI
-wizard ([Commitizen](https://github.com/commitizen/cz-cli)). To use the wizard, run `yarn run commit`
-in your terminal after staging your changes in git.
+readable messages** that are easy to follow when looking through the **project history**.
 
 ### Commit Message Format
 Each commit message consists of a **header**, a **body** and a **footer**.  The header has a special
@@ -191,7 +186,4 @@ The footer should contain any information about **Breaking Changes** and is also
 The rest of the commit message is then used for this.
 
 [closing-issues]: https://help.github.com/articles/closing-issues-via-commit-messages/
-[commit-message-format]: https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#
-[contribute]: http://docs.angularjs.org/misc/contribute
-[contributing]: http://docs.angularjs.org/misc/contribute
 [github]: https://github.com/fabianishere/broccoli
