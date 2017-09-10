@@ -12,23 +12,29 @@ For the game Gudeballs, the requirements regarding functionality and service are
 
 ## 1. <a id="must-have"></a> Must Have
 
-1. No more balls shall be accepted by the receptor, if all slots of the receptor are filled
-2. All balls in a receptor shall explode and vanish (leaving the slots open), if all slots of the receptor are filled with balls of the same colour
-3. A receptor shall have 4 slots
-4. A receptor shall accept a ball in open slots
-5. A level shall have at least two receptors
-6. A ball shall leave its slot in a receptor in case of mouse click on the ball
-7. A receptor shall turn 90 degrees clockwise on a mouse click
-8. Two receptors shall be interconnected by a rail that guides balls to the next receptor
-9. The game shall have a begin line which spawns a new ball every _x_ seconds
-10. The game shall choose a random ball to spawn on the begin line.
-11. A ball shall bounce back, in case the ball collides with a slot that is already filled with a ball.
-12. Balls shall be divided into multiple colours.
-13. The player shall complete a level when all receptors have exploded at least once.
-14. The game shall have a time counter to show the amount of time that is left for the begin line.
-15. A level shall have a maximum amount of time that can be spend on that level.
-16. The player shall lose a level when the maximum amount of time has passed away
-17. Rails shall be able to handle multiple balls at the same time without collision
+1. __Ball__  
+    a. A ball shall have one of six colours
+2. __Receptor__  
+    a. A receptor shall have 4 slots  
+    b. A receptor shall accept one ball per open slot  
+    c. A receptor shall turn 90 degrees clockwise on a mouse click  
+    d. All balls in a receptor shall explode and vanish (leaving the slots open), if all slots of the receptor are 
+    filled with balls of the same colour  
+    e. A ball shall leave its slot in a receptor in case of mouse click on the ball iff the slot is connected to a rail
+3. __Rail__  
+    a. A rail shall interconnect two receptors  
+    b. A rail shall allow balls to travel between its two endpoints   
+    c. A rail shall be able to handle multiple balls at the same time without collision
+4. __Game__  
+    a. The game shall have a begin line which spawns a new ball every _x_ seconds  
+    b. The game shall choose a random ball to spawn on the begin line  
+    c. The game shall have a time counter to show the amount of time that is left for the begin line.  
+5. __Level__  
+    a. A level shall have at least two receptors  
+    b. A level shall have a maximum amount of time that can be spent on that level  
+    c. A level shall be marked as completed iff all receptors have exploded at least once  
+    d. A level shall be marked as lost iff the maximum amount of time to complete that level has passed
+    e. A level shall be marked as lost iff the maximum amount of time of the begin line has passed
 
 ## 2. <a id="should-have"></a> Should Have
 
@@ -37,21 +43,20 @@ For the game Gudeballs, the requirements regarding functionality and service are
 3. The game shall increase the score counter by _x_ amount of points, on an exploding receptor
 4. The game shall provide a menu screen
 5. The game shall provide a button on the menu screen to start/resume the game
-6. A running game shall allow to be paused.
-7. A paused game shall allow to be resumed.
+6. A running game shall allow to be paused and resumed
 8. The player shall lose a level when a ball in the begin line is not put in a slot within a given amount of time.
 
 ## 3. <a id="could-have"></a> Could Have
 
-1. The game shall provide a button on the menu screen to show the highscores
-2. The game shall save the scores of all of its players by using a high-score list, holding the top ten names and scores of players with the highest scores
+1. The game shall save the scores of all of its players by using a high-score list, holding the top ten names and scores of players with the highest scores
+2. The game shall provide a button on the menu screen to show the high-score list
 3. The game shall provide an option to set a username
 4. The game shall play sound effects on events.
 5. The game shall play a music theme when in progress
 6. The game shall provide an option to disable sound effects/music
 7. The game shall have a different background for each level
 8. The game shall have a splash screen
-9. There must be an option to play multiple levels
+9. The game shall have an option to play multiple levels
 10. The game shall have locks, which can only be passed by balls of the same colour as the lock
 11. The colour of the balls the lock shall accept shall vary
 12. The joker ball shall be able to behave as any colour
