@@ -22,13 +22,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.broccoli.core'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
+package nl.tudelft.broccoli.libgdx;
 
-dependencies {
-	testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-RC3'
-	testCompile 'org.assertj:assertj-core:3.8.0'
-	testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.0-RC3'
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+
+/**
+ * A launcher for the Gudeballs game implementation using libgdx as front-end,
+ * with a LWJGL backend for libgdx.
+ *
+ * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
+ */
+public class DesktopLauncher {
+    /**
+     * The main entry point of the program.
+     *
+     * @param args The command line arguments passed to this program.
+     */
+    public static void main(String[] args) {
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.title = "Broccoli";
+        config.width = 800;
+        config.height = 480;
+        new LwjglApplication(new Broccoli(), config);
+    }
 }

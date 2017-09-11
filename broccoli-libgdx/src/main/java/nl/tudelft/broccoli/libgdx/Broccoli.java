@@ -22,13 +22,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.broccoli.core'
-version '1.0-SNAPSHOT'
 
-apply from: "${project.rootDir}/gradle/java.gradle"
+package nl.tudelft.broccoli.libgdx;
 
-dependencies {
-	testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-RC3'
-	testCompile 'org.assertj:assertj-core:3.8.0'
-	testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.0-RC3'
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+
+/**
+ * A {@link Game} implementation which provides a 2d game view over the game logic defined in
+ * the <code>broccoli-core</code> package.
+ *
+ * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
+ */
+public class Broccoli extends Game {
+    /**
+     * This method is invoked when the {@link Application} is first created.
+     */
+    @Override
+    public void create() {}
+
+    /**
+     * This method is invoked when the {@link Application} should (re-)render.
+     */
+    @Override
+    public void render() {
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
 }

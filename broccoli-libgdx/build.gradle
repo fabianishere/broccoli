@@ -22,12 +22,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.broccoli.core'
+group 'nl.tudelft.broccoli.libgdx'
 version '1.0-SNAPSHOT'
 
+apply plugin: 'application'
 apply from: "${project.rootDir}/gradle/java.gradle"
 
+mainClassName = "nl.tudelft.broccoli.libgdx.DesktopLauncher"
+
 dependencies {
+	compile project(':broccoli-core')
+	compile "com.badlogicgames.gdx:gdx:1.9.3"
+	compile "com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.3"
+	compile "com.badlogicgames.gdx:gdx-platform:1.9.3:natives-desktop"
+
 	testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-RC3'
 	testCompile 'org.assertj:assertj-core:3.8.0'
 	testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.0-RC3'
