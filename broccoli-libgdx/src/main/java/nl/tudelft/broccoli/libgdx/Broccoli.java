@@ -29,6 +29,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import nl.tudelft.broccoli.core.level.Level;
 
 /**
  * A {@link Game} implementation which provides a 2d game view over the game logic defined in
@@ -37,11 +38,15 @@ import com.badlogic.gdx.graphics.GL20;
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public class Broccoli extends Game {
+    private Level level;
+
     /**
      * This method is invoked when the {@link Application} is first created.
      */
     @Override
-    public void create() {}
+    public void create() {
+        level = new Level(0);
+    }
 
     /**
      * This method is invoked when the {@link Application} should (re-)render.
