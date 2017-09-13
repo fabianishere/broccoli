@@ -88,6 +88,7 @@ public final class Ball implements Entity {
      *         otherwise.
      */
     public boolean isCompatible(Ball other) {
-        return type.equals(Type.JOKER) || other.type.equals(Type.JOKER) || type.equals(other.type);
+        return other != null && (type.equals(Type.JOKER) || other.type.equals(Type.JOKER)
+            || type.equals(other.type));
     }
 }
