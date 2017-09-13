@@ -28,7 +28,6 @@ package nl.tudelft.broccoli.core;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.receptor.Port;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -117,6 +116,29 @@ public class Rail extends Tileable {
     }
 
     /**
+     * Determine whether this tileable entity accepts a ball onto its tile.
+     *
+     * @param direction The direction from which a ball wants to be accepted onto this tileable
+     *                  entity.
+     * @return <code>true</code> if the tileable entity accepts the ball onto its tile,
+     *         <code>false</code> otherwise.
+     */
+    @Override
+    public boolean accepts(Direction direction) {
+        return false;
+    }
+
+    /**
+     * Accept a {@link Ball} onto the tile of this tileable entity.
+     *
+     * @param direction The direction from which a ball wants to be accepted onto this tileable
+     *                  entity.
+     * @param ball The ball that wants to be accepted onto the tile of this tileable entity.
+     */
+    @Override
+    public void accept(Direction direction, Ball ball) { }
+
+    /**
      * Accept a ball onto this rail from the given {@link Port}.
      *
      * @param port The port to accept the ball from.
@@ -150,7 +172,7 @@ public class Rail extends Tileable {
      * Update the internal state of the entity.
      *
      * <p>This method should be invoked at a static interval to allow entities to update its state
-     * over time.
+     * over time.</p>
      *
      * @param scale The scale at which the time passes, which is used to slow down or speed up an
      *              entity.
@@ -178,15 +200,5 @@ public class Rail extends Tileable {
                 this.progress.put(ball, progress);
             }
         }
-    }
-
-    @Override
-    public boolean accepts(Direction direction) {
-        return false;
-    }
-
-    @Override
-    public void accept(Direction direction, Ball ball) {
-        throw new NotImplementedException();
     }
 }

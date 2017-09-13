@@ -81,7 +81,7 @@ public final class Ball implements Entity {
      * Determine whether the this {@link Ball} instance is compatible with the given ball.
      *
      * <p>Compatibility is determined by comparing the type (colour) of the ball, but if either of
-     * the balls is a joker, the result is always <code>true</code>.
+     * the balls is a joker, the result is always <code>true</code>.</p>
      *
      * @param other The other ball to determine compatibility with.
      * @return <code>true</code> if the ball is compatible with the given ball, <code>false</code>

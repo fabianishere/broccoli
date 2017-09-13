@@ -51,7 +51,7 @@ public abstract class Port {
      * Return the {@link Slot} this port is currently connected to.
      *
      * <p>The implementation of this method is provided by a {@link Receptor} which provides a
-     * concrete implementation of this class.
+     * concrete implementation of this class.</p>
      *
      * @return A non-null slot to which this port is currently connected to.
      */
@@ -61,7 +61,7 @@ public abstract class Port {
      * Return the {@link Receptor} of this port.
      *
      * <p>The implementation of this method is provided by a {@link Receptor} which provides a
-     * concrete implementation of this class.
+     * concrete implementation of this class.</p>
      *
      * @return The receptor this port is part of.
      */
@@ -71,7 +71,7 @@ public abstract class Port {
      * Return the local orientation of this port relative to the receptor this port is part of.
      *
      * <p>The implementation of this method is provided by a {@link Receptor} which provides a
-     * concrete implementation of this class.
+     * concrete implementation of this class.</p>
      *
      * @return The local orientation of the port relative to the receptor.
      */
@@ -81,7 +81,7 @@ public abstract class Port {
      * Return the {@link Rail} this port is connected to.
      *
      * <p>In case the {@link Port} is not connected to any rail, this method will return
-     * <code>null</code> and {@link Port#isConnected()} will return <code>false</code>.
+     * <code>null</code> and {@link Port#isConnected()} will return <code>false</code>.</p>
      *
      * @return The rail this port is connected to or <code>null</code> if the port is not connected
      *         to any rail.

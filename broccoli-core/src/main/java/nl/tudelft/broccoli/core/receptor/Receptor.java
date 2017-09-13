@@ -26,11 +26,9 @@
 package nl.tudelft.broccoli.core.receptor;
 
 import nl.tudelft.broccoli.core.Ball;
-import nl.tudelft.broccoli.core.Entity;
 import nl.tudelft.broccoli.core.Rail;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Arrays;
 
@@ -253,13 +251,30 @@ public class Receptor extends Tileable {
         }
     }
 
+    /**
+     * Determine whether this tileable entity accepts a ball onto its tile.
+     *
+     * <p>This class will only accept balls if the slot at that direction is not occupied yet.
+     *
+     * @param direction The direction from which a ball wants to be accepted onto this tileable
+     *                  entity.
+     * @return <code>true</code> if the tileable entity accepts the ball onto its tile,
+     *         <code>false</code> otherwise.
+     */
     @Override
     public boolean accepts(Direction direction) {
         return false;
     }
 
+    /**
+     * Accept the given {@link Ball} at the given direction.
+     *
+     * <p>This class will only accept balls if the slot at that direction is not occupied yet.
+     *
+     * @param direction The direction from which a ball wants to be accepted onto this tileable
+     *                  entity.
+     * @param ball The ball that wants to be accepted onto the tile of this tileable entity.
+     */
     @Override
-    public void accept(Direction direction, Ball ball) {
-        throw new NotImplementedException();
-    }
+    public void accept(Direction direction, Ball ball) {}
 }

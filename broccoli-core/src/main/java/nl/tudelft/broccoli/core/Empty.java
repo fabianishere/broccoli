@@ -23,17 +23,40 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.core.grid;
+package nl.tudelft.broccoli.core;
+
+import nl.tudelft.broccoli.core.grid.Direction;
+import nl.tudelft.broccoli.core.grid.Tileable;
 
 /**
- * This enumeration describes the direction at which another tile is located relative to a tile.
+ * An empty {@link Tileable} which does not accepts {@link Ball}s from any direction.
  *
  * @author Christian Slothouber (f.c.slothouber@student.tudelft.nl)
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public enum Direction {
-    TOP,
-    RIGHT,
-    BOTTOM,
-    LEFT
+public class Empty extends Tileable {
+    /**
+     * Determine whether this tileable entity accepts a ball onto its tile.
+     *
+     * @param direction The direction from which a ball wants to be accepted onto this tileable
+     *                  entity.
+     * @return <code>true</code> if the tileable entity accepts the ball onto its tile,
+     *         <code>false</code> otherwise.
+     */
+    @Override
+    public boolean accepts(Direction direction) {
+        return false;
+    }
+
+    /**
+     * Accept a {@link Ball} onto the tile of this tileable entity.
+     *
+     * @param direction The direction from which a ball wants to be accepted onto this tileable
+     *                  entity.
+     * @param ball The ball that wants to be accepted onto the tile of this tileable entity.
+     */
+    @Override
+    public void accept(Direction direction, Ball ball) {
+        throw new IllegalArgumentException("An empty entity does not accept from any direction");
+    }
 }

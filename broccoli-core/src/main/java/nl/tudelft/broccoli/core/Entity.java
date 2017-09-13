@@ -35,7 +35,7 @@ public interface Entity {
      * Update the internal state of the entity.
      *
      * <p>This method should be invoked at a static interval to allow entities to update its state
-     * over time.
+     * over time.</p>
      *
      * @param scale The scale at which the time passes, which is used to slow down or speed up an
      *              entity.
