@@ -29,7 +29,8 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import nl.tudelft.broccoli.core.level.Level;
+import nl.tudelft.broccoli.core.level.GameSession;
+import nl.tudelft.broccoli.core.level.SimpleLevel;
 
 /**
  * A {@link Game} implementation which provides a 2d game view over the game logic defined in
@@ -38,14 +39,23 @@ import nl.tudelft.broccoli.core.level.Level;
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public class Broccoli extends Game {
-    private Level level;
+    /**
+     * The current playing session of the game.
+     */
+    private GameSession session;
+
+    /**
+     * A renderer for the grid.
+     */
+    private GridRenderer gridRenderer;
 
     /**
      * This method is invoked when the {@link Application} is first created.
      */
     @Override
     public void create() {
-        level = new Level(0);
+        session = new SimpleLevel().create();
+        gridRenderer = new GridRenderer(session);
     }
 
     /**
@@ -55,5 +65,6 @@ public class Broccoli extends Game {
     public void render() {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        gridRenderer.draw();
     }
 }

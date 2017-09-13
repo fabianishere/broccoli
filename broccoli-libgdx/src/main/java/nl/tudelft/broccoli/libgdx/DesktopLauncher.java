@@ -45,6 +45,7 @@ public class DesktopLauncher {
         config.title = "Broccoli";
         config.width = 800;
         config.height = 480;
+        config.resizable = false;
         new LwjglApplication(new Broccoli(), config);
     }
 }

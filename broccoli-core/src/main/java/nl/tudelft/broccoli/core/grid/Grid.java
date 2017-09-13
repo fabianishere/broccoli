@@ -68,6 +68,24 @@ public class Grid implements Entity {
     }
 
     /**
+     * Return the amount of tiles in the x-direction.
+     *
+     * @return The width of the board.
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * Return the amount of tiles in the y-direction.
+     *
+     * @return The height of the board.
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
      * Place the given tileable {@link Entity} at the given position on the grid.
      *
      * @param x The x-coordinate to place the entity at.
@@ -79,7 +97,7 @@ public class Grid implements Entity {
         if (!onGrid(x, y)) {
             throw new IllegalArgumentException("The given coordinates do not exist on this grid");
         }
-        Tile tile = tiles[x][y];
+        Tile tile = tiles[y][x];
         tile.tileable = tileable;
         tileable.tile = tile;
     }
@@ -94,7 +112,7 @@ public class Grid implements Entity {
      */
     public Tile get(int x, int y) {
         if (onGrid(x, y)) {
-            return tiles[x][y];
+            return tiles[y][x];
         }
         return null;
     }
@@ -130,7 +148,7 @@ public class Grid implements Entity {
          * @param x The x-coordinate of the position of this tile.
          * @param y The y-coordinate of the position of this tile.
          */
-        public InternalTile(int x, int y) {
+        InternalTile(int x, int y) {
             this.x = x;
             this.y = y;
         }

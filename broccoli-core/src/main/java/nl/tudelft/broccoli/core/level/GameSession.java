@@ -25,27 +25,26 @@
 
 package nl.tudelft.broccoli.core.level;
 
+import nl.tudelft.broccoli.core.grid.Grid;
+
 /**
- * Implementors of the {@link Level} interface provide a factory interface to create a specific
- * configuration of a {@link GameSession} representing an in-game level.
+ * A single playing session of a Gudeballs game.
  *
- * <p>A {@link Level} is the abstract configuration of a game and its board, while a {@link GameSession}
- * represents a playing session using the configuration provided by the level.
- *
+ * @author Christian Slothouber (f.c.slothouber@student.tudelft.nl)
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public interface Level {
+public interface GameSession {
     /**
-     * Create a new {@link GameSession} with this {@link Level}'s configuration.
+     * Return the playing grid of this game.
      *
-     * @return A {@link GameSession} for this {@link Level}.
+     * @return The {@link Grid} on which the game is played.
      */
-    GameSession create();
+    Grid getGrid();
 
     /**
-     * Return the name of this level.
+     * Return the {@link Level} this game represents.
      *
-     * @return A string representing the name of this level.
+     * @return The level of this game.
      */
-    String getName();
+    Level getLevel();
 }
