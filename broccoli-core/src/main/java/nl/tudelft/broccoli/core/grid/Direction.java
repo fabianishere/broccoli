@@ -35,5 +35,25 @@ public enum Direction {
     TOP,
     RIGHT,
     BOTTOM,
-    LEFT
+    LEFT;
+
+    /**
+     * Return the inverse {@link Direction} given a direction.
+     *
+     * @return The inverse direction.
+     */
+    public Direction inverse() {
+        switch(this) {
+            case TOP:
+                return BOTTOM;
+            case RIGHT:
+                return LEFT;
+            case BOTTOM:
+                return TOP;
+            case LEFT:
+                return LEFT;
+            default:
+                return null;
+        }
+    }
 }

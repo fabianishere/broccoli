@@ -33,7 +33,7 @@ import nl.tudelft.broccoli.core.Entity;
  * @author Christian Slothouber (f.c.slothouber@student.tudelft.nl)
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class Grid {
+public class Grid implements Entity {
     /**
      * The tiles of the grid.
      */

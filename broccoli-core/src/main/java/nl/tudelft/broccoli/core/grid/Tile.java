@@ -34,7 +34,7 @@ import nl.tudelft.broccoli.core.Entity;
  * @author Christian Slothouber (f.c.slothouber@student.tudelft.nl)
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public abstract class Tile {
+public abstract class Tile implements Entity {
     /**
      * The entity that is placed on the grid.
      */

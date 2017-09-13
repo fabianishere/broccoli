@@ -26,7 +26,8 @@
 package nl.tudelft.broccoli.core.receptor;
 
 import nl.tudelft.broccoli.core.Ball;
-import nl.tudelft.broccoli.core.Rail;
+import nl.tudelft.broccoli.core.grid.Tile;
+import nl.tudelft.broccoli.core.track.Track;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 
@@ -34,23 +35,22 @@ import java.util.Arrays;
 
 /**
  * An object with four {@link Slot}s (R1.2a) which accepts {@link Ball}s in open slots (R1.2b) via
- * {@link Port}s, which are connected to {@link Rail}s.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public class Receptor extends Tileable {
     /**
-     * The ports of this receptor.
+     * The slots of this receptor.
      */
-    private Port[] ports = {
-        new InternalPort(Port.Orientation.UP), new InternalPort(Port.Orientation.LEFT),
-        new InternalPort(Port.Orientation.DOWN), new InternalPort(Port.Orientation.RIGHT),
+    private Slot[] slots = {
+        new InternalSlot(Direction.TOP), new InternalSlot(Direction.RIGHT),
+        new InternalSlot(Direction.BOTTOM), new InternalSlot(Direction.LEFT),
     };
 
     /**
-     * The slots of this receptor.
+     * An array containing the possible directions for a faster translation.
      */
-    private Ball[] slots = new Ball[4];
+    private Direction[] directions = Direction.values();
 
     /**
      * The clockwise rotation of the slots on the receptor.
@@ -85,16 +85,16 @@ public class Receptor extends Tileable {
     }
 
     /**
-     * Return one of the four {@link Port}s of this receptor, with the given local orientation,
+     * Return one of the four {@link Slot}s of this receptor, with the given local orientation,
      * relative to this receptor.
      *
-     * @param orientation The local orientation of the port relative to the receptor
+     * @param direction The local orientation of the port relative to the receptor
      * @return A non-null port with the specified local orientation.
      */
-    public Port getPort(Port.Orientation orientation) {
-        // This method assumes the Port.Orientation enumeration is defined in a counterclockwise
+    public Slot getSlot(Direction direction) {
+        // This method assumes the Direction enumeration is defined in a counterclockwise
         // order, having four values
-        return ports[orientation.ordinal()];
+        return slots[direction.ordinal()];
     }
 
     /**
@@ -115,16 +115,13 @@ public class Receptor extends Tileable {
      *         otherwise.
      */
     private boolean shouldMark() {
-        Ball head = slots[0];
-
-        if (head == null) {
-            return false;
-        }
+        Slot slot = slots[0];
 
         for (int i = 1; i < slots.length; i++) {
-            if (!head.isCompatible(slots[i])) {
+            if (!slot.isOccupied() || !slot.getBall().isCompatible(slots[i].getBall())) {
                 return false;
             }
+            slot = slots[i];
         }
 
         return true;
@@ -141,65 +138,46 @@ public class Receptor extends Tileable {
     }
 
     /**
-     * The internal {@link Port} implementation for a {@link Receptor} instance.
+     * Internal {@link Slot} implementation of the {@link Receptor} class.
      */
-    protected class InternalPort extends Port implements Slot {
+    private class InternalSlot implements Slot {
         /**
-         * The orientation of the port.
+         * The initial direction of this slot.
          */
-        private Orientation orientation;
+        private Direction direction;
 
         /**
-         * Construct a {@link InternalPort} instance.
-         *
-         * @param orientation The orientation of the port.
+         * The ball stored in this slot.
          */
-        InternalPort(Orientation orientation) {
-            this.orientation = orientation;
-        }
+        private Ball ball;
 
         /**
-         * Return the {@link Slot} this port is currently connected to.
+         * Construct an {@link InternalSlot} instance.
          *
-         * @return A non-null slot to which this port is currently connected to.
+         * @param direction The initial direction of the slot.
          */
-        @Override
-        public Slot getSlot() {
-            return this;
-        }
-
-        /**
-         * Return the {@link Receptor} of this port.
-         *
-         * @return The receptor this port is part of.
-         */
-        @Override
-        public Receptor getReceptor() {
-            return Receptor.this;
-        }
-
-        /**
-         * Return the local orientation of this port relative to the receptor this port is part of.
-         *
-         * <p>The implementation of this method is provided by a {@link Receptor} which provides a
-         * concrete implementation of this class.
-         *
-         * @return The local orientation of the port relative to the receptor.
-         */
-        @Override
-        public Orientation getOrientation() {
-            return orientation;
+        InternalSlot(Direction direction) {
+            this.direction = direction;
         }
 
         /**
          * Return the {@link Ball} that is stored in this slot.
          *
-         * @return The ball that is stored in this slot or <code>null</code> if the slot is
-         *         unoccupied.
+         * @return The ball that is stored in this slot or <code>null</code> if the slot is unoccupied.
          */
         @Override
         public Ball getBall() {
-            return slots[index()];
+            return ball;
+        }
+
+        /**
+         * Return the {@link Receptor} of this slot.
+         *
+         * @return The receptor of this slot.
+         */
+        @Override
+        public Receptor getReceptor() {
+            return Receptor.this;
         }
 
         /**
@@ -213,7 +191,8 @@ public class Receptor extends Tileable {
             if (isOccupied()) {
                 throw new IllegalStateException("The slot is already occupied");
             }
-            slots[index()] = ball;
+
+            this.ball = ball;
 
             // Mark the receptor if all balls are of the same color (R1.2e)
             if (shouldMark()) {
@@ -222,7 +201,7 @@ public class Receptor extends Tileable {
         }
 
         /**
-         * Release the current ball in the slot to the {@link Rail} the port of this slot is
+         * Release the current ball in the slot to the {@link Track} the port of this slot is
          * connected to.
          *
          * @throws IllegalStateException if the slot is currently unoccupied or the port of this
@@ -232,22 +211,28 @@ public class Receptor extends Tileable {
         public void release() {
             if (!isOccupied()) {
                 throw new IllegalStateException("The slot is not occupied");
-            } else if (!isConnected()) {
-                throw new IllegalStateException("The port of the slot is not connected to a rail");
+            } else if (!onGrid()) {
+                throw new IllegalStateException("The receptor is not placed on a grid");
             }
-            int index = index();
-            Ball ball = slots[index];
-            slots[index] = null;
-            getRail().accept(this, ball);
+
+            Direction direction = getDirection();
+            Tile tile = getTile().get(direction);
+
+            if (tile == null || !tile.getTileable().accepts(direction.inverse())) {
+                throw new IllegalStateException("The slot cannot release the ball to its neighbor");
+            }
+
+            tile.getTileable().accept(direction.inverse(), ball);
+            ball = null;
         }
 
         /**
-         * Return the index of the slot within the slots array.
+         * Return the current direction of the {@link Slot} on the {@link Receptor}.
          *
-         * @return The index of the slot within the slots array.
+         * @return The direction of the slot.
          */
-        private int index() {
-            return (orientation.ordinal() + rotation) % slots.length;
+        Direction getDirection() {
+            return directions[(direction.ordinal() + rotation) % directions.length];
         }
     }
 
@@ -263,7 +248,7 @@ public class Receptor extends Tileable {
      */
     @Override
     public boolean accepts(Direction direction) {
-        return false;
+        return !getSlot(direction).isOccupied();
     }
 
     /**
@@ -276,5 +261,7 @@ public class Receptor extends Tileable {
      * @param ball The ball that wants to be accepted onto the tile of this tileable entity.
      */
     @Override
-    public void accept(Direction direction, Ball ball) {}
+    public void accept(Direction direction, Ball ball) {
+        getSlot(direction).accept(ball);
+    }
 }

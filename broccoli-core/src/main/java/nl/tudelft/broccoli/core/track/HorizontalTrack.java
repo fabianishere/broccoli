@@ -23,22 +23,36 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.core.grid;
+package nl.tudelft.broccoli.core.track;
 
 import nl.tudelft.broccoli.core.Ball;
-import nl.tudelft.broccoli.core.Entity;
+import nl.tudelft.broccoli.core.grid.Direction;
+import nl.tudelft.broccoli.core.grid.Grid;
+import nl.tudelft.broccoli.core.grid.Tile;
 
 /**
- * An in-game {@link Entity} that can be placed on a tile.
+ * A horizontal {@link Track} on the {@link Grid}.
  *
- * @author Christian Slothouber (f.c.slothouber@student.tudelft.nl)
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public abstract class Tileable implements Entity {
+public class HorizontalTrack extends Track {
     /**
-     * The {@link Tile} this entity is placed on.
+     * Determine whether this rail is connected at both endpoints.
+     *
+     * @return <code>true</code> if both endpoints are connected to a port, <code>false</code>
+     *         otherwise.
      */
-    Tile tile;
+    public boolean isConnected() {
+        Tile tile = getTile();
+        if (tile == null) {
+            throw new IllegalStateException("The track is not placed on a grid");
+        }
+
+        Tile left = tile.get(Direction.LEFT);
+        Tile right = tile.get(Direction.RIGHT);
+
+        return left != null && right != null;
+    }
 
     /**
      * Determine whether this tileable entity accepts a ball onto its tile.
@@ -46,35 +60,38 @@ public abstract class Tileable implements Entity {
      * @param direction The direction from which a ball wants to be accepted onto this tileable
      *                  entity.
      * @return <code>true</code> if the tileable entity accepts the ball onto its tile,
-     *         <code>false</code> otherwise.
+     * <code>false</code> otherwise.
      */
-    public abstract boolean accepts(Direction direction);
+    @Override
+    public boolean accepts(Direction direction) {
+        switch (direction) {
+            case LEFT:
+            case RIGHT:
+                return true;
+            default:
+                return false;
+        }
+    }
 
     /**
      * Accept a {@link Ball} onto the tile of this tileable entity.
      *
      * @param direction The direction from which a ball wants to be accepted onto this tileable
      *                  entity.
-     * @param ball The ball that wants to be accepted onto the tile of this tileable entity.
+     * @param ball      The ball that wants to be accepted onto the tile of this tileable entity.
      */
-    public abstract void accept(Direction direction, Ball ball);
-
-    /**
-     * Return the {@link Tile} this entity is placed on.
-     *
-     * @return The tile this entity is placed on or <code>null</code> if this entity does not belong
-     *         to a grid.
-     */
-    public Tile getTile() {
-        return tile;
-    }
-
-    /**
-     * Determine whether the {@link Tileable} is placed on a grid.
-     *
-     * @return <code>true</code> if the tileable is placed on a grid, <code>false</code> otherwise.
-     */
-    public boolean onGrid() {
-        return tile != null;
+    @Override
+    public void accept(Direction direction, Ball ball) {
+        float progress = -0.f;
+        switch (direction) {
+            case LEFT:
+                progress = 0.f;
+            case RIGHT:
+                this.progress.putIfAbsent(ball, progress);
+                break;
+            default:
+                throw new IllegalArgumentException("The track does not accept balls from the given "
+                    + "direction");
+        }
     }
 }

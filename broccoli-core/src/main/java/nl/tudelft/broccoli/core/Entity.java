@@ -37,8 +37,8 @@ public interface Entity {
      * <p>This method should be invoked at a static interval to allow entities to update its state
      * over time.</p>
      *
-     * @param scale The scale at which the time passes, which is used to slow down or speed up an
+     * @param delta The scale at which the time passes, which is used to slow down or speed up an
      *              entity.
      */
-    default void update(double scale) {}
+    default void update(float delta) {}
 }

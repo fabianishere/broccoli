@@ -26,9 +26,10 @@
 package nl.tudelft.broccoli.core;
 
 import nl.tudelft.broccoli.core.receptor.Receptor;
+import nl.tudelft.broccoli.core.track.Track;
 
 /**
- * An in-game ball that travels over {@link Rail}s to be accepted by {@link Receptor}s.
+ * An in-game ball that travels over {@link Track}s to be accepted by {@link Receptor}s.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */

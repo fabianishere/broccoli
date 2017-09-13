@@ -26,7 +26,7 @@
 package nl.tudelft.broccoli.core.receptor;
 
 import nl.tudelft.broccoli.core.Ball;
-import nl.tudelft.broccoli.core.Rail;
+import nl.tudelft.broccoli.core.track.Track;
 
 /**
  * A slot on a {@link Receptor} which stores {@link Ball}s.
@@ -51,6 +51,13 @@ public interface Slot {
     }
 
     /**
+     * Return the {@link Receptor} of this slot.
+     *
+     * @return The receptor of this slot.
+     */
+    Receptor getReceptor();
+
+    /**
      * Accept a ball into this slot if the slot is not already occupied.
      *
      * @param ball The ball to accept in this slot.
@@ -59,7 +66,7 @@ public interface Slot {
     void accept(Ball ball);
 
     /**
-     * Release the current ball in the slot to the {@link Rail} the port of this slot is connected
+     * Release the current ball in the slot to the {@link Track} the port of this slot is connected
      * to.
      *
      * @throws IllegalStateException if the slot is currently unoccupied or the port of this slot is
