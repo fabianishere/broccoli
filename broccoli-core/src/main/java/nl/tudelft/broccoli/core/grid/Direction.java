@@ -43,7 +43,7 @@ public enum Direction {
      * @return The inverse direction.
      */
     public Direction inverse() {
-        switch(this) {
+        switch (this) {
             case TOP:
                 return BOTTOM;
             case RIGHT:

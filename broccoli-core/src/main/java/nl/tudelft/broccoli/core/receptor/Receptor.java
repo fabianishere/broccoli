@@ -28,8 +28,8 @@ package nl.tudelft.broccoli.core.receptor;
 import nl.tudelft.broccoli.core.Ball;
 import nl.tudelft.broccoli.core.grid.Tile;
 import nl.tudelft.broccoli.core.track.Track;
-import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
+import nl.tudelft.broccoli.core.grid.Direction;
 
 import java.util.Arrays;
 
@@ -163,7 +163,8 @@ public class Receptor extends Tileable {
         /**
          * Return the {@link Ball} that is stored in this slot.
          *
-         * @return The ball that is stored in this slot or <code>null</code> if the slot is unoccupied.
+         * @return The ball that is stored in this slot or <code>null</code> if the slot is
+         *         unoccupied.
          */
         @Override
         public Ball getBall() {
