@@ -28,6 +28,9 @@ package nl.tudelft.broccoli.core.receptor;
 import nl.tudelft.broccoli.core.Ball;
 import nl.tudelft.broccoli.core.Entity;
 import nl.tudelft.broccoli.core.Rail;
+import nl.tudelft.broccoli.core.grid.Direction;
+import nl.tudelft.broccoli.core.grid.Tileable;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Arrays;
 
@@ -37,7 +40,7 @@ import java.util.Arrays;
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class Receptor implements Entity {
+public class Receptor extends Tileable {
     /**
      * The ports of this receptor.
      */
@@ -248,5 +251,15 @@ public class Receptor implements Entity {
         private int index() {
             return (orientation.ordinal() + rotation) % slots.length;
         }
+    }
+
+    @Override
+    public boolean accepts(Direction direction) {
+        return false;
+    }
+
+    @Override
+    public void accept(Direction direction, Ball ball) {
+        throw new NotImplementedException();
     }
 }

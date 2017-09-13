@@ -25,7 +25,10 @@
 
 package nl.tudelft.broccoli.core;
 
+import nl.tudelft.broccoli.core.grid.Direction;
+import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.receptor.Port;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +38,7 @@ import java.util.Map;
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class Rail implements Entity {
+public class Rail extends Tileable {
     /**
      * The origin point port this rail is connected to.
      */
@@ -175,5 +178,15 @@ public class Rail implements Entity {
                 this.progress.put(ball, progress);
             }
         }
+    }
+
+    @Override
+    public boolean accepts(Direction direction) {
+        return false;
+    }
+
+    @Override
+    public void accept(Direction direction, Ball ball) {
+        throw new NotImplementedException();
     }
 }
