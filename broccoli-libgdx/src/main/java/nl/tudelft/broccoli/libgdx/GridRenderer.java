@@ -26,18 +26,28 @@ public class GridRenderer {
     }
 
     private void loadSprites() {
-        for (int x = 0; x < grid.getWidth(); x++) {
-            for (int y = 0; y < grid.getHeight(); y++) {
+        // Hardcoded width
+        // Window should be resizable so it should not be a problem
+        int width = 800;
+        int x = (width / 2) - 137 * grid.getWidth() / 2;
+        int y = 0;
+
+        for (int i = 0; i < grid.getWidth(); i++) {
+            for (int j = 0; j < grid.getHeight(); j++) {
                 Sprite sprite = new Sprite(emptyTexture);
-                if (grid.get(x, y).getTileable() instanceof Receptor) {
+
+                if (grid.get(i, j).getTileable() instanceof Receptor) {
                     sprite.setTexture(receptorTecture);
-                }
-                if (grid.get(x, y).getTileable() instanceof Track) {
+                } else if (grid.get(i, j).getTileable() instanceof Track) {
                     sprite.setTexture(trackTexture);
                 }
-                sprite.setPosition(x * 137, y * 137);
-                sprites[x][y] = sprite;
+
+                sprite.setPosition(x , y);
+                y += 137;
+                sprites[i][j] = sprite;
             }
+            x += 137;
+            y = 0;
         }
     }
 

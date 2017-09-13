@@ -44,7 +44,7 @@ public class SimpleLevel implements Level {
          * Construct a {@link SimpleGame} instance.
          */
         public SimpleGame() {
-            grid = new Grid(3, 2);
+            grid = new Grid(4, 2);
 
             grid.place(0, 1, new Receptor());
             grid.place(1, 1, new HorizontalTrack());
