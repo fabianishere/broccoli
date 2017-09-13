@@ -25,8 +25,8 @@
 
 package nl.tudelft.broccoli.core.receptor;
 
-import nl.tudelft.broccoli.core.Rail;
 import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.Rail;
 
 /**
  * A slot on a {@link Receptor} which stores {@link Ball}s.
@@ -63,7 +63,7 @@ public interface Slot {
      * to.
      *
      * @throws IllegalStateException if the slot is currently unoccupied or the port of this slot is
-     * not connected to a rail.
+     *                               not connected to a rail.
      */
     void release();
 }

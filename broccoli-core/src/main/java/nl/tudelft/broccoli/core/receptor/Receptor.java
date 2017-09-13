@@ -25,9 +25,9 @@
 
 package nl.tudelft.broccoli.core.receptor;
 
+import nl.tudelft.broccoli.core.Ball;
 import nl.tudelft.broccoli.core.Entity;
 import nl.tudelft.broccoli.core.Rail;
-import nl.tudelft.broccoli.core.Ball;
 
 import java.util.Arrays;
 
@@ -74,6 +74,16 @@ public class Receptor implements Entity {
     }
 
     /**
+     * Return the current rotation of the receptor represented as an integer in [1, 3].
+     *
+     * @return The current rotation of the receptor represented as an integer in [1, 3] where the
+     *         rotation is clockwise.
+     */
+    public int getRotation() {
+        return rotation;
+    }
+
+    /**
      * Return one of the four {@link Port}s of this receptor, with the given local orientation,
      * relative to this receptor.
      *
@@ -94,6 +104,39 @@ public class Receptor implements Entity {
      */
     public boolean isMarked() {
         return marked;
+    }
+
+    /**
+     * Determine whether the receptor should be marked. This means the receptor has been completely
+     * filled with balls of the same colour at least once. (R1.2e)
+     *
+     * @return <code>true</code> if the receptor should be been marked, <code>false</code>
+     *         otherwise.
+     */
+    private boolean shouldMark() {
+        Ball head = slots[0];
+
+        if (head == null) {
+            return false;
+        }
+
+        for (int i = 1; i < slots.length; i++) {
+            if (!head.isCompatible(slots[i])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Mark the receptor. This means the receptor has been completely filled with balls of the same
+     * colour at least once. (R1.2e)
+     */
+    private void mark() {
+        marked = true;
+        // Remove all balls from the slot
+        Arrays.fill(slots, null);
     }
 
     /**
@@ -170,14 +213,19 @@ public class Receptor implements Entity {
                 throw new IllegalStateException("The slot is already occupied");
             }
             slots[index()] = ball;
+
+            // Mark the receptor if all balls are of the same color (R1.2e)
+            if (shouldMark()) {
+                mark();
+            }
         }
 
         /**
-         * Release the current ball in the slot to the {@link Rail} the port of this slot is connected
-         * to.
+         * Release the current ball in the slot to the {@link Rail} the port of this slot is
+         * connected to.
          *
-         * @throws IllegalStateException if the slot is currently unoccupied or the port of this slot is
-         * not connected to a rail.
+         * @throws IllegalStateException if the slot is currently unoccupied or the port of this
+         *                               slot is not connected to a rail.
          */
         @Override
         public void release() {
