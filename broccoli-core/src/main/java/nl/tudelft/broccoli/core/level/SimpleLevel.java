@@ -3,6 +3,7 @@ package nl.tudelft.broccoli.core.level;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
+import nl.tudelft.broccoli.core.track.VerticalTrack;
 
 /**
  * A very basic, static {@link Level} used for testing purposes.
@@ -44,11 +45,18 @@ public class SimpleLevel implements Level {
          * Construct a {@link SimpleGame} instance.
          */
         public SimpleGame() {
-            grid = new Grid(4, 2);
+            grid = new Grid(3, 3);
 
-            grid.place(0, 1, new Receptor());
-            grid.place(1, 1, new HorizontalTrack());
-            grid.place(2, 1, new Receptor());
+            grid.place(0, 2, new Receptor());
+            grid.place(0, 1, new VerticalTrack());
+
+            grid.place(1, 2, new HorizontalTrack());
+            grid.place(2, 2, new Receptor());
+            grid.place(2, 1, new VerticalTrack());
+
+            grid.place(0, 0, new Receptor());
+            grid.place(1, 0, new HorizontalTrack());
+            grid.place(2, 0, new Receptor());
         }
 
         /**

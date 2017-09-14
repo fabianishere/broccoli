@@ -238,6 +238,25 @@ public class Receptor extends Tileable {
     }
 
     /**
+     * Determine whether this tileable entity has a connection at the given direction with the
+     * entity next to this entity in the given direction.
+     * <p>
+     * <p>This means the entity is able to have a {@link Ball} travel from the given direction onto
+     * the tile.</p>
+     * <p>
+     * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}
+     * meaning the direction may need to be inverted.</p>
+     *
+     * @param direction The direction from the origin of the tile to a possible port of the entity.
+     * @return <code>true</code> if a ball is able to travel from that direction, <code>false</code>
+     * otherwise.
+     */
+    @Override
+    public boolean allowsConnection(Direction direction) {
+        return true;
+    }
+
+    /**
      * Determine whether this tileable entity accepts a ball onto its tile.
      *
      * <p>This class will only accept balls if the slot at that direction is not occupied yet.

@@ -41,7 +41,31 @@ public abstract class Tileable implements Entity {
     Tile tile;
 
     /**
-     * Determine whether this tileable entity accepts a ball onto its tile.
+     * Determine whether this tileable entity has a connection at the given direction with the
+     * entity next to this entity in the given direction.
+     *
+     * <p>This means the entity is able to have a {@link Ball} travel from the given direction onto
+     * the tile.</p>
+     *
+     * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}
+     * meaning the direction may need to be inverted.</p>
+     *
+     * @param direction The direction from the origin of the tile to a possible port of the entity.
+     * @return <code>true</code> if a ball is able to travel from that direction, <code>false</code>
+     *         otherwise.
+     */
+    public abstract boolean allowsConnection(Direction direction);
+
+    /**
+     * Determine whether this tileable entity accepts a ball onto its tile at the moment of
+     * execution.
+     *
+     * <p>If {@link Tileable#allowsConnection(Direction)} returns <code>false</code> for any given
+     * direction, this method should not be invoked for that direction.
+     * </p>
+     *
+     * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}
+     * meaning the direction may need to be inverted.</p>
      *
      * @param direction The direction from which a ball wants to be accepted onto this tileable
      *                  entity.
@@ -52,6 +76,9 @@ public abstract class Tileable implements Entity {
 
     /**
      * Accept a {@link Ball} onto the tile of this tileable entity.
+     *
+     * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}
+     * meaning the direction may need to be inverted.</p>
      *
      * @param direction The direction from which a ball wants to be accepted onto this tileable
      *                  entity.

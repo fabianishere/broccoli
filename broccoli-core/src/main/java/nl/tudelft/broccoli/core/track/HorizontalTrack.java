@@ -29,6 +29,7 @@ import nl.tudelft.broccoli.core.Ball;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.grid.Tile;
+import nl.tudelft.broccoli.core.grid.Tileable;
 
 /**
  * A horizontal {@link Track} on the {@link Grid}.
@@ -55,7 +56,33 @@ public class HorizontalTrack extends Track {
     }
 
     /**
-     * Determine whether this tileable entity accepts a ball onto its tile.
+     * Determine whether this tileable entity has a connection at the given direction with the
+     * entity next to this entity in the given direction.
+     *
+     * <p>This means the entity is able to have a {@link Ball} travel from the given direction onto
+     * the tile.</p>
+     *
+     * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}
+     * meaning the direction may need to be inverted.</p>
+     *
+     * @param direction The direction from the origin of the tile to a possible port of the entity.
+     * @return <code>true</code> if a ball is able to travel from that direction, <code>false</code>
+     * otherwise.
+     */
+    @Override
+    public boolean allowsConnection(Direction direction) {
+        switch (direction) {
+            case LEFT:
+            case RIGHT:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Determine whether this tileable entity accepts a ball onto its tile at the time of the
+     * execution.
      *
      * @param direction The direction from which a ball wants to be accepted onto this tileable
      *                  entity.
@@ -64,13 +91,7 @@ public class HorizontalTrack extends Track {
      */
     @Override
     public boolean accepts(Direction direction) {
-        switch (direction) {
-            case LEFT:
-            case RIGHT:
-                return true;
-            default:
-                return false;
-        }
+        return true;
     }
 
     /**
