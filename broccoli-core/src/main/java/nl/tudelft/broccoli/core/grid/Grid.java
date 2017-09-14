@@ -27,6 +27,8 @@ package nl.tudelft.broccoli.core.grid;
 
 import nl.tudelft.broccoli.core.Entity;
 
+import java.security.InvalidParameterException;
+
 /**
  * A grid system on which the entities of the game are placed.
  *
@@ -56,6 +58,9 @@ public class Grid implements Entity {
      * @param height The height of the grid.
      */
     public Grid(int width, int height) {
+        if(width <= 0 || height <= 0) {
+            throw new InvalidParameterException();
+        }
         this.width = width;
         this.height = height;
 
