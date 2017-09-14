@@ -36,6 +36,11 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
  */
 public class DesktopLauncher {
     /**
+     * Disallow instantiation of the {@link DesktopLauncher} class.
+     */
+    private DesktopLauncher() {}
+
+    /**
      * The main entry point of the program.
      *
      * @param args The command line arguments passed to this program.

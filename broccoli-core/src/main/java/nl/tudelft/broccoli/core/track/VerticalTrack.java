@@ -67,7 +67,7 @@ public class VerticalTrack extends Track {
      *
      * @param direction The direction from the origin of the tile to a possible port of the entity.
      * @return <code>true</code> if a ball is able to travel from that direction, <code>false</code>
-     * otherwise.
+     *         otherwise.
      */
     @Override
     public boolean allowsConnection(Direction direction) {

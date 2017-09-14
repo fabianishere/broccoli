@@ -30,7 +30,7 @@ package nl.tudelft.broccoli.core.level;
  * configuration of a {@link GameSession} representing an in-game level.
  *
  * <p>A {@link Level} is the abstract configuration of a game and its board, while a
- * {@link GameSession represents a playing session using the configuration provided by the level.
+ * {@link GameSession} represents a playing session using the configuration provided by the level.
  * </p>
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)

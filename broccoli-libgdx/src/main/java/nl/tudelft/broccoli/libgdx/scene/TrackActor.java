@@ -39,11 +39,6 @@ import nl.tudelft.broccoli.core.track.Track;
  */
 public class TrackActor extends TileableActor<Track> {
     /**
-     * A flag to indicate whether this track is horizontal or vertical.
-     */
-    private boolean horizontal = false;
-
-    /**
      * The texture for a horizontal track.
      */
     private static final Texture TX_TILE_HORIZONTAL =
@@ -54,6 +49,11 @@ public class TrackActor extends TileableActor<Track> {
      */
     private static final Texture TX_TILE_VERTICAL =
         new Texture(Gdx.files.classpath("sprites/tiles/vertical/0.png"));
+
+    /**
+     * A flag to indicate whether this track is horizontal or vertical.
+     */
+    private boolean horizontal = false;
 
     /**
      * Construct a {@link TileableActor} instance.
