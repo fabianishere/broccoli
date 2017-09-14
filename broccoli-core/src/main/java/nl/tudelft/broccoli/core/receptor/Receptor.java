@@ -26,7 +26,6 @@
 package nl.tudelft.broccoli.core.receptor;
 
 import nl.tudelft.broccoli.core.Ball;
-import nl.tudelft.broccoli.core.grid.Tile;
 import nl.tudelft.broccoli.core.track.Track;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.grid.Direction;
@@ -217,13 +216,12 @@ public class Receptor extends Tileable {
             }
 
             Direction direction = getDirection();
-            Tile tile = getTile().get(direction);
 
-            if (tile == null || !tile.getTileable().accepts(direction.inverse())) {
+            if (neighbourAccepts(direction)) {
                 throw new IllegalStateException("The slot cannot release the ball to its neighbor");
             }
 
-            tile.getTileable().accept(direction.inverse(), ball);
+            Receptor.this.release(direction, ball);
             ball = null;
         }
 

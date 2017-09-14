@@ -87,6 +87,61 @@ public abstract class Tileable implements Entity {
     public abstract void accept(Direction direction, Ball ball);
 
     /**
+     * Determine whether the neighbour at the given direction allows a connection between the two
+     * entities.
+     *
+     * @param direction The direction of the neighbour relative to this entity.
+     * @return <code>true</code> if a ball is able to travel to that direction, <code>false</code>
+     *         otherwise.
+     */
+    protected boolean neighbourAllowsConnection(Direction direction) {
+        if (tile == null) {
+            throw new IllegalStateException("The entity is not placed on a tile");
+        }
+
+        Tile neighbour = tile.get(direction);
+        return neighbour != null && neighbour.getTileable().allowsConnection(direction.inverse());
+    }
+
+    /**
+     * Determine whether the neighbour at the given direction accepts a ball onto its tile at the
+     * moment of execution.
+     *
+     * @param direction The direction of the neighbour relative to this entity.
+     * @return <code>true</code> if the tileable entity accepts the ball onto its tile,
+     *         <code>false</code> otherwise.
+     */
+    protected boolean neighbourAccepts(Direction direction) {
+        if (tile == null) {
+            throw new IllegalStateException("The entity is not placed on a tile");
+        }
+
+        Tile neighbour = tile.get(direction);
+        return neighbour != null && neighbour.getTileable().accepts(direction.inverse());
+    }
+
+    /**
+     * Release a {@link Ball} onto a neighbour tile.
+     *
+     * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}
+     * meaning the direction may need to be inverted.</p>
+     *
+     * @param direction The direction of the neighbour to which the ball should be send.
+     * @param ball The ball that wants to be accepted onto the tile of a neighbour.
+     */
+    protected void release(Direction direction, Ball ball) {
+        if (tile == null) {
+            throw new IllegalStateException("The entity is not placed on a tile");
+        }
+
+        Tile neighbour = tile.get(direction);
+
+        if (neighbour != null) {
+            neighbour.getTileable().accept(direction.inverse(), ball);
+        }
+    }
+
+    /**
      * Return the {@link Tile} this entity is placed on.
      *
      * @return The tile this entity is placed on or <code>null</code> if this entity does not belong

@@ -27,7 +27,6 @@ package nl.tudelft.broccoli.core.track;
 
 import nl.tudelft.broccoli.core.Ball;
 import nl.tudelft.broccoli.core.grid.Direction;
-import nl.tudelft.broccoli.core.grid.Tile;
 import nl.tudelft.broccoli.core.grid.Tileable;
 
 import java.util.HashMap;
@@ -92,13 +91,12 @@ public abstract class Track extends Tileable {
             // Check whether the ball should be offered to the next tile
             if (Math.abs(progress) >= 1.f)  {
                 Direction direction = progress > 0.f ? Direction.RIGHT : Direction.LEFT;
-                Tile tile = getTile().get(direction);
 
-                if (tile == null || !tile.getTileable().accepts(direction.inverse())) {
+                if (neighbourAccepts(direction)) {
                     this.progress.put(ball, signum * -0.f);
                 } else {
                     this.progress.remove(ball);
-                    tile.getTileable().accept(direction.inverse(), ball);
+                    release(direction, ball);
                 }
 
                 continue;
