@@ -32,35 +32,62 @@ import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 
 public class BallTest {
 
+    /**
+     * Test if creating a pink ball gives a pink ball.
+     */
     @Test
     public void createPinkBall() {
         Ball ball = Ball.of(Ball.Type.PINK);
         assertThat(ball.getType()).isEqualTo(Ball.Type.PINK);
     }
 
+    /**
+     * Test if creating a blue ball gives a blue ball.
+     */
     @Test
     public void createBlueBall() {
         Ball ball = Ball.of(Ball.Type.BLUE);
         assertThat(ball.getType()).isEqualTo(Ball.Type.BLUE);
     }
 
+    /**
+     * Test if creating a green ball gives a green ball.
+     */
     @Test
     public void createGreenBall() {
         Ball ball = Ball.of(Ball.Type.GREEN);
         assertThat(ball.getType()).isEqualTo(Ball.Type.GREEN);
     }
 
+    /**
+     * Test if creating a yellow ball gives a yellow ball.
+     */
     @Test
     public void createYellowBall() {
         Ball ball = Ball.of(Ball.Type.YELLOW);
         assertThat(ball.getType()).isEqualTo(Ball.Type.YELLOW);
     }
 
+    /**
+     * Test if creating a joker ball gives a joker.
+     */
+    @Test
+    public void createJoker() {
+        Ball ball = Ball.of(Ball.Type.JOKER);
+        assertThat(ball.getType()).isEqualTo(Ball.Type.JOKER);
+    }
+
+    /**
+     * Test if passing a null throws an error.
+     */
     @Test
     public void createBallNull() {
         assertThatThrownBy(() -> Ball.of(null)).isInstanceOf(Exception.class);
     }
 
+    /**
+     * Test if two balls of the same colour give true.
+     */
     @Test
     public void isCompatibleSameColour() {
         Ball greenBall1 = Ball.of(Ball.Type.GREEN);
@@ -68,6 +95,9 @@ public class BallTest {
         assertThat(greenBall1.isCompatible(greenBall2)).isTrue();
     }
 
+    /**
+     * Test if call made from joker with another colour gives true.
+     */
     @Test
     public void isCompatibleJokerFirst() {
         Ball joker = Ball.of(Ball.Type.JOKER);
@@ -75,6 +105,9 @@ public class BallTest {
         assertThat(joker.isCompatible(greenBall)).isTrue();
     }
 
+    /**
+     * Test if passing a joker with another colour gives true.
+     */
     @Test
     public void isCompatibleJokerSecond() {
         Ball joker = Ball.of(Ball.Type.JOKER);
@@ -82,6 +115,9 @@ public class BallTest {
         assertThat(greenBall.isCompatible(joker)).isTrue();
     }
 
+    /**
+     * Test if giving two jokers gives true.
+     */
     @Test
     public void isCompatibleBothJokers() {
         Ball joker1 = Ball.of(Ball.Type.JOKER);
@@ -89,6 +125,9 @@ public class BallTest {
         assertThat(joker1.isCompatible(joker2)).isTrue();
     }
 
+    /**
+     * Test if passing a null gives false.
+     */
     @Test
     public void isCompatibleNull() {
         Ball joker = Ball.of(Ball.Type.JOKER);
