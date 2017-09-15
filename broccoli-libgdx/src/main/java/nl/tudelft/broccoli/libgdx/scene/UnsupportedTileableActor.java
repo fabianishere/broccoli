@@ -47,9 +47,10 @@ public class UnsupportedTileableActor extends TileableActor<Tileable> {
      * Construct a {@link TileableActor} instance.
      *
      * @param tileable The tileable entity to create the actor for.
+     * @param context The game context of this actor.
      */
-    public UnsupportedTileableActor(Tileable tileable) {
-        super(tileable);
+    public UnsupportedTileableActor(Tileable tileable, Context context) {
+        super(tileable, context);
     }
 
     /**

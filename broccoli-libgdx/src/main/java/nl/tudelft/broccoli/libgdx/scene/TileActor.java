@@ -27,21 +27,30 @@ package nl.tudelft.broccoli.libgdx.scene;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import nl.tudelft.broccoli.core.Empty;
+import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.grid.Tile;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.Track;
 
 /**
+ * An {@link Actor} that represents a {@link Tile} on a {@link Grid}.
+ *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public class TileActor extends Group {
     /**
      * The {@link Tile} of this actor.
      */
-    private Tile tile;
+    private final Tile tile;
+
+    /**
+     * The game context of this actor.
+     */
+    private final Context context;
 
     /**
      * The {@link TileableActor} for the {@link Tileable} of this tile.
@@ -52,19 +61,32 @@ public class TileActor extends Group {
      * Construct a {@link TileActor}.
      *
      * @param tile The {@link Tile} to create the actor for.
+     * @param context The game context to use.
      */
-    public TileActor(Tile tile) {
+    public TileActor(Tile tile, Context context) {
         this.tile = tile;
-
-        tileableActor = createActor(tile);
-        addActor(tileableActor);
+        this.context = context;
+        this.context.register(tile, this);
+        this.tileableActor = createActor(tile);
+        this.addActor(tileableActor);
+        this.setUserObject(tile);
 
         Texture texture = tileableActor.getTileTexture();
         setSize(texture.getWidth(), texture.getHeight());
     }
 
     /**
-     * Draw the tile onto the screen.
+     * Draw the contents of the tile onto the screen.
+     *
+     * @param batch the batch to use.
+     * @param parentAlpha The alpha of the parent.
+     */
+    public void drawTileable(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+    }
+
+    /**
+     * Draw only the tile onto the screen.
      *
      * @param batch The batch to use.
      * @param parentAlpha The alpha of the parent.
@@ -75,8 +97,6 @@ public class TileActor extends Group {
         batch.draw(txt, getX(), getY(), getOriginX(), getOriginY(), getWidth(),
             getHeight(), getScaleX(), getScaleY(), getRotation(), 0, 0,
             txt.getWidth(), txt.getHeight(), false, false);
-
-        super.draw(batch, parentAlpha);
     }
 
     /**
@@ -98,13 +118,13 @@ public class TileActor extends Group {
         Tileable tileable = tile.getTileable();
 
         if (tileable instanceof Receptor) {
-            return new ReceptorActor((Receptor) tileable);
+            return new ReceptorActor((Receptor) tileable, context);
         } else if (tileable instanceof Track) {
-            return new TrackActor((Track) tileable);
+            return new TrackActor((Track) tileable, context);
         } else if (tileable instanceof Empty) {
-            return new EmptyActor((Empty) tileable);
+            return new EmptyActor((Empty) tileable, context);
         }
 
-        return new UnsupportedTileableActor(tileable);
+        return new UnsupportedTileableActor(tileable, context);
     }
 }

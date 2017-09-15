@@ -25,6 +25,7 @@
 
 package nl.tudelft.broccoli.libgdx.scene;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
@@ -38,24 +39,68 @@ import nl.tudelft.broccoli.core.grid.Tile;
  */
 public class GridActor extends WidgetGroup {
     /**
+     * The grid to draw.
+     */
+    private Grid grid;
+
+    /**
+     * The game context to use.
+     */
+    private Context context;
+
+    /**
+     * The {@link Table} we use to draw the grid.
+     */
+    private Table table;
+
+    /**
      * Construct a {@link GridActor} instance.
      *
      * @param grid The grid to create the actor for.
+     * @param context The game context to use.
      */
-    public GridActor(Grid grid) {
+    public GridActor(Grid grid, Context context) {
+        this.grid = grid;
+        this.context = context;
+        this.context.register(grid, this);
+        this.setUserObject(grid);
 
-        setSize(600, 600);
-        Table table = new Table();
-        table.setFillParent(true);
-
-        addActor(table);
+        this.table = new Table();
+        this.table.setFillParent(true);
+        this.addActor(table);
 
         for (int j = grid.getHeight() - 1; j >= 0; j--) {
             for (int i = 0; i < grid.getWidth(); i++) {
                 Tile tile = grid.get(i, j);
-                table.add(new TileActor(tile));
+                table.add(new TileActor(tile, context));
             }
             table.row();
+        }
+    }
+
+    /**
+     * Return the {@link Grid} of the actor.
+     *
+     * @return The grid of the actor.
+     */
+    public Grid getGrid() {
+        return grid;
+    }
+
+    /**
+     * Draw the tile onto the screen.
+     *
+     * @param batch The batch to use.
+     * @param parentAlpha The alpha of the parent.
+     */
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+
+        // XXX Hack to draw contents of tiles after the tiles themselves
+        for (Actor actor : table.getChildren()) {
+            TileActor tile = (TileActor) actor;
+            tile.drawTileable(batch, parentAlpha);
         }
     }
 }

@@ -33,6 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import nl.tudelft.broccoli.core.level.GameSession;
 import nl.tudelft.broccoli.core.level.SimpleLevel;
+import nl.tudelft.broccoli.libgdx.scene.Context;
 import nl.tudelft.broccoli.libgdx.scene.GridActor;
 
 /**
@@ -53,14 +54,20 @@ public class Broccoli extends Game {
     private GameSession session;
 
     /**
+     * The game {@link Context} to use.
+     */
+    private Context context;
+
+    /**
      * This method is invoked when the {@link Application} is first created.
      */
     @Override
     public void create() {
         stage = new Stage(new ScreenViewport());
         session = new SimpleLevel().create();
+        context = new Context();
 
-        GridActor grid = new GridActor(session.getGrid());
+        GridActor grid = new GridActor(session.getGrid(), context);
         grid.setFillParent(true);
         stage.addActor(grid);
 

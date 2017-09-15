@@ -47,9 +47,10 @@ public class EmptyActor extends TileableActor<Empty> {
      * Construct a {@link TileableActor} instance.
      *
      * @param tileable The tileable entity to create the actor for.
+     * @param context The game context of this actor.
      */
-    public EmptyActor(Empty tileable) {
-        super(tileable);
+    public EmptyActor(Empty tileable, Context context) {
+        super(tileable, context);
     }
 
     /**

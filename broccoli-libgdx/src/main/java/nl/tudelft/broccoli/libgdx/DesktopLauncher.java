@@ -34,7 +34,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class DesktopLauncher {
+public final class DesktopLauncher {
     /**
      * Disallow instantiation of the {@link DesktopLauncher} class.
      */

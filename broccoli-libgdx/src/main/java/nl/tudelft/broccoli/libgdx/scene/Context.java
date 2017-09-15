@@ -25,64 +25,41 @@
 
 package nl.tudelft.broccoli.libgdx.scene;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import nl.tudelft.broccoli.core.Entity;
-import nl.tudelft.broccoli.core.grid.Tileable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * An actor in the scene for a {@link nl.tudelft.broccoli.core.grid.Tileable} entity.
+ * A context for the game scene.
  *
- * @param <T> The shape of the tileable entity.
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public abstract class TileableActor<T extends Tileable> extends WidgetGroup {
+public class Context {
     /**
-     * The tileable {@link Entity}.
+     * The actor registry which maps entities to their respective actor in the scene.
      */
-    private final T tileable;
+    private Map<Entity, Actor> registry = new HashMap<>();
 
     /**
-     * The game context to use.
-     */
-    private final Context context;
-
-    /**
-     * Construct a {@link TileableActor} instance.
+     * Look up an {@link Entity} in the registry.
      *
-     * @param tileable The tileable entity to create the actor for.
-     * @param context The game context to use.
+     * @param entity The entity to look up in the registry.
+     * @return The actor that is bound to this entity, or <code>null</code> if the entity has not
+     *         been registered yet.
      */
-    public TileableActor(T tileable, Context context) {
-        this.tileable = tileable;
-        this.context = context;
-        this.context.register(tileable, this);
-        this.setUserObject(tileable);
-        this.setFillParent(true);
+    public Actor actor(Entity entity) {
+        return registry.get(entity);
     }
 
     /**
-     * Return the tile {@link Texture} for this {@link Tileable}.
+     * Register an {@link Entity} and its respective {@link Actor} in the registry of this context.
      *
-     * @return The tile texture.
+     * @param entity The entity to register.
+     * @param actor The actor of this entity.
      */
-    public abstract Texture getTileTexture();
-
-    /**
-     * Return the {@link Tileable} of this actor.
-     *
-     * @return The tileable entity of this actor.
-     */
-    public T getTileable() {
-        return tileable;
-    }
-
-    /**
-     * Return the game {@link Context} of this actor.
-     *
-     * @return The game context of the actor.
-     */
-    public Context getContext() {
-        return context;
+    public void register(Entity entity, Actor actor) {
+        registry.put(entity, actor);
     }
 }
