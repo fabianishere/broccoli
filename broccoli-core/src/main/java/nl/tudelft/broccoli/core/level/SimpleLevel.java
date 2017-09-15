@@ -58,9 +58,10 @@ public class SimpleLevel implements Level {
             NexusContext context = new NexusContext();
             grid.place(0, 3, new Nexus(context));
             grid.place(1, 3, new Nexus(context));
-            grid.place(2, 3, new SpawningNexus(context, new Random(), Direction.RIGHT));
+            grid.place(2, 3, new Nexus(context));
+            grid.place(3, 3, new SpawningNexus(context, new Random(), Direction.RIGHT));
 
-            TimerTile timer = new TimerTile(20);
+            TimerTile timer = new TimerTile(300);
             grid.place(3, 2, timer);
 
             Receptor receptorA = new Receptor();
