@@ -66,15 +66,4 @@ public abstract class TileableActor<T extends Tileable> extends Group {
     public T getTileable() {
         return tileable;
     }
-
-    /**
-     * This method is invoked when the underlying entity should update.
-     *
-     * @param delta The delta time to use.
-     */
-    @Override
-    public void act(float delta) {
-        tileable.update(delta);
-        super.act(delta);
-    }
 }

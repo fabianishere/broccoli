@@ -51,9 +51,25 @@ public enum Direction {
             case BOTTOM:
                 return TOP;
             case LEFT:
-                return LEFT;
+                return RIGHT;
             default:
                 return null;
         }
     }
+
+    /**
+     * Rotate a {@link Direction} by <code>n</code> amount of 90 degree clockwise turns and return
+     * the new direction.
+     *
+     * @param turns The amount of to make.
+     * @return The resulting direction.
+     */
+    public Direction rotate(int turns) {
+        return VALUES[Math.floorMod(ordinal() + turns, VALUES.length)];
+    }
+
+    /**
+     * An array containing the possible values of this enumeration.
+     */
+    private static final Direction[] VALUES = Direction.values();
 }

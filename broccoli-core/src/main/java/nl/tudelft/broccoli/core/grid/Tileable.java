@@ -28,6 +28,9 @@ package nl.tudelft.broccoli.core.grid;
 import nl.tudelft.broccoli.core.Ball;
 import nl.tudelft.broccoli.core.Entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * An in-game {@link Entity} that can be placed on a tile.
  *
@@ -39,6 +42,11 @@ public abstract class Tileable implements Entity {
      * The {@link Tile} this entity is placed on.
      */
     Tile tile;
+
+    /**
+     * The {@link TileableListener}s of this tileable entity.
+     */
+    private Set<TileableListener> listeners = new HashSet<>();
 
     /**
      * Determine whether this tileable entity has a connection at the given direction with the
@@ -87,16 +95,18 @@ public abstract class Tileable implements Entity {
     public abstract void accept(Direction direction, Ball ball);
 
     /**
-     * Determine whether the neighbour at the given direction allows a connection between the two
-     * entities.
+     * Determine whether this entity is connected with the neighbour at the given direction. This
+     * means both entities allow a connection at that point.
      *
      * @param direction The direction of the neighbour relative to this entity.
      * @return <code>true</code> if a ball is able to travel to that direction, <code>false</code>
      *         otherwise.
      */
-    protected boolean neighbourAllowsConnection(Direction direction) {
+    public boolean isConnected(Direction direction) {
         if (tile == null) {
             throw new IllegalStateException("The entity is not placed on a tile");
+        } else if (!allowsConnection(direction)) {
+            return false;
         }
 
         Tile neighbour = tile.get(direction);
@@ -111,7 +121,7 @@ public abstract class Tileable implements Entity {
      * @return <code>true</code> if the tileable entity accepts the ball onto its tile,
      *         <code>false</code> otherwise.
      */
-    protected boolean neighbourAccepts(Direction direction) {
+    public boolean isReleasable(Direction direction) {
         if (tile == null) {
             throw new IllegalStateException("The entity is not placed on a tile");
         }
@@ -129,7 +139,7 @@ public abstract class Tileable implements Entity {
      * @param direction The direction of the neighbour to which the ball should be send.
      * @param ball The ball that wants to be accepted onto the tile of a neighbour.
      */
-    protected void release(Direction direction, Ball ball) {
+    public void release(Direction direction, Ball ball) {
         if (tile == null) {
             throw new IllegalStateException("The entity is not placed on a tile");
         }
@@ -152,11 +162,78 @@ public abstract class Tileable implements Entity {
     }
 
     /**
+     * Return the {@link TileableListener}s of this {@link Tileable}.
+     *
+     * @return A set of listeners of this instance.
+     */
+    public Set<TileableListener> getListeners() {
+        return listeners;
+    }
+
+    /**
+     * Add a {@link TileableListener} to this {@link Tileable}.
+     *
+     * @param listener The listener to add.
+     * @return <code>true</code> if the listener collection has changed, <code>false</code>
+     *         otherwise.
+     */
+    public boolean addListener(TileableListener listener) {
+        return listeners.add(listener);
+    }
+
+    /**
+     * Remove a {@link TileableListener} from this {@link Tileable}.
+     *
+     * @param listener The listener to remove.
+     * @return <code>true</code> if the listener collection has changed, <code>false</code>
+     *         otherwise.
+     */
+    public boolean removeListener(TileableListener listener) {
+        return listeners.remove(listener);
+    }
+
+    /**
      * Determine whether the {@link Tileable} is placed on a grid.
      *
      * @return <code>true</code> if the tileable is placed on a grid, <code>false</code> otherwise.
      */
     public boolean onGrid() {
         return tile != null;
+    }
+
+    /**
+     * Inform the listeners of this {@link Tileable} that it has accepted a ball.
+     *
+     * @param direction The direction from which the ball has been accepted.
+     * @param ball The ball the tileable has accepted.
+     */
+    protected void informAcceptation(Direction direction, Ball ball) {
+        for (TileableListener listener : listeners) {
+            listener.ballAccepted(this, direction, ball);
+        }
+    }
+
+    /**
+     * Inform the listeners of this {@link Tileable} that it has disposed a ball.
+     *
+     * @param direction The direction from which the ball has been disposed.
+     * @param ball The ball the tileable has disposed.
+     */
+    protected void informDispose(Direction direction, Ball ball) {
+        for (TileableListener listener : listeners) {
+            listener.ballDisposed(this, direction, ball);
+        }
+    }
+
+    /**
+     * Inform the listeners of this {@link Tileable} that it has released a ball.
+     *
+     * @param direction The direction from which the ball has been released.
+     * @param ball The ball the tileable has released.
+     */
+    protected void informRelease(Direction direction, Ball ball) {
+        for (TileableListener listener : listeners) {
+            listener.ballReleased(this, direction, ball);
+        }
     }
 }

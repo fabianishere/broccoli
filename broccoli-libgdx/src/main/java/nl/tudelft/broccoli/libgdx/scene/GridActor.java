@@ -38,25 +38,14 @@ import nl.tudelft.broccoli.core.grid.Tile;
  */
 public class GridActor extends WidgetGroup {
     /**
-     * The {@link Table} used to construct the grid.
-     */
-    private Table table;
-
-    /**
-     * The grid to draw.
-     */
-    private Grid grid;
-
-    /**
      * Construct a {@link GridActor} instance.
      *
      * @param grid The grid to create the actor for.
      */
     public GridActor(Grid grid) {
-        this.grid = grid;
 
         setSize(600, 600);
-        table = new Table();
+        Table table = new Table();
         table.setFillParent(true);
 
         addActor(table);
@@ -68,14 +57,5 @@ public class GridActor extends WidgetGroup {
             }
             table.row();
         }
-    }
-
-    /**
-     * Return the {@link Grid} of the actor.
-     *
-     * @return The grid of the actor.
-     */
-    public Grid getGrid() {
-        return grid;
     }
 }

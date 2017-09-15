@@ -125,7 +125,7 @@ public class Grid implements Entity {
      * @return <code>true</code> if the point exists on the grid, <code>false</code> otherwise.
      */
     public boolean onGrid(int x, int y) {
-        return x >= 0 && y >= 0 && width >= x && height >= y;
+        return x >= 0 && x < width && y >= 0 && y < height;
     }
 
     /**

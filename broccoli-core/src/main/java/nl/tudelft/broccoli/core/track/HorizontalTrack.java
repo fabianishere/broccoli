@@ -103,12 +103,10 @@ public class HorizontalTrack extends Track {
      */
     @Override
     public void accept(Direction direction, Ball ball) {
-        float progress = -0.f;
         switch (direction) {
             case LEFT:
-                progress = 0.f;
             case RIGHT:
-                this.progress.putIfAbsent(ball, progress);
+                informAcceptation(direction, ball);
                 break;
             default:
                 throw new IllegalArgumentException("The track does not accept balls from the given "

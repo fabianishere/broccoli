@@ -26,6 +26,7 @@
 package nl.tudelft.broccoli.core.receptor;
 
 import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.track.Track;
 
 /**
@@ -58,6 +59,13 @@ public interface Slot {
     Receptor getReceptor();
 
     /**
+     * Return the current direction of this {@link Slot} relative to its {@link Receptor}.
+     *
+     * @return The direction of the slot relative to its receptor.
+     */
+    Direction getDirection();
+
+    /**
      * Accept a ball into this slot if the slot is not already occupied.
      *
      * @param ball The ball to accept in this slot.
@@ -66,11 +74,18 @@ public interface Slot {
     void accept(Ball ball);
 
     /**
-     * Release the current ball in the slot to the {@link Track} the port of this slot is connected
-     * to.
+     * Release the ball in the slot to the neighbour this slot is connected to.
      *
-     * @throws IllegalStateException if the slot is currently unoccupied or the port of this slot is
-     *                               not connected to a rail.
+     * @throws IllegalStateException if the slot is currently unoccupied or the slot is not
+     *                               connected to a neighbour or is unable to have the neighbour
+     *                               accept the ball in the slot.
      */
     void release();
+
+    /**
+     * Dispose the ball in the slot from the environment.
+     *
+     * @throws IllegalStateException if the slot is currently unoccupied.
+     */
+    void dispose();
 }

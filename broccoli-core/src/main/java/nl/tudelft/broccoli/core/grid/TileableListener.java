@@ -23,21 +23,40 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.core.track;
+package nl.tudelft.broccoli.core.grid;
 
-import nl.tudelft.broccoli.core.grid.Tileable;
+import nl.tudelft.broccoli.core.Ball;
 
 /**
- * A track over which multiple balls can travel to one of the other tiles.
+ * A listener interfaces for events related to a {@link Tileable}.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public abstract class Track extends Tileable {
+public interface TileableListener {
     /**
-     * Determine whether this rail is connected at both endpoints.
+     * This method is invoked when a {@link Tileable} has accepted a ball.
      *
-     * @return <code>true</code> if both endpoints are connected to a port, <code>false</code>
-     *         otherwise.
+     * @param tileable The tileable that has accepted the ball.
+     * @param direction The direction from which the ball was accepted.
+     * @param ball The ball that has been accepted.
      */
-    public abstract boolean isConnected();
+    default void ballAccepted(Tileable tileable, Direction direction, Ball ball) {}
+
+    /**
+     * This method is invoked when a {@link Tileable} has disposed a ball.
+     *
+     * @param tileable The tileable that has disposed the ball.
+     * @param direction The direction from which the ball was disposed.
+     * @param ball The ball that has been disposed.
+     */
+    default void ballDisposed(Tileable tileable, Direction direction, Ball ball) {}
+
+    /**
+     * This method is invoked when a {@link Tileable} has released a ball to a neighbour.
+     *
+     * @param tileable The tileable that has released the ball.
+     * @param direction The direction from which the ball was released.
+     * @param ball The ball that has been released.
+     */
+    default void ballReleased(Tileable tileable, Direction direction, Ball ball) {}
 }

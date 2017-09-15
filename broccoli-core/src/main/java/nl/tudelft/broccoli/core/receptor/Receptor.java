@@ -30,8 +30,6 @@ import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.track.Track;
 
-import java.util.Arrays;
-
 /**
  * An object with four {@link Slot}s (R1.2a) which accepts {@link Ball}s in open slots (R1.2b) via
  *
@@ -42,8 +40,10 @@ public class Receptor extends Tileable {
      * The slots of this receptor.
      */
     private Slot[] slots = {
-        new InternalSlot(Direction.TOP), new InternalSlot(Direction.RIGHT),
-        new InternalSlot(Direction.BOTTOM), new InternalSlot(Direction.LEFT),
+        new InternalSlot(Direction.TOP),
+        new InternalSlot(Direction.RIGHT),
+        new InternalSlot(Direction.BOTTOM),
+        new InternalSlot(Direction.LEFT),
     };
 
     /**
@@ -91,9 +91,8 @@ public class Receptor extends Tileable {
      * @return A non-null port with the specified local orientation.
      */
     public Slot getSlot(Direction direction) {
-        // This method assumes the Direction enumeration is defined in a counterclockwise
-        // order, having four values
-        return slots[direction.ordinal()];
+        // This method assumes the Direction enumeration is defined in a clockwise order
+        return slots[Math.floorMod(direction.ordinal() - rotation, directions.length)];
     }
 
     /**
@@ -132,8 +131,10 @@ public class Receptor extends Tileable {
      */
     private void mark() {
         marked = true;
-        // Remove all balls from the slot
-        Arrays.fill(slots, null);
+
+        for (Slot slot : slots) {
+            slot.dispose();
+        }
     }
 
     /**
@@ -193,6 +194,7 @@ public class Receptor extends Tileable {
             }
 
             this.ball = ball;
+            informAcceptation(getDirection(), ball);
 
             // Mark the receptor if all balls are of the same color (R1.2e)
             if (shouldMark()) {
@@ -217,11 +219,23 @@ public class Receptor extends Tileable {
 
             Direction direction = getDirection();
 
-            if (neighbourAccepts(direction)) {
+            if (!isConnected(direction) || !isReleasable(direction)) {
                 throw new IllegalStateException("The slot cannot release the ball to its neighbor");
             }
 
+            informRelease(direction, ball);
             Receptor.this.release(direction, ball);
+            ball = null;
+        }
+
+        /**
+         * Dispose the ball in the slot from the environment.
+         *
+         * @throws IllegalStateException if the slot is currently unoccupied.
+         */
+        @Override
+        public void dispose() {
+            informDispose(getDirection(), ball);
             ball = null;
         }
 
@@ -230,8 +244,8 @@ public class Receptor extends Tileable {
          *
          * @return The direction of the slot.
          */
-        Direction getDirection() {
-            return directions[(direction.ordinal() + rotation) % directions.length];
+        public Direction getDirection() {
+            return direction.rotate(rotation);
         }
     }
 

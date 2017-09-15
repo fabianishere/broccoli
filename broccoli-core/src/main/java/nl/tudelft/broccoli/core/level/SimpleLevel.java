@@ -1,5 +1,7 @@
 package nl.tudelft.broccoli.core.level;
 
+import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
@@ -47,16 +49,28 @@ public class SimpleLevel implements Level {
         public SimpleGame() {
             grid = new Grid(3, 3);
 
-            grid.place(0, 2, new Receptor());
+            Receptor receptorA = new Receptor();
+            receptorA.getSlot(Direction.TOP).accept(Ball.of(Ball.Type.BLUE));
+            grid.place(0, 2, receptorA);
             grid.place(0, 1, new VerticalTrack());
 
+            Receptor receptorB = new Receptor();
+            receptorB.getSlot(Direction.TOP).accept(Ball.of(Ball.Type.BLUE));
+
             grid.place(1, 2, new HorizontalTrack());
-            grid.place(2, 2, new Receptor());
+            grid.place(2, 2, receptorB);
             grid.place(2, 1, new VerticalTrack());
 
-            grid.place(0, 0, new Receptor());
+            Receptor receptorC = new Receptor();
+            receptorC.getSlot(Direction.TOP).accept(Ball.of(Ball.Type.BLUE));
+
+            grid.place(0, 0, receptorC);
             grid.place(1, 0, new HorizontalTrack());
-            grid.place(2, 0, new Receptor());
+
+            Receptor receptorD = new Receptor();
+            receptorD.getSlot(Direction.TOP).accept(Ball.of(Ball.Type.BLUE));
+
+            grid.place(2, 0, receptorD);
         }
 
         /**

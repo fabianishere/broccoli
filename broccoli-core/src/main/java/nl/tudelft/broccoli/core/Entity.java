@@ -26,19 +26,8 @@
 package nl.tudelft.broccoli.core;
 
 /**
- * An in-game object, which should be updated periodically.
+ * An in-game object of the Broccoli game.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public interface Entity {
-    /**
-     * Update the internal state of the entity.
-     *
-     * <p>This method should be invoked at a static interval to allow entities to update its state
-     * over time.</p>
-     *
-     * @param delta The scale at which the time passes, which is used to slow down or speed up an
-     *              entity.
-     */
-    default void update(float delta) {}
-}
+public interface Entity {}
