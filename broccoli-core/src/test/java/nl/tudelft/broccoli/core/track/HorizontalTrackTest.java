@@ -25,10 +25,12 @@
 
 package nl.tudelft.broccoli.core.track;
 
+import nl.tudelft.broccoli.core.Ball;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 /**
@@ -92,5 +94,43 @@ public class HorizontalTrackTest {
     @Test
     public void notAcceptsBottom() {
         assertThat(horTrack.accepts(Direction.BOTTOM)).isFalse();
+    }
+
+    /**
+     * Test if giving a ball from the top gives an exception.
+     */
+    @Test
+    public void acceptTopException() {
+        assertThatThrownBy(() -> horTrack.accept(Direction.TOP, null))
+                .isInstanceOf(Exception.class);
+    }
+
+    /**
+     * Test if giving a ball from the bottom gives an exception.
+     */
+    @Test
+    public void acceptBottomException() {
+        assertThatThrownBy(() -> horTrack.accept(Direction.BOTTOM, null))
+                .isInstanceOf(Exception.class);
+    }
+
+    /**
+     * Test if giving a ball from the left starts with progress 0.
+     */
+    @Test
+    public void acceptLeftProgress() {
+        Ball ball = Ball.of(Ball.Type.BLUE);
+        horTrack.accept(Direction.LEFT, ball);
+        assertThat(horTrack.progressOf(ball)).isEqualTo(0.f);
+    }
+
+    /**
+     * Test if giving a ball from the right starts with progress -0.
+     */
+    @Test
+    public void acceptRightProgress() {
+        Ball ball = Ball.of(Ball.Type.BLUE);
+        horTrack.accept(Direction.RIGHT, ball);
+        assertThat(horTrack.progressOf(ball)).isEqualTo(-0.f);
     }
 }
