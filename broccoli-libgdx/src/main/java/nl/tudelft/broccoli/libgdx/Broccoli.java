@@ -30,6 +30,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import nl.tudelft.broccoli.core.level.GameSession;
 import nl.tudelft.broccoli.core.level.SimpleLevel;
@@ -58,11 +59,14 @@ public class Broccoli extends Game {
      */
     private Context context;
 
+    private GameTimer timer;
+
     /**
      * This method is invoked when the {@link Application} is first created.
      */
     @Override
     public void create() {
+        timer = new GameTimer(3);
         stage = new Stage(new ScreenViewport());
         session = new SimpleLevel().create();
         context = new Context();

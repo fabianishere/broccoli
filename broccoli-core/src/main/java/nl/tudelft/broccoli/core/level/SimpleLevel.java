@@ -2,6 +2,7 @@ package nl.tudelft.broccoli.core.level;
 
 import nl.tudelft.broccoli.core.Ball;
 import nl.tudelft.broccoli.core.nexus.Nexus;
+import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.nexus.NexusContext;
@@ -52,12 +53,15 @@ public class SimpleLevel implements Level {
          * Construct a {@link SimpleGame} instance.
          */
         public SimpleGame() {
-            grid = new Grid(3, 4);
+            grid = new Grid(4, 4);
 
             NexusContext context = new NexusContext();
             grid.place(0, 3, new Nexus(context));
             grid.place(1, 3, new Nexus(context));
             grid.place(2, 3, new SpawningNexus(context, new Random(), Direction.RIGHT));
+
+            TimerTile timer = new TimerTile();
+            grid.place(3, 2, timer);
 
             Receptor receptorA = new Receptor();
             receptorA.getSlot(Direction.TOP).accept(Ball.of(Ball.Type.BLUE));
