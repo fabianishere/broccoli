@@ -60,7 +60,7 @@ public class SimpleLevel implements Level {
             grid.place(1, 3, new Nexus(context));
             grid.place(2, 3, new SpawningNexus(context, new Random(), Direction.RIGHT));
 
-            TimerTile timer = new TimerTile();
+            TimerTile timer = new TimerTile(20);
             grid.place(3, 2, timer);
 
             Receptor receptorA = new Receptor();

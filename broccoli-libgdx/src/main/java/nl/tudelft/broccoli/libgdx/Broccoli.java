@@ -59,14 +59,11 @@ public class Broccoli extends Game {
      */
     private Context context;
 
-    private GameTimer timer;
-
     /**
      * This method is invoked when the {@link Application} is first created.
      */
     @Override
     public void create() {
-        timer = new GameTimer(3);
         stage = new Stage(new ScreenViewport());
         session = new SimpleLevel().create();
         context = new Context();

@@ -4,6 +4,19 @@ import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 
 public class TimerTile extends Tileable {
+    private int maxTime;
+
+    public TimerTile(int time) {
+        maxTime = time;
+    }
+
+    public int getMaxTime() {
+        return maxTime;
+    }
+
+    public int getTextureId() {
+        return 4;
+    }
 
     @Override
     public boolean allowsConnection(Direction direction) {

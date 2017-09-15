@@ -30,6 +30,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import nl.tudelft.broccoli.core.Empty;
+import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.grid.Tile;
 import nl.tudelft.broccoli.core.grid.Tileable;
@@ -124,6 +125,8 @@ public class TileActor extends Group {
             return new NexusActor((Nexus) tileable, context);
         } else if (tileable instanceof Track) {
             return new TrackActor((Track) tileable, context);
+        } else if (tileable instanceof TimerTile) {
+            return new TimerActor((TimerTile) tileable, context);
         } else if (tileable instanceof Empty) {
             return new EmptyActor((Empty) tileable, context);
         }
