@@ -28,7 +28,7 @@ package nl.tudelft.broccoli.core.level;
 import org.junit.jupiter.api.Test;
 
 /**
- * Testing class that tests the {@Link SimpleLevel} class
+ * Testing class that tests the {@Link SimpleLevel} class.
  */
 import static org.assertj.core.api.Assertions.assertThat;
 
