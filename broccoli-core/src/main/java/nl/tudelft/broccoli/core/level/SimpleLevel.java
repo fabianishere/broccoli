@@ -1,6 +1,7 @@
 package nl.tudelft.broccoli.core.level;
 
 import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.grid.Tile;
 import nl.tudelft.broccoli.core.nexus.Nexus;
 import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.grid.Direction;
@@ -96,6 +97,30 @@ public class SimpleLevel implements Level {
         @Override
         public Grid getGrid() {
             return grid;
+        }
+
+        /**
+         * Determine whether the game has been won.
+         *
+         * @return <code>true</code> if all receptors have been marked, <code>false</code> otherwise.
+         */
+        @Override
+        public boolean isWon() {
+            // TODO We don't want to check every tile on the grid
+            for (int j = 0; j < grid.getHeight(); j++) {
+                for (int i = 0; i < grid.getWidth(); i++) {
+                    Tile tile = grid.get(i, j);
+
+                    if (tile.getTileable() instanceof Receptor) {
+                        Receptor receptor = (Receptor) tile.getTileable();
+                        if (!receptor.isMarked()) {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
 
         /**

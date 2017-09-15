@@ -37,6 +37,8 @@ import nl.tudelft.broccoli.core.level.SimpleLevel;
 import nl.tudelft.broccoli.libgdx.scene.Context;
 import nl.tudelft.broccoli.libgdx.scene.GridActor;
 
+import javax.swing.*;
+
 /**
  * A {@link Game} implementation which provides a 2d game view over the game logic defined in
  * the <code>broccoli-core</code> package.
@@ -92,6 +94,16 @@ public class Broccoli extends Game {
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // Check if the game has been won
+        if (session.isWon()) {
+            Gdx.app.exit();
+
+            // TODO Show message on game screen instead and allow user to start a new game
+            JOptionPane.showMessageDialog(new JFrame(), "Congratulations! You won the game",
+                "Winner!", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        }
 
         // Draw the scene stage
         stage.act(Gdx.graphics.getDeltaTime());

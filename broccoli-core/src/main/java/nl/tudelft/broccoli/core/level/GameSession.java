@@ -42,6 +42,13 @@ public interface GameSession {
     Grid getGrid();
 
     /**
+     * Determine whether the game has been won.
+     *
+     * @return <code>true</code> if all receptors have been marked, <code>false</code> otherwise.
+     */
+    boolean isWon();
+
+    /**
      * Return the {@link Level} this game represents.
      *
      * @return The level of this game.
