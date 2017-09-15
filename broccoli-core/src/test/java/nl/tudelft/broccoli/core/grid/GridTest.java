@@ -40,6 +40,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  */
 public class GridTest {
 
+    /**
+     * The constructor should throw an exception if given negative values.
+     */
     @Test
     public void negativeConstructorTest(){
         Assertions.assertThrows(InvalidParameterException.class, () -> {
@@ -47,6 +50,9 @@ public class GridTest {
         });
     }
 
+    /**
+     * The constructor should throw an exception if given 0 values.
+     */
     @Test
     public void emptyConstructorTest(){
         Assertions.assertThrows(InvalidParameterException.class, () -> {
@@ -54,6 +60,9 @@ public class GridTest {
         });
     }
 
+    /**
+     * Tests the getWidth and getHeight methods.
+     */
     @Test
     public void gettersTest(){
         Grid grid = new Grid(3,2);
@@ -61,6 +70,9 @@ public class GridTest {
         assertThat(grid.getHeight()).isEqualTo(2);
     }
 
+    /**
+     * Tests the in points of the onGrid method.
+     */
     @Test
     public void onGridInPointsTest(){
         Grid grid = new Grid(3,2);
@@ -71,6 +83,9 @@ public class GridTest {
         }
     }
 
+    /**
+     * Tests the out points of the onGrid method.
+     */
     @Test
     public void onGridOutPointsTest(){
         Grid grid = new Grid(3,2);
@@ -99,6 +114,9 @@ public class GridTest {
         }
     }
 
+    /**
+     * Tests the place and get method with a few Tileables.
+     */
     @Test
     public void placeGetTest(){
         Grid grid = new Grid(3,1);

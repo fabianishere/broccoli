@@ -34,23 +34,43 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  */
 public class DirectionTest {
 
+    /**
+     * Tests the inverse method with Top.
+     */
     @Test
     public void inverseTestTop(){
         assertThat(Direction.TOP.inverse()).isEqualTo(Direction.BOTTOM);
     }
 
+    /**
+     * Tests the inverse method with Bottom.
+     */
     @Test
     public void inverseTestBottom(){
         assertThat(Direction.BOTTOM.inverse()).isEqualTo(Direction.TOP);
     }
 
+    /**
+     * Tests the inverse method with Left.
+     */
     @Test
     public void inverseTestLeft(){
         assertThat(Direction.LEFT.inverse()).isEqualTo(Direction.RIGHT);
     }
 
+    /**
+     * Tests the inverse method with Right.
+     */
     @Test
     public void inverseTestRight(){
         assertThat(Direction.RIGHT.inverse()).isEqualTo(Direction.LEFT);
+    }
+
+    /**
+     * Tests the inverse method with Null.
+     */
+    @Test
+    public void inverseTestNull(){
+        assertThat(((Direction) null).inverse()).isEqualTo(null);
     }
 }
