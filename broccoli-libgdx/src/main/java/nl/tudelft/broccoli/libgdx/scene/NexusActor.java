@@ -27,6 +27,7 @@ package nl.tudelft.broccoli.libgdx.scene;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -35,26 +36,27 @@ import nl.tudelft.broccoli.core.Ball;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.grid.TileableListener;
-import nl.tudelft.broccoli.core.track.HorizontalTrack;
-import nl.tudelft.broccoli.core.track.Track;
+import nl.tudelft.broccoli.core.nexus.Nexus;
+import nl.tudelft.broccoli.core.nexus.SpawningNexus;
 
 /**
- * An {@link Actor} for a track on the grid.
+ * An {@link Actor} for a (spawning) nexus on the grid.
  *
+ * @author Earth Grob (w.lauwapong@student.tudelft.nl)
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class TrackActor extends TileableActor<Track> implements TileableListener {
+public class NexusActor extends TileableActor<Nexus> implements TileableListener {
     /**
-     * The texture for a horizontal track.
+     * The texture for an unconnected nexus.
      */
-    private static final Texture TX_TILE_HORIZONTAL =
-        new Texture(Gdx.files.classpath("sprites/tiles/horizontal/0.png"));
+    private static final Texture TX_NEXUS =
+        new Texture(Gdx.files.classpath("sprites/nexus/0.png"));
 
     /**
-     * The texture for a vertical track.
+     * The texture for a connected nexus.
      */
-    private static final Texture TX_TILE_VERTICAL =
-        new Texture(Gdx.files.classpath("sprites/tiles/vertical/0.png"));
+    private static final Texture TX_NEXUS_CONNECTED =
+        new Texture(Gdx.files.classpath("sprites/nexus/9.png"));
 
     /**
      * The travel time multiplier for travel speed over this track.
@@ -62,20 +64,26 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
     private static final float TRAVEL_TIME = 0.008f;
 
     /**
-     * A flag to indicate whether this track is horizontal or vertical.
+     * A flag to indicate whether this tile is connected.
      */
-    private boolean horizontal = false;
+    private boolean connected = false;
 
     /**
-     * Construct a {@link TileableActor} instance.
+     * A flag to indicate whether this tile is a spawning tile.
+     */
+    private boolean spawning = false;
+
+    /**
+     * Construct a {@link NexusActor} instance.
      *
-     * @param tileable The tileable entity to create the actor for.
+     * @param nexus The tileable entity to create the actor for.
      * @param context The game context of this actor.
      */
-    public TrackActor(Track tileable, Context context) {
-        super(tileable, context);
-        tileable.addListener(this);
-        horizontal = tileable instanceof HorizontalTrack;
+    public NexusActor(Nexus nexus, Context context) {
+        super(nexus, context);
+        nexus.addListener(this);
+        connected = nexus.isConnected(Direction.BOTTOM);
+        spawning = nexus instanceof SpawningNexus;
     }
 
     /**
@@ -85,7 +93,7 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
      */
     @Override
     public Texture getTileTexture() {
-        return horizontal ? TX_TILE_HORIZONTAL : TX_TILE_VERTICAL;
+        return connected ? TX_NEXUS_CONNECTED : TX_NEXUS;
     }
 
     /**
@@ -97,26 +105,30 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
      */
     @Override
     public void ballAccepted(Tileable tileable, Direction direction, Ball ball) {
-        Track track = getTileable();
-        Actor actor = getContext().actor(ball);
+        // Get the actor for the ball or create a new one if one does not exist yet.
+        Actor registry = getContext().actor(ball);
+        Actor actor = registry != null ? registry : new BallActor(ball, getContext());
+        addActor(actor);
+
+        Nexus nexus = getTileable();
         Action move;
 
         switch (direction) {
             case TOP:
                 actor.setPosition(getWidth() / 2.f, getHeight(), Align.center);
-                move = Actions.moveBy(0, -getHeight(), getHeight() * TRAVEL_TIME);
+                move = Actions.moveBy(0, -getHeight() / 2.f, (getHeight() / 2.f) * TRAVEL_TIME);
                 break;
             case BOTTOM:
                 actor.setPosition(getWidth() / 2.f, 0.f, Align.center);
-                move = Actions.moveBy(0, getHeight(), getHeight() * TRAVEL_TIME);
+                move = Actions.moveBy(0, getHeight() / 2.f, (getHeight() / 2.f) * TRAVEL_TIME);
                 break;
             case LEFT:
                 actor.setPosition(0.f, getHeight() / 2.f, Align.center);
-                move = Actions.moveBy(getWidth(), 0, getWidth() * TRAVEL_TIME);
+                move = Actions.moveBy(getWidth() / 2.f, 0, (getWidth() / 2.f) * TRAVEL_TIME);
                 break;
             case RIGHT:
                 actor.setPosition(getWidth(), getHeight() / 2.f, Align.center);
-                move = Actions.moveBy(-getWidth(), 0, getWidth() * TRAVEL_TIME);
+                move = Actions.moveBy(-getWidth() / 2.f, 0, (getWidth() / 2.f) * TRAVEL_TIME);
                 break;
             default:
                 move = Actions.sequence();
@@ -125,15 +137,40 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
         actor.addAction(Actions.sequence(
             move,
             Actions.run(() -> {
+                if (nexus.isReleasable(Direction.BOTTOM)) {
+                    nexus.release(Direction.BOTTOM, ball);
+                    nexus.getContext().setOccupied(false);
+                    actor.clearActions();
+                    return;
+                }
+                move.restart();
+            }),
+            move,
+            Actions.run(() -> {
                 Direction inverse = direction.inverse();
-                if (!track.isReleasable(inverse)) {
+                if (!nexus.isReleasable(inverse)) {
                     ballAccepted(tileable, inverse, ball);
                     return;
                 }
 
-                track.release(inverse, ball);
-            }))
-        );
-        addActor(actor);
+                nexus.release(inverse, ball);
+            })
+        ));
+    }
+
+    /**
+     * Draw only the tile onto the screen.
+     *
+     * @param batch The batch to use.
+     * @param parentAlpha The alpha of the parent.
+     */
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        // Spawn a new ball if the nexus is unoccupied and we are a spawning nexus
+        if (spawning && !getTileable().getContext().isOccupied()) {
+            SpawningNexus nexus = (SpawningNexus) getTileable();
+            nexus.spawn();
+        }
+        super.draw(batch, parentAlpha);
     }
 }

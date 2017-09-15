@@ -33,6 +33,7 @@ import nl.tudelft.broccoli.core.Empty;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.grid.Tile;
 import nl.tudelft.broccoli.core.grid.Tileable;
+import nl.tudelft.broccoli.core.nexus.Nexus;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.Track;
 
@@ -119,6 +120,8 @@ public class TileActor extends Group {
 
         if (tileable instanceof Receptor) {
             return new ReceptorActor((Receptor) tileable, context);
+        } else if (tileable instanceof Nexus) {
+            return new NexusActor((Nexus) tileable, context);
         } else if (tileable instanceof Track) {
             return new TrackActor((Track) tileable, context);
         } else if (tileable instanceof Empty) {
