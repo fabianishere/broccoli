@@ -6,19 +6,19 @@ import com.badlogic.gdx.utils.Timer;
 import nl.tudelft.broccoli.core.TimerTile;
 
 public class TimerActor extends TileableActor<TimerTile> {
+    private static final Texture TX_TILE_FULL =
+        new Texture(Gdx.files.classpath("sprites/counter/4.png"));
+    private static final Texture TX_TILE_THREE_QUARTER =
+        new Texture(Gdx.files.classpath("sprites/counter/3.png"));
+    private static final Texture TX_TILE_HALF_FULL =
+        new Texture(Gdx.files.classpath("sprites/counter/2.png"));
+    private static final Texture TX_TILE_QUARTER =
+        new Texture(Gdx.files.classpath("sprites/counter/1.png"));
+    private static final Texture TX_TILE_EMPTY =
+        new Texture(Gdx.files.classpath("sprites/counter/0.png"));
+
     private Timer timer;
     private int currentTextureId;
-
-    private static final Texture TX_TILE_FULL =
-            new Texture(Gdx.files.classpath("sprites/counter/4.png"));
-    private static final Texture TX_TILE_THREE_QUARTER =
-            new Texture(Gdx.files.classpath("sprites/counter/3.png"));
-    private static final Texture TX_TILE_HALF_FULL =
-            new Texture(Gdx.files.classpath("sprites/counter/2.png"));
-    private static final Texture TX_TILE_QUARTER =
-            new Texture(Gdx.files.classpath("sprites/counter/1.png"));
-    private static final Texture TX_TILE_EMPTY =
-            new Texture(Gdx.files.classpath("sprites/counter/0.png"));
 
     /**
      * Construct a {@link TileableActor} instance.
@@ -36,11 +36,13 @@ public class TimerActor extends TileableActor<TimerTile> {
             public void run() {
                 nextTexture();
             }
-        }, getTileable().getMaxTime() / 5,
-                getTileable().getMaxTime() / 5, 4);
+        }, getTileable().getMaxTime() / 5.f,
+                getTileable().getMaxTime() / 5.f, 4);
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
+                // XXX FindBugs complains about use of System.exit(int)
+                // We should create a game over screen instead in future releases
                 System.out.println("Game Over!");
                 System.exit(0);
             }
@@ -62,7 +64,8 @@ public class TimerActor extends TileableActor<TimerTile> {
                 return TX_TILE_HALF_FULL;
             case 3:
                 return TX_TILE_QUARTER;
+            default:
+                return TX_TILE_EMPTY;
         }
-        return TX_TILE_EMPTY;
     }
 }

@@ -45,12 +45,12 @@ public class SpawningNexus extends Nexus {
     /**
      * The {@link Random} instance used for determining the color of the spawned ball.
      */
-    private Random random;
+    private final Random random;
 
     /**
      * The direction from which new balls will be spawned.
      */
-    private Direction direction;
+    private final Direction direction;
 
     /**
      * Construct a {@link SpawningNexus} instance.

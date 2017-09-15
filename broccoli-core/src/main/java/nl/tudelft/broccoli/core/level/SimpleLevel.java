@@ -1,11 +1,11 @@
 package nl.tudelft.broccoli.core.level;
 
 import nl.tudelft.broccoli.core.Ball;
-import nl.tudelft.broccoli.core.grid.Tile;
-import nl.tudelft.broccoli.core.nexus.Nexus;
 import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
+import nl.tudelft.broccoli.core.grid.Tile;
+import nl.tudelft.broccoli.core.nexus.Nexus;
 import nl.tudelft.broccoli.core.nexus.NexusContext;
 import nl.tudelft.broccoli.core.nexus.SpawningNexus;
 import nl.tudelft.broccoli.core.receptor.Receptor;
@@ -102,7 +102,8 @@ public class SimpleLevel implements Level {
         /**
          * Determine whether the game has been won.
          *
-         * @return <code>true</code> if all receptors have been marked, <code>false</code> otherwise.
+         * @return <code>true</code> if all receptors have been marked, <code>false</code>
+         *         otherwise.
          */
         @Override
         public boolean isWon() {

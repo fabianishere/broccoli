@@ -27,7 +27,6 @@ package nl.tudelft.broccoli.core.receptor;
 
 import nl.tudelft.broccoli.core.Ball;
 import nl.tudelft.broccoli.core.grid.Direction;
-import nl.tudelft.broccoli.core.track.Track;
 
 /**
  * A slot on a {@link Receptor} which stores {@link Ball}s.

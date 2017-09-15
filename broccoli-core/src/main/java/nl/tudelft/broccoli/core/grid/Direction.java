@@ -38,6 +38,11 @@ public enum Direction {
     LEFT;
 
     /**
+     * An array containing the possible values of this enumeration.
+     */
+    private static final Direction[] VALUES = Direction.values();
+
+    /**
      * Return the inverse {@link Direction} given a direction.
      *
      * @return The inverse direction.
@@ -67,9 +72,4 @@ public enum Direction {
     public Direction rotate(int turns) {
         return VALUES[Math.floorMod(ordinal() + turns, VALUES.length)];
     }
-
-    /**
-     * An array containing the possible values of this enumeration.
-     */
-    private static final Direction[] VALUES = Direction.values();
 }

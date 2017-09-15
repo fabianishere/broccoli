@@ -60,10 +60,9 @@ public class Nexus extends HorizontalTrack {
      *
      * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}
      * meaning the direction may need to be inverted.</p>
-     *
      * @param direction The direction from the origin of the tile to a possible port of the entity.
-     * @return <code>true</code> if a ball is able to travel from that direction, <code>false</code>
-     * otherwise.
+     * @return <code>true</code> if a ball is able to travel from that direction,
+     *         <code>false</code> otherwise
      */
     @Override
     public boolean allowsConnection(Direction direction) {

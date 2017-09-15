@@ -30,7 +30,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import nl.tudelft.broccoli.core.level.GameSession;
 import nl.tudelft.broccoli.core.level.SimpleLevel;
@@ -98,7 +97,8 @@ public class Broccoli extends Game {
         // Check if the game has been won
         if (session.isWon()) {
             Gdx.app.exit();
-
+            // XXX FindBugs complains about use of System.exit(int)
+            // We should create a game over screen instead in future releases
             // TODO Show message on game screen instead and allow user to start a new game
             JOptionPane.showMessageDialog(new JFrame(), "Congratulations! You won the game",
                 "Winner!", JOptionPane.INFORMATION_MESSAGE);
