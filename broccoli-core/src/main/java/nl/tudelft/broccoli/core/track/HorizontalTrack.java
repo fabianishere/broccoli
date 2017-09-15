@@ -91,7 +91,7 @@ public class HorizontalTrack extends Track {
      */
     @Override
     public boolean accepts(Direction direction) {
-        return true;
+        return allowsConnection(direction);
     }
 
     /**

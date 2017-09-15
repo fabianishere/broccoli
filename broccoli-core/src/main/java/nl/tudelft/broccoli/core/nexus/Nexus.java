@@ -23,36 +23,32 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.core.track;
+package nl.tudelft.broccoli.core.nexus;
 
 import nl.tudelft.broccoli.core.Ball;
 import nl.tudelft.broccoli.core.grid.Direction;
-import nl.tudelft.broccoli.core.grid.Grid;
-import nl.tudelft.broccoli.core.grid.Tile;
 import nl.tudelft.broccoli.core.grid.Tileable;
+import nl.tudelft.broccoli.core.track.HorizontalTrack;
 
 /**
- * A vertical {@link Track} on the {@link Grid}.
+ * A nexus is the line above the game on which the balls are spawned.
  *
+ * @author Earth Grob (w.lauwapong@student.tudelft.nl)
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class VerticalTrack extends Track {
+public class Nexus extends HorizontalTrack {
     /**
-     * Determine whether this rail is connected at both endpoints.
-     *
-     * @return <code>true</code> if both endpoints are connected to a port, <code>false</code>
-     *         otherwise.
+     * The context for the nexus.
      */
-    public boolean isConnected() {
-        Tile tile = getTile();
-        if (tile == null) {
-            throw new IllegalStateException("The track is not placed on a grid");
-        }
+    private NexusContext context;
 
-        Tile left = tile.get(Direction.TOP);
-        Tile right = tile.get(Direction.BOTTOM);
-
-        return left != null && right != null;
+    /**
+     * Construct a {@link Nexus} instance.
+     *
+     * @param context The context to use for the nexus.
+     */
+    public Nexus(NexusContext context) {
+        this.context = context;
     }
 
     /**
@@ -67,21 +63,16 @@ public class VerticalTrack extends Track {
      *
      * @param direction The direction from the origin of the tile to a possible port of the entity.
      * @return <code>true</code> if a ball is able to travel from that direction, <code>false</code>
-     *         otherwise.
+     * otherwise.
      */
     @Override
     public boolean allowsConnection(Direction direction) {
-        switch (direction) {
-            case TOP:
-            case BOTTOM:
-                return true;
-            default:
-                return false;
-        }
+        return !Direction.TOP.equals(direction);
     }
 
     /**
-     * Determine whether this tileable entity accepts a ball onto its tile.
+     * Determine whether this tileable entity accepts a ball onto its tile at the time of the
+     * execution.
      *
      * @param direction The direction from which a ball wants to be accepted onto this tileable
      *                  entity.
@@ -90,26 +81,15 @@ public class VerticalTrack extends Track {
      */
     @Override
     public boolean accepts(Direction direction) {
-        return allowsConnection(direction);
+        return super.allowsConnection(direction);
     }
 
     /**
-     * Accept a {@link Ball} onto the tile of this tileable entity.
+     * Return the {@link NexusContext} instance for this {@link Nexus}.
      *
-     * @param direction The direction from which a ball wants to be accepted onto this tileable
-     *                  entity.
-     * @param ball      The ball that wants to be accepted onto the tile of this tileable entity.
+     * @return The context of this nexus.
      */
-    @Override
-    public void accept(Direction direction, Ball ball) {
-        switch (direction) {
-            case TOP:
-            case BOTTOM:
-                informAcceptation(direction, ball);
-                break;
-            default:
-                throw new IllegalArgumentException("The track does not accept balls from the given "
-                    + "direction");
-        }
+    public NexusContext getContext() {
+        return context;
     }
 }

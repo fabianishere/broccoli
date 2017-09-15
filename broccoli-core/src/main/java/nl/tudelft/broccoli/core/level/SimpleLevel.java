@@ -1,11 +1,16 @@
 package nl.tudelft.broccoli.core.level;
 
 import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.nexus.Nexus;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
+import nl.tudelft.broccoli.core.nexus.NexusContext;
+import nl.tudelft.broccoli.core.nexus.SpawningNexus;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import nl.tudelft.broccoli.core.track.VerticalTrack;
+
+import java.util.Random;
 
 /**
  * A very basic, static {@link Level} used for testing purposes.
@@ -47,7 +52,12 @@ public class SimpleLevel implements Level {
          * Construct a {@link SimpleGame} instance.
          */
         public SimpleGame() {
-            grid = new Grid(3, 3);
+            grid = new Grid(3, 4);
+
+            NexusContext context = new NexusContext();
+            grid.place(0, 3, new Nexus(context));
+            grid.place(1, 3, new Nexus(context));
+            grid.place(2, 3, new SpawningNexus(context, new Random(), Direction.RIGHT));
 
             Receptor receptorA = new Receptor();
             receptorA.getSlot(Direction.TOP).accept(Ball.of(Ball.Type.BLUE));
