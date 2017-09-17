@@ -28,6 +28,7 @@ version '1.0-SNAPSHOT'
 apply from: "${project.rootDir}/gradle/java.gradle"
 
 dependencies {
-	testCompile 'junit:junit:4.12'
+	testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-RC3'
+	testCompile "org.junit.platform:junit-platform-launcher:1.0.0-RC3"
 	testCompile 'org.assertj:assertj-core:3.8.0'
 }

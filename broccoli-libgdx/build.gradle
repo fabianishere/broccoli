@@ -36,6 +36,7 @@ dependencies {
 	compile "com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.3"
 	compile "com.badlogicgames.gdx:gdx-platform:1.9.3:natives-desktop"
 
-	testCompile 'junit:junit:4.12'
+	testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-RC3'
+	testCompile "org.junit.platform:junit-platform-launcher:1.0.0-RC3"
 	testCompile 'org.assertj:assertj-core:3.8.0'
 }
