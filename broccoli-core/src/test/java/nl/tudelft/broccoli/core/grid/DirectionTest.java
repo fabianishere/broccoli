@@ -30,15 +30,14 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
- * A class to test the Grid class
+ * A class to test the {@link Direction} enum
  */
-public class DirectionTest {
-
+class DirectionTest {
     /**
      * Tests the inverse method with Top.
      */
     @Test
-    public void inverseTestTop(){
+    void inverseTestTop(){
         assertThat(Direction.TOP.inverse()).isEqualTo(Direction.BOTTOM);
     }
 
@@ -46,7 +45,7 @@ public class DirectionTest {
      * Tests the inverse method with Bottom.
      */
     @Test
-    public void inverseTestBottom(){
+    void inverseTestBottom(){
         assertThat(Direction.BOTTOM.inverse()).isEqualTo(Direction.TOP);
     }
 
@@ -54,7 +53,7 @@ public class DirectionTest {
      * Tests the inverse method with Left.
      */
     @Test
-    public void inverseTestLeft(){
+    void inverseTestLeft(){
         assertThat(Direction.LEFT.inverse()).isEqualTo(Direction.RIGHT);
     }
 
@@ -62,7 +61,7 @@ public class DirectionTest {
      * Tests the inverse method with Right.
      */
     @Test
-    public void inverseTestRight(){
+    void inverseTestRight(){
         assertThat(Direction.RIGHT.inverse()).isEqualTo(Direction.LEFT);
     }
 
@@ -70,7 +69,7 @@ public class DirectionTest {
      * Tests the inverse method with Null.
      */
     @Test
-    public void inverseTestNull(){
+    void inverseTestNull(){
         assertThat(((Direction) null).inverse()).isEqualTo(null);
     }
 }

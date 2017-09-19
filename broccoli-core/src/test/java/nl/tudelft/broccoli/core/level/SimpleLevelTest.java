@@ -27,12 +27,12 @@ package nl.tudelft.broccoli.core.level;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * Testing class that tests the {@Link SimpleLevel} class.
- */
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SimpleLevelTest {
+/**
+ * Testing class that tests the {@link SimpleLevel} class.
+ */
+class SimpleLevelTest {
 
     private SimpleLevel simpleLevel = new SimpleLevel();
 
@@ -40,7 +40,7 @@ public class SimpleLevelTest {
      * Test if calling the create function gives an instance of a {@link GameSession}.
      */
     @Test
-    public void createTest() {
+    void createTest() {
         assertThat(simpleLevel.create()).isInstanceOf(GameSession.class);
     }
 
@@ -48,7 +48,7 @@ public class SimpleLevelTest {
      * Test to see if getting the name of the level is simple.
      */
     @Test
-    public void getNameTest() {
+    void getNameTest() {
         assertThat(simpleLevel.getName()).isEqualTo("simple");
     }
 }

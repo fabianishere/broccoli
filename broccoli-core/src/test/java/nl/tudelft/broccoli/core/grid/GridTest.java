@@ -36,15 +36,14 @@ import java.security.InvalidParameterException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
- * A class to test the Grid class
+ * A class to test the {@link Grid} class.
  */
-public class GridTest {
-
+class GridTest {
     /**
      * The constructor should throw an exception if given negative values.
      */
     @Test
-    public void negativeConstructorTest(){
+    void negativeConstructorTest(){
         Assertions.assertThrows(InvalidParameterException.class, () -> {
             Grid grid = new Grid(-1,-1);
         });
@@ -54,7 +53,7 @@ public class GridTest {
      * The constructor should throw an exception if given 0 values.
      */
     @Test
-    public void emptyConstructorTest(){
+    void emptyConstructorTest(){
         Assertions.assertThrows(InvalidParameterException.class, () -> {
             Grid grid = new Grid(0,0);
         });
@@ -64,7 +63,7 @@ public class GridTest {
      * Tests the getWidth and getHeight methods.
      */
     @Test
-    public void gettersTest(){
+    void gettersTest(){
         Grid grid = new Grid(3,2);
         assertThat(grid.getWidth()).isEqualTo(3);
         assertThat(grid.getHeight()).isEqualTo(2);
@@ -74,7 +73,7 @@ public class GridTest {
      * Tests the in points of the onGrid method.
      */
     @Test
-    public void onGridInPointsTest(){
+    void onGridInPointsTest(){
         Grid grid = new Grid(3,2);
         for (int x = 0; x<3; x++){
             for (int y = 0; y<2; y++){
@@ -87,7 +86,7 @@ public class GridTest {
      * Tests the out points of the onGrid method.
      */
     @Test
-    public void onGridOutPointsTest(){
+    void onGridOutPointsTest(){
         Grid grid = new Grid(3,2);
         int x = -1;
         int y = -1;
@@ -118,7 +117,7 @@ public class GridTest {
      * Tests the place and get method with a few Tileables.
      */
     @Test
-    public void placeGetTest(){
+    void placeGetTest(){
         Grid grid = new Grid(3,1);
         Tileable[] tileTypes = {new Receptor(), new HorizontalTrack(), new VerticalTrack() };
         for(int x = 0; x < 3; x++){

@@ -31,15 +31,14 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 
-public class EmptyTest {
-
+class EmptyTest {
     Empty empty = new Empty();
 
     /**
      * Tests if the empty tile accepts a ball from the left.
      */
     @Test
-    public void acceptsLeftFalse() {
+    void acceptsLeftFalse() {
         assertThat(empty.accepts(Direction.LEFT)).isFalse();
     }
 
@@ -47,7 +46,7 @@ public class EmptyTest {
      * Tests if the empty tile accepts a ball from the right.
      */
     @Test
-    public void acceptsRightFalse() {
+    void acceptsRightFalse() {
         assertThat(empty.accepts(Direction.RIGHT)).isFalse();
     }
 
@@ -55,7 +54,7 @@ public class EmptyTest {
      * Tests if the empty tile accepts a ball from above.
      */
     @Test
-    public void acceptsTopFalse() {
+    void acceptsTopFalse() {
         assertThat(empty.accepts(Direction.TOP)).isFalse();
     }
 
@@ -63,7 +62,7 @@ public class EmptyTest {
      * Tests if the empty tile accepts a ball from the bottom.
      */
     @Test
-    public void acceptsBottomFalse() {
+    void acceptsBottomFalse() {
         assertThat(empty.accepts(Direction.BOTTOM)).isFalse();
     }
 
@@ -71,7 +70,7 @@ public class EmptyTest {
      * Test if the empty throws an exception whenever it is called.
      */
     @Test
-    public void acceptLeftIllegalArgumentException() {
+    void acceptLeftIllegalArgumentException() {
         assertThatThrownBy(() -> empty.accept(Direction.LEFT, null)).isInstanceOf(Exception.class);
     }
 }

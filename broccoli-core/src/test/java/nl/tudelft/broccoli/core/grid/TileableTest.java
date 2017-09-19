@@ -25,18 +25,17 @@
 
 package nl.tudelft.broccoli.core.grid;
 
-import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import nl.tudelft.broccoli.core.track.VerticalTrack;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
- * A class to test the abstract Tileable class.
+ * A class to test the abstract {@link Tileable} class.
  */
-public class TileableTest {
+class TileableTest {
     Grid grid;
     HorizontalTrack htrack;
     VerticalTrack vtrack;
@@ -44,8 +43,8 @@ public class TileableTest {
     /**
      * Sets up a grid an onGrid tile and an off the grid tile ☺.
      */
-    @BeforeAll
-    public void setup(){
+    @BeforeEach
+    void setup(){
         grid = new Grid(1, 1);
         htrack = new HorizontalTrack();
         vtrack = new VerticalTrack();
@@ -57,7 +56,7 @@ public class TileableTest {
      * Tests if the onGrid method.
      */
     @Test
-    public void isOnGridTest() {
+    void isOnGridTest() {
         assertThat(htrack.onGrid()).isTrue();
     }
 
@@ -65,7 +64,7 @@ public class TileableTest {
      * Tests if the onGrid method.
      */
     @Test
-    public void isNotOnGridTest() {
+    void isNotOnGridTest() {
         assertThat(vtrack.onGrid()).isFalse();
     }
 
@@ -73,7 +72,7 @@ public class TileableTest {
      * Tests the getTile method.
      */
     @Test
-    public void getTileTest() {
+    void getTileTest() {
         assertThat(htrack.getTile()).isEqualTo(grid.get(0,0));
     }
 }
