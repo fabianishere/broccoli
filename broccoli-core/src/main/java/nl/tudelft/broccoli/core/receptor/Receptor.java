@@ -63,6 +63,11 @@ public class Receptor extends Tileable {
     private boolean marked = false;
 
     /**
+     * A flag to mark the receptor locked, so that it does not accept balls anymore.
+     */
+    private boolean locked = false;
+
+    /**
      * Rotate the slots of the receptor clockwise by <code>n * 1/4 pi radians</code>.
      *
      * @param turns The amount of turns to make, where one turns equals <code>45 degrees</code> or
@@ -138,6 +143,31 @@ public class Receptor extends Tileable {
     }
 
     /**
+     * Determine whether this {@link Receptor} is locked and does not accept balls anymore until it
+     * has been unlocked.
+     *
+     * @return <code>true</code> if the receptor is locked, <code>false</code> otherwise.
+     */
+    public boolean isLocked() {
+        return locked;
+    }
+
+    /**
+     * Lock this {@link Receptor} in order to disallow balls from entering and leaving this
+     * receptor.
+     */
+    public void lock() {
+        this.locked = true;
+    }
+
+    /**
+     * Unlock this {@link Receptor} in order to allow balls again to enter and leave this receptor.
+     */
+    public void unlock() {
+        this.locked = false;
+    }
+
+    /**
      * Internal {@link Slot} implementation of the {@link Receptor} class.
      */
     private class InternalSlot implements Slot {
@@ -191,6 +221,8 @@ public class Receptor extends Tileable {
         public void accept(Ball ball) {
             if (isOccupied()) {
                 throw new IllegalStateException("The slot is already occupied");
+            } else if (isLocked()) {
+                throw new IllegalStateException("The receptor is locked");
             }
 
             this.ball = ball;
@@ -215,6 +247,8 @@ public class Receptor extends Tileable {
                 throw new IllegalStateException("The slot is not occupied");
             } else if (!onGrid()) {
                 throw new IllegalStateException("The receptor is not placed on a grid");
+            } else if (isLocked()) {
+                throw new IllegalStateException("The receptor is locked");
             }
 
             Direction direction = getDirection();
@@ -250,6 +284,19 @@ public class Receptor extends Tileable {
     }
 
     /**
+     * Determine whether the neighbour at the given direction accepts a ball onto its tile at the
+     * moment of execution.
+     *
+     * @param direction The direction of the neighbour relative to this entity.
+     * @return <code>true</code> if the tileable entity accepts the ball onto its tile,
+     *         <code>false</code> otherwise.
+     */
+    @Override
+    public boolean isReleasable(Direction direction) {
+        return !isLocked() && super.isReleasable(direction);
+    }
+
+    /**
      * Determine whether this tileable entity has a connection at the given direction with the
      * entity next to this entity in the given direction.
      *
@@ -280,7 +327,7 @@ public class Receptor extends Tileable {
      */
     @Override
     public boolean accepts(Direction direction) {
-        return !getSlot(direction).isOccupied();
+        return !locked && !getSlot(direction).isOccupied();
     }
 
     /**

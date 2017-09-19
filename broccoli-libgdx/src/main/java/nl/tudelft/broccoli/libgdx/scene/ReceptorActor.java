@@ -96,8 +96,12 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
                 // We need to re-create the action sequence each call since the actions are pooled
                 // and automatically reset after they are done.
                 addAction(Actions.sequence(
-                    Actions.rotateBy(-90.f, 0.2f),
-                    Actions.run(() -> receptor.rotate(1))
+                    Actions.run(receptor::lock),
+                    Actions.parallel(
+                        Actions.rotateBy(-90.f, 0.2f),
+                        Actions.run(() -> receptor.rotate(1))
+                    ),
+                    Actions.run(receptor::unlock)
                 ));
                 return true;
             }
