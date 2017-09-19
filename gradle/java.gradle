@@ -49,13 +49,13 @@ repositories {
 checkstyle {
     configFile = file("${project.rootDir}/gradle/config/checkstyle.xml")
     toolVersion = '7.2'
-    ignoreFailures = true
+    ignoreFailures = false
     sourceSets = [project.sourceSets.main]
 }
 
 findbugs {
     toolVersion = "3.0.0"
-    ignoreFailures = true
+    ignoreFailures = false
     sourceSets = [project.sourceSets.main]
     reportsDir = file("$project.buildDir/reports/findbugs")
     effort = "max"
@@ -70,7 +70,7 @@ tasks.withType(FindBugs) {
 
 pmd {
     toolVersion = '4.3'
-    ignoreFailures = true
+    ignoreFailures = false
     sourceSets = [project.sourceSets.main]
     reportsDir = file("$project.buildDir/reports/pmd")
     ruleSets = ["basic", "braces", "strings", "design", "unusedcode"]
