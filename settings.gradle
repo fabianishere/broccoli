@@ -26,3 +26,4 @@ rootProject.name = 'broccoli'
 
 include 'broccoli-core'
 include 'broccoli-libgdx'
+include 'broccoli-defpro'

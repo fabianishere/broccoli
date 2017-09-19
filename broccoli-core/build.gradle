@@ -22,7 +22,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-group 'nl.tudelft.broccoli.core'
+
+group 'nl.tudelft.broccoli'
 version '1.0-SNAPSHOT'
 
 apply from: "${project.rootDir}/gradle/java.gradle"

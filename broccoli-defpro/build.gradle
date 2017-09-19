@@ -26,17 +26,13 @@
 group 'nl.tudelft.broccoli'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'application'
 apply from: "${project.rootDir}/gradle/java.gradle"
-
-mainClassName = "nl.tudelft.broccoli.libgdx.DesktopLauncher"
 
 dependencies {
 	compile project(':broccoli-core')
-	compile "com.badlogicgames.gdx:gdx:1.9.3"
-	compile "com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.3"
-	compile "com.badlogicgames.gdx:gdx-platform:1.9.3:natives-desktop"
+	compile files('libs/defpro-api.jar')
 
-	testCompile 'junit:junit:4.12'
+	testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-RC3'
 	testCompile 'org.assertj:assertj-core:3.8.0'
+	testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.0.0-RC3'
 }
