@@ -41,10 +41,8 @@ public class TimerActor extends TileableActor<TimerTile> {
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                // XXX FindBugs complains about use of System.exit(int)
                 // We should create a game over screen instead in future releases
-                System.out.println("Game Over!");
-                System.exit(0);
+                Gdx.app.exit();
             }
         }, getTileable().getMaxTime());
     }
