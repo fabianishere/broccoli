@@ -59,7 +59,7 @@ public class Grid implements Entity {
      */
     public Grid(int width, int height) {
         if (width <= 0 || height <= 0) {
-            throw new InvalidParameterException();
+            throw new IllegalArgumentException("The given coordinates are not valid");
         }
         this.width = width;
         this.height = height;
