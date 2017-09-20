@@ -24,17 +24,17 @@
  */
 
 allprojects {
+    apply plugin: 'java'
     apply plugin: 'jacoco'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
 
     repositories {
         mavenLocal()
         mavenCentral()
         jcenter()
     }
-}
-
-subprojects {
-    apply plugin: 'java'
 }
 
 task codeCoverageReport(type: JacocoReport) {
