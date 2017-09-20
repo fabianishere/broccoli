@@ -25,17 +25,17 @@
 
 package nl.tudelft.broccoli.core;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThat;
 
-class BallTest {
+
+public class BallTest {
     /**
      * Test if creating a pink ball gives a pink ball.
      */
     @Test
-    void createPinkBall() {
+    public void createPinkBall() {
         Ball ball = Ball.of(Ball.Type.PINK);
         assertThat(ball.getType()).isEqualTo(Ball.Type.PINK);
     }
@@ -44,7 +44,7 @@ class BallTest {
      * Test if creating a blue ball gives a blue ball.
      */
     @Test
-    void createBlueBall() {
+    public void createBlueBall() {
         Ball ball = Ball.of(Ball.Type.BLUE);
         assertThat(ball.getType()).isEqualTo(Ball.Type.BLUE);
     }
@@ -53,7 +53,7 @@ class BallTest {
      * Test if creating a green ball gives a green ball.
      */
     @Test
-    void createGreenBall() {
+    public void createGreenBall() {
         Ball ball = Ball.of(Ball.Type.GREEN);
         assertThat(ball.getType()).isEqualTo(Ball.Type.GREEN);
     }
@@ -62,7 +62,7 @@ class BallTest {
      * Test if creating a yellow ball gives a yellow ball.
      */
     @Test
-    void createYellowBall() {
+    public void createYellowBall() {
         Ball ball = Ball.of(Ball.Type.YELLOW);
         assertThat(ball.getType()).isEqualTo(Ball.Type.YELLOW);
     }
@@ -71,7 +71,7 @@ class BallTest {
      * Test if creating a joker ball gives a joker.
      */
     @Test
-    void createJoker() {
+    public void createJoker() {
         Ball ball = Ball.of(Ball.Type.JOKER);
         assertThat(ball.getType()).isEqualTo(Ball.Type.JOKER);
     }
@@ -80,7 +80,7 @@ class BallTest {
      * Test if passing a null gives it type null.
      */
     @Test
-    void createBallNull() {
+    public void createBallNull() {
         Ball ball = Ball.of(null);
         assertThat(ball.getType()).isEqualTo(null);
     }
@@ -89,7 +89,7 @@ class BallTest {
      * Test if two balls of the same colour give true.
      */
     @Test
-    void isCompatibleSameColour() {
+    public void isCompatibleSameColour() {
         Ball greenBall1 = Ball.of(Ball.Type.GREEN);
         Ball greenBall2 = Ball.of(Ball.Type.GREEN);
         assertThat(greenBall1.isCompatible(greenBall2)).isTrue();
@@ -99,7 +99,7 @@ class BallTest {
      * Test if call made from joker with another colour gives true.
      */
     @Test
-    void isCompatibleJokerFirst() {
+    public void isCompatibleJokerFirst() {
         Ball joker = Ball.of(Ball.Type.JOKER);
         Ball greenBall = Ball.of(Ball.Type.GREEN);
         assertThat(joker.isCompatible(greenBall)).isTrue();
@@ -109,7 +109,7 @@ class BallTest {
      * Test if passing a joker with another colour gives true.
      */
     @Test
-    void isCompatibleJokerSecond() {
+    public void isCompatibleJokerSecond() {
         Ball joker = Ball.of(Ball.Type.JOKER);
         Ball greenBall = Ball.of(Ball.Type.GREEN);
         assertThat(greenBall.isCompatible(joker)).isTrue();
@@ -119,7 +119,7 @@ class BallTest {
      * Test if giving two jokers gives true.
      */
     @Test
-    void isCompatibleBothJokers() {
+    public void isCompatibleBothJokers() {
         Ball joker1 = Ball.of(Ball.Type.JOKER);
         Ball joker2 = Ball.of(Ball.Type.JOKER);
         assertThat(joker1.isCompatible(joker2)).isTrue();
@@ -129,7 +129,7 @@ class BallTest {
      * Test if passing a null gives false.
      */
     @Test
-    void isCompatibleNull() {
+    public void isCompatibleNull() {
         Ball joker = Ball.of(Ball.Type.JOKER);
         assertThat(joker.isCompatible(null)).isFalse();
     }

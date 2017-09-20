@@ -28,16 +28,16 @@ package nl.tudelft.broccoli.core.grid;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import nl.tudelft.broccoli.core.track.VerticalTrack;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A class to test the {@link Tile} class
  */
-class TileTest {
+public class TileTest {
     Grid grid;
     HorizontalTrack htrack;
     VerticalTrack vtrack;
@@ -46,8 +46,8 @@ class TileTest {
     /**
      * Sets up a grid to test.
      */
-    @BeforeEach
-    void setup(){
+    @Before
+    public void setUp(){
         grid = new Grid(2, 2);
         htrack = new HorizontalTrack();
         vtrack = new VerticalTrack();
@@ -62,7 +62,7 @@ class TileTest {
      * Tests the isOccupied method with something not occupied.
      */
     @Test
-    void isNotOccupied() {
+    public void isNotOccupied() {
         assertThat(grid.get(1,1).isOccupied()).isFalse();
     }
 
@@ -70,7 +70,7 @@ class TileTest {
      * Tests the isOccupied method with something occupied.
      */
     @Test
-    void isOccupied() {
+    public void isOccupied() {
         assertThat(grid.get(0,0).isOccupied()).isTrue();
     }
 
@@ -78,7 +78,7 @@ class TileTest {
      * Tests the get method with the TOP direction.
      */
     @Test
-    void getTOP() {
+    public void getTOP() {
         assertThat(grid.get(0,0).get(Direction.TOP).getTileable()).isEqualTo(receptor);
     }
 
@@ -86,7 +86,7 @@ class TileTest {
      * Tests the get method with the BOTTOM direction.
      */
     @Test
-    void getBOTTOM() {
+    public void getBOTTOM() {
         assertThat(grid.get(0,1).get(Direction.BOTTOM).getTileable()).isEqualTo(htrack);
     }
 
@@ -94,7 +94,7 @@ class TileTest {
      * Tests the get method with the RIGHT direction.
      */
     @Test
-    void getRIGHT() {
+    public void getRIGHT() {
         assertThat(grid.get(0,0).get(Direction.RIGHT).getTileable()).isEqualTo(vtrack);
     }
 
@@ -102,7 +102,7 @@ class TileTest {
      * Tests the get method with the LEFT direction.
      */
     @Test
-    void getLEFT() {
+    public void getLEFT() {
         assertThat(grid.get(1,0).get(Direction.LEFT).getTileable()).isEqualTo(htrack);
     }
 
@@ -110,7 +110,7 @@ class TileTest {
      * Tests the get method with null.
      */
     @Test
-    void getDirectionNull() {
+    public void getDirectionNull() {
         assertThatThrownBy(() -> grid.get(1,0).get(null).getTileable()).isInstanceOf(Exception.class);
     }
 
@@ -118,7 +118,7 @@ class TileTest {
      * Tests the onGrid method.
      */
     @Test
-    void getGridTest() {
+    public void getGridTest() {
         assertThat(grid.get(0,0).getGrid()).isEqualTo(grid);
     }
 }

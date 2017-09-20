@@ -26,19 +26,19 @@
 package nl.tudelft.broccoli.core;
 
 import nl.tudelft.broccoli.core.grid.Direction;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class EmptyTest {
+public class EmptyTest {
     Empty empty = new Empty();
 
     /**
      * Tests if the empty tile accepts a ball from the left.
      */
     @Test
-    void acceptsLeftFalse() {
+    public void acceptsLeftFalse() {
         assertThat(empty.accepts(Direction.LEFT)).isFalse();
     }
 
@@ -46,7 +46,7 @@ class EmptyTest {
      * Tests if the empty tile accepts a ball from the right.
      */
     @Test
-    void acceptsRightFalse() {
+    public void acceptsRightFalse() {
         assertThat(empty.accepts(Direction.RIGHT)).isFalse();
     }
 
@@ -54,7 +54,7 @@ class EmptyTest {
      * Tests if the empty tile accepts a ball from above.
      */
     @Test
-    void acceptsTopFalse() {
+    public void acceptsTopFalse() {
         assertThat(empty.accepts(Direction.TOP)).isFalse();
     }
 
@@ -62,7 +62,7 @@ class EmptyTest {
      * Tests if the empty tile accepts a ball from the bottom.
      */
     @Test
-    void acceptsBottomFalse() {
+    public void acceptsBottomFalse() {
         assertThat(empty.accepts(Direction.BOTTOM)).isFalse();
     }
 
@@ -70,7 +70,7 @@ class EmptyTest {
      * Test if the empty throws an exception whenever it is called.
      */
     @Test
-    void acceptLeftIllegalArgumentException() {
+    public void acceptLeftIllegalArgumentException() {
         assertThatThrownBy(() -> empty.accept(Direction.LEFT, null)).isInstanceOf(Exception.class);
     }
 }

@@ -27,15 +27,15 @@ package nl.tudelft.broccoli.core.track;
 
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Test class that tests the {@link VerticalTrack} class.
  */
-class VerticalTrackTest {
+public class VerticalTrackTest {
 
     private VerticalTrack verTrack = new VerticalTrack();
 
@@ -43,7 +43,7 @@ class VerticalTrackTest {
      * Test if an unconnected rail returns false.
      */
     @Test
-    void isNotConnected() {
+    public void isNotConnected() {
         Grid grid = new Grid(1, 1);
         grid.place(0, 0, verTrack);
         assertThat(verTrack.isConnected()).isFalse();
@@ -53,7 +53,7 @@ class VerticalTrackTest {
      * Test if a connected rail returns true.
      */
     @Test
-    void isConnected() {
+    public void isConnected() {
         VerticalTrack vert1 = new VerticalTrack();
         VerticalTrack vert2 = new VerticalTrack();
 
@@ -69,7 +69,7 @@ class VerticalTrackTest {
      * Test if a vertical track does not accept a ball from the left.
      */
     @Test
-    void notAcceptsLeft() {
+    public void notAcceptsLeft() {
         assertThat(verTrack.accepts(Direction.LEFT)).isFalse();
     }
 
@@ -77,7 +77,7 @@ class VerticalTrackTest {
      * Test if a vertical track does not accept a ball from the right.
      */
     @Test
-    void notAcceptsRight() {
+    public void notAcceptsRight() {
         assertThat(verTrack.accepts(Direction.RIGHT)).isFalse();
     }
 
@@ -85,7 +85,7 @@ class VerticalTrackTest {
      * Test if a vertical track accepts a ball from the top.
      */
     @Test
-    void acceptsTop() {
+    public void acceptsTop() {
         assertThat(verTrack.accepts(Direction.TOP)).isTrue();
     }
 
@@ -93,7 +93,7 @@ class VerticalTrackTest {
      * Test if a vertical track accepts a ball from the bottom.
      */
     @Test
-    void acceptsBottom() {
+    public void acceptsBottom() {
         assertThat(verTrack.accepts(Direction.BOTTOM)).isTrue();
     }
 
@@ -101,7 +101,7 @@ class VerticalTrackTest {
      * Test if giving a ball from the left gives an exception.
      */
     @Test
-    void acceptLeftException() {
+    public void acceptLeftException() {
         assertThatThrownBy(() -> verTrack.accept(Direction.LEFT, null))
                 .isInstanceOf(Exception.class);
     }
@@ -110,7 +110,7 @@ class VerticalTrackTest {
      * Test if giving a ball from the right gives an exception.
      */
     @Test
-    void acceptRightException() {
+    public void acceptRightException() {
         assertThatThrownBy(() -> verTrack.accept(Direction.RIGHT, null))
                 .isInstanceOf(Exception.class);
     }

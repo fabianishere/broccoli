@@ -27,20 +27,20 @@ package nl.tudelft.broccoli.core.receptor;
 
 import nl.tudelft.broccoli.core.Ball;
 import nl.tudelft.broccoli.core.grid.Direction;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test class for testing the {@link Receptor} class.
  */
-class ReceptorTest {
+public class ReceptorTest {
 
     /**
      * Test if rotating once gives rotation one.
      */
     @Test
-    void rotateOnce() {
+    public void rotateOnce() {
         Receptor receptor = new Receptor();
         receptor.rotate(1);
         assertThat(receptor.getRotation()).isEqualTo(1);
@@ -50,7 +50,7 @@ class ReceptorTest {
      * Test if not rotating gives rotation zero.
      */
     @Test
-    void rotateZeroTimes() {
+    public void rotateZeroTimes() {
         Receptor receptor = new Receptor();
         receptor.rotate(0);
         assertThat(receptor.getRotation()).isEqualTo(0);
@@ -60,7 +60,7 @@ class ReceptorTest {
      * Test if rotating four times gives rotation zero.
      */
     @Test
-    void rotateFourTimes() {
+    public void rotateFourTimes() {
         Receptor receptor = new Receptor();
         receptor.rotate(4);
         assertThat(receptor.getRotation()).isEqualTo(0);
@@ -70,7 +70,7 @@ class ReceptorTest {
      * Test if the receptor starts as marked.
      */
     @Test
-    void notMarkedOnStart() {
+    public void notMarkedOnStart() {
         Receptor receptor = new Receptor();
         assertThat(receptor.isMarked()).isFalse();
     }
@@ -79,7 +79,7 @@ class ReceptorTest {
      * Test if the receptor can accept a ball when it is empty.
      */
     @Test
-    void acceptsWhenSlotEmpty() {
+    public void acceptsWhenSlotEmpty() {
         Receptor receptor = new Receptor();
         assertThat(receptor.accepts(Direction.LEFT)).isTrue();
     }
@@ -88,7 +88,7 @@ class ReceptorTest {
      * Test if the receptor accepts a ball in an empty slot.
      */
     @Test
-    void acceptBall() {
+    public void acceptBall() {
         Receptor receptor = new Receptor();
         Ball ball = Ball.of(Ball.Type.BLUE);
         receptor.accept(Direction.TOP, ball);
@@ -99,7 +99,7 @@ class ReceptorTest {
      * Test if the receptor does not accept a ball in an occupied slot.
      */
     @Test
-    void notAcceptWhenSlotOccupied() {
+    public void notAcceptWhenSlotOccupied() {
         Receptor receptor = new Receptor();
         receptor.accept(Direction.TOP, Ball.of(Ball.Type.BLUE));
         assertThat(receptor.accepts(Direction.TOP)).isFalse();

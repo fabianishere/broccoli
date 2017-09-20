@@ -27,8 +27,6 @@ package nl.tudelft.broccoli.core.grid;
 
 import nl.tudelft.broccoli.core.Entity;
 
-import java.security.InvalidParameterException;
-
 /**
  * A grid system on which the entities of the game are placed.
  *
