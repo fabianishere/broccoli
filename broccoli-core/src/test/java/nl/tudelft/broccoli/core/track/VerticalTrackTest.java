@@ -44,6 +44,8 @@ class VerticalTrackTest {
      */
     @Test
     void isNotConnected() {
+        Grid grid = new Grid(1, 1);
+        grid.place(0, 0, verTrack);
         assertThat(verTrack.isConnected()).isFalse();
     }
 

@@ -32,6 +32,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 /**
  * A class to test the {@link Tile} class
@@ -78,7 +79,7 @@ class TileTest {
      */
     @Test
     void getTOP() {
-        assertThat(grid.get(0,1).get(Direction.TOP).getTileable()).isEqualTo(htrack);
+        assertThat(grid.get(0,0).get(Direction.TOP).getTileable()).isEqualTo(receptor);
     }
 
     /**
@@ -86,7 +87,7 @@ class TileTest {
      */
     @Test
     void getBOTTOM() {
-        assertThat(grid.get(0,0).get(Direction.BOTTOM).getTileable()).isEqualTo(receptor);
+        assertThat(grid.get(0,1).get(Direction.BOTTOM).getTileable()).isEqualTo(htrack);
     }
 
     /**
@@ -110,7 +111,7 @@ class TileTest {
      */
     @Test
     void getDirectionNull() {
-        assertThat(grid.get(1,0).get(null).getTileable()).isEqualTo(null);
+        assertThatThrownBy(() -> grid.get(1,0).get(null).getTileable()).isInstanceOf(Exception.class);
     }
 
     /**

@@ -28,6 +28,7 @@ package nl.tudelft.broccoli.core.grid;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 /**
  * A class to test the {@link Direction} enum
@@ -70,6 +71,6 @@ class DirectionTest {
      */
     @Test
     void inverseTestNull(){
-        assertThat(((Direction) null).inverse()).isEqualTo(null);
+        assertThatThrownBy(() -> ((Direction) null).inverse()).isInstanceOf(Exception.class);
     }
 }

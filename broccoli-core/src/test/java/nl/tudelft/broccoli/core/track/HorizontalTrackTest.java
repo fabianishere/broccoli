@@ -44,6 +44,8 @@ class HorizontalTrackTest {
      */
     @Test
     void isNotConnected() {
+        Grid grid = new Grid(1, 1);
+        grid.place(0, 0, horTrack);
         assertThat(horTrack.isConnected()).isFalse();
     }
 

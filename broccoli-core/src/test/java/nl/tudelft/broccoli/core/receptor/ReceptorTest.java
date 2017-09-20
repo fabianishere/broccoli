@@ -92,7 +92,7 @@ class ReceptorTest {
         Receptor receptor = new Receptor();
         Ball ball = Ball.of(Ball.Type.BLUE);
         receptor.accept(Direction.TOP, ball);
-        assertThat(receptor.getSlot(Direction.TOP)).isEqualTo(ball);
+        assertThat(receptor.getSlot(Direction.TOP).getBall()).isEqualTo(ball);
     }
 
     /**

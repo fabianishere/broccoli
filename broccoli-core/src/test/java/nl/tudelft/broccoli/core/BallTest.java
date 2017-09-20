@@ -77,11 +77,12 @@ class BallTest {
     }
 
     /**
-     * Test if passing a null throws an error.
+     * Test if passing a null gives it type null.
      */
     @Test
     void createBallNull() {
-        assertThatThrownBy(() -> Ball.of(null)).isInstanceOf(Exception.class);
+        Ball ball = Ball.of(null);
+        assertThat(ball.getType()).isEqualTo(null);
     }
 
     /**

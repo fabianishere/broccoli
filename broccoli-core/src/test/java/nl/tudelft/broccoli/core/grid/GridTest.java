@@ -122,7 +122,7 @@ class GridTest {
         Tileable[] tileTypes = {new Receptor(), new HorizontalTrack(), new VerticalTrack() };
         for(int x = 0; x < 3; x++){
             grid.place(x,0, tileTypes[x]);
-            assertThat(grid.get(x,0)).isEqualTo(tileTypes[x]);
+            assertThat(grid.get(x,0).getTileable()).isEqualTo(tileTypes[x]);
         }
     }
 }
