@@ -58,7 +58,7 @@ public class Grid implements Entity {
      * @param height The height of the grid.
      */
     public Grid(int width, int height) {
-        if(width <= 0 || height <= 0) {
+        if (width <= 0 || height <= 0) {
             throw new InvalidParameterException();
         }
         this.width = width;
