@@ -1,0 +1,7 @@
+# This file contains the configuration for the Broccoli game in a bizarre
+# format.
+bool jokersAllowed = true
+int timeLimit = 200
+# real
+# string
+# list

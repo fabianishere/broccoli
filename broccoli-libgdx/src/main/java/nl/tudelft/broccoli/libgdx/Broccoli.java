@@ -77,6 +77,7 @@ public class Broccoli extends Game {
         Gdx.input.setInputProcessor(stage);
 
         Configuration config = new Configuration();
+        config.load();
     }
 
     /**

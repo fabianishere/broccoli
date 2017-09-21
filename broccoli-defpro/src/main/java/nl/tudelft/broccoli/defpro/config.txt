@@ -1,5 +1,0 @@
-bool jokersAllowed = true
-int timeLimit = 200
-# real
-# string
-# list
