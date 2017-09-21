@@ -35,7 +35,7 @@ import nl.tudelft.broccoli.core.level.GameSession;
 import nl.tudelft.broccoli.core.level.SimpleLevel;
 import nl.tudelft.broccoli.libgdx.scene.Context;
 import nl.tudelft.broccoli.libgdx.scene.GridActor;
-import nl.tudelft.broccoli.defpro.MyConfig;
+import nl.tudelft.broccoli.defpro.Configuration;
 
 import javax.swing.*;
 
@@ -76,7 +76,7 @@ public class Broccoli extends Game {
 
         Gdx.input.setInputProcessor(stage);
 
-        MyConfig config = new MyConfig();
+        Configuration config = new Configuration();
     }
 
     /**

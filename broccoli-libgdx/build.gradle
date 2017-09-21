@@ -33,6 +33,7 @@ mainClassName = "nl.tudelft.broccoli.libgdx.DesktopLauncher"
 
 dependencies {
 	compile project(':broccoli-core')
+	compile project(':broccoli-defpro')
 	compile "com.badlogicgames.gdx:gdx:1.9.3"
 	compile "com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.3"
 	compile "com.badlogicgames.gdx:gdx-platform:1.9.3:natives-desktop"
