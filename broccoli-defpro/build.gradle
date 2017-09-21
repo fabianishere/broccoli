@@ -28,9 +28,16 @@ version '1.0-SNAPSHOT'
 
 apply from: "${project.rootDir}/gradle/java.gradle"
 
+repositories {
+	flatDir {
+		dirs 'libs'
+	}
+}
+
+
 dependencies {
 	compile project(':broccoli-core')
-	compile files('libs/defpro-api.jar')
+	compile name: 'defpro-api'
 
 	testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-RC3'
 	testCompile 'org.assertj:assertj-core:3.8.0'
