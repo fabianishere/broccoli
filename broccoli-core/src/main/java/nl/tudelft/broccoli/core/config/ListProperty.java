@@ -23,41 +23,51 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx;
+package nl.tudelft.broccoli.core.config;
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import nl.tudelft.broccoli.core.config.ConfigurationLoader;
-import nl.tudelft.broccoli.defpro.DefProConfigurationLoader;
-
-import java.io.File;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * A launcher for the Gudeballs game implementation using libgdx as front-end,
- * with a LWJGL backend for libgdx.
+ * A {@link Property} which contains a list value.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public final class DesktopLauncher {
+public class ListProperty<T> extends Property<List<T>> {
     /**
-     * Disallow instantiation of the {@link DesktopLauncher} class.
+     * The type of the elements in the list.
      */
-    private DesktopLauncher() {}
+    private final Class<T> elementType;
 
     /**
-     * The main entry point of the program.
+     * Construct a {@link ListProperty} instance.
      *
-     * @param args The command line arguments passed to this program.
+     * @param type         The shape of an element in the list.
+     * @param key          The key of the property in the configuration object.
+     * @param defaultValue The default value of the property.
      */
-    public static void main(String[] args) {
-        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.title = "Broccoli";
-        config.width = 800;
-        config.height = 480;
-        config.resizable = false;
+    @SuppressWarnings("unchecked")
+    public ListProperty(Class<T> type, String key, List<T> defaultValue) {
+        super((Class<List<T>>) (Class) List.class, key, defaultValue);
+        this.elementType = type;
+    }
 
-        File path = new File("config.txt");
-        ConfigurationLoader loader = new DefProConfigurationLoader();
-        new LwjglApplication(new Broccoli(loader.tryLoad(path)), config);
+    /**
+     * Construct a {@link ListProperty} instance, initialised with the empty list.
+     *
+     * @param type The shape of an element in the list.
+     * @param key  The key of the property in the configuration object.
+     */
+    public ListProperty(Class<T> type, String key) {
+        this(type, key, Collections.emptyList());
+    }
+
+    /**
+     * Return the type of an element in the list.
+     *
+     * @return The type of an element in the list.
+     */
+    public Class<T> getElementType() {
+        return elementType;
     }
 }

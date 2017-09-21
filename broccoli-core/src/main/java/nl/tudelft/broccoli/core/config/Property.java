@@ -23,67 +23,67 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
-
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import nl.tudelft.broccoli.core.Entity;
-import nl.tudelft.broccoli.core.config.Configuration;
-
-import java.util.HashMap;
-import java.util.Map;
+package nl.tudelft.broccoli.core.config;
 
 /**
- * A context for the game scene.
+ * A configuration property which is read from a file.
  *
+ * @param <T> The shape of the property value.
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class Context {
+public abstract class Property<T> {
     /**
-     * The game {@link Configuration}.
+     * The type of the property.
      */
-    private final Configuration config;
+    private final Class<T> type;
 
     /**
-     * The actor registry which maps entities to their respective actor in the scene.
+     * The key of the property in the configuration.
      */
-    private final Map<Entity, Actor> registry = new HashMap<>();
+    private final String key;
 
     /**
-     * Construct a {@link Context} instance.
+     * The default property value.
+     */
+    private final T defaultValue;
+
+    /**
+     * Construct a {@link Property} instance.
      *
-     * @param config The configuration to use.
+     * @param type The shape of the value of the property.
+     * @param key The key of the property in the configuration object.
+     * @param defaultValue The default value of the property.
      */
-    public Context(Configuration config) {
-        this.config = config;
+    public Property(Class<T> type, String key, T defaultValue) {
+        this.type = type;
+        this.key = key;
+        this.defaultValue = defaultValue;
     }
 
     /**
-     * Look up an {@link Entity} in the registry.
+     * The shape of the value of the property.
      *
-     * @param entity The entity to look up in the registry.
-     * @return The actor that is bound to this entity, or <code>null</code> if the entity has not
-     *         been registered yet.
+     * @return The shape of the value of the property.
      */
-    public Actor actor(Entity entity) {
-        return registry.get(entity);
+    public Class<T> getType() {
+        return type;
     }
 
     /**
-     * Register an {@link Entity} and its respective {@link Actor} in the registry of this context.
+     * Return the key of the property in the configuration object.
      *
-     * @param entity The entity to register.
-     * @param actor The actor of this entity.
+     * @return The key of the property.
      */
-    public void register(Entity entity, Actor actor) {
-        registry.put(entity, actor);
+    public String getKey() {
+        return key;
     }
 
     /**
-     * Return the game configuration object.
+     * Return the default property value.
      *
-     * @return The game's configuration.
+     * @return The default property value.
      */
-    public Configuration getConfiguration() {
-        return config;
+    public T getDefault() {
+        return defaultValue;
     }
 }

@@ -23,41 +23,33 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx;
+package nl.tudelft.broccoli.defpro;
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import nl.tu.delft.defpro.api.APIProvider;
+import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.config.ConfigurationLoader;
-import nl.tudelft.broccoli.defpro.DefProConfigurationLoader;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
- * A launcher for the Gudeballs game implementation using libgdx as front-end,
- * with a LWJGL backend for libgdx.
+ * A {@link ConfigurationLoader} for the Defensive Programming Reader API.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public final class DesktopLauncher {
+public class DefProConfigurationLoader implements ConfigurationLoader {
     /**
-     * Disallow instantiation of the {@link DesktopLauncher} class.
-     */
-    private DesktopLauncher() {}
-
-    /**
-     * The main entry point of the program.
+     * Load the given file as a {@link Configuration} instance.
      *
-     * @param args The command line arguments passed to this program.
+     * @param file The file to load.
+     * @return The {@link Configuration} that has been loaded.
+     * @throws FileNotFoundException if the file was not found.
      */
-    public static void main(String[] args) {
-        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.title = "Broccoli";
-        config.width = 800;
-        config.height = 480;
-        config.resizable = false;
-
-        File path = new File("config.txt");
-        ConfigurationLoader loader = new DefProConfigurationLoader();
-        new LwjglApplication(new Broccoli(loader.tryLoad(path)), config);
+    @Override
+    public Configuration load(File file) throws FileNotFoundException {
+        if (!file.exists()) {
+            throw new FileNotFoundException("The given file does not exist");
+        }
+        return new DefProConfiguration(APIProvider.getAPI(file.getAbsolutePath()));
     }
 }

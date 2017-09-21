@@ -23,41 +23,30 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx;
-
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import nl.tudelft.broccoli.core.config.ConfigurationLoader;
-import nl.tudelft.broccoli.defpro.DefProConfigurationLoader;
-
-import java.io.File;
+package nl.tudelft.broccoli.core.config;
 
 /**
- * A launcher for the Gudeballs game implementation using libgdx as front-end,
- * with a LWJGL backend for libgdx.
+ * A {@link Property} which contains a double value.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public final class DesktopLauncher {
+public class DoubleProperty extends Property<Double> {
     /**
-     * Disallow instantiation of the {@link DesktopLauncher} class.
-     */
-    private DesktopLauncher() {}
-
-    /**
-     * The main entry point of the program.
+     * Construct a {@link DoubleProperty} instance.
      *
-     * @param args The command line arguments passed to this program.
+     * @param key          The key of the property in the configuration object.
+     * @param defaultValue The default value of the property.
      */
-    public static void main(String[] args) {
-        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.title = "Broccoli";
-        config.width = 800;
-        config.height = 480;
-        config.resizable = false;
+    public DoubleProperty(String key, double defaultValue) {
+        super(Double.class, key, defaultValue);
+    }
 
-        File path = new File("config.txt");
-        ConfigurationLoader loader = new DefProConfigurationLoader();
-        new LwjglApplication(new Broccoli(loader.tryLoad(path)), config);
+    /**
+     * Construct a {@link DoubleProperty} instance, initialised to 0.0
+     *
+     * @param key The key of the property in the configuration object.
+     */
+    public DoubleProperty(String key) {
+        this(key, 0.0);
     }
 }

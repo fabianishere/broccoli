@@ -23,41 +23,48 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx;
-
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import nl.tudelft.broccoli.core.config.ConfigurationLoader;
-import nl.tudelft.broccoli.defpro.DefProConfigurationLoader;
+package nl.tudelft.broccoli.core.config;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
- * A launcher for the Gudeballs game implementation using libgdx as front-end,
- * with a LWJGL backend for libgdx.
+ * A loader that loads {@link Configuration} from an external source.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public final class DesktopLauncher {
+public interface ConfigurationLoader {
     /**
-     * Disallow instantiation of the {@link DesktopLauncher} class.
-     */
-    private DesktopLauncher() {}
-
-    /**
-     * The main entry point of the program.
+     * Load the given file as a {@link Configuration} instance.
      *
-     * @param args The command line arguments passed to this program.
+     * @param file The file to load.
+     * @return The {@link Configuration} that has been loaded.
+     * @throws FileNotFoundException if the file was not found.
      */
-    public static void main(String[] args) {
-        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.title = "Broccoli";
-        config.width = 800;
-        config.height = 480;
-        config.resizable = false;
+    Configuration load(File file) throws FileNotFoundException;
 
-        File path = new File("config.txt");
-        ConfigurationLoader loader = new DefProConfigurationLoader();
-        new LwjglApplication(new Broccoli(loader.tryLoad(path)), config);
+    /**
+     * Try to load the given file as {@link Configuration} instance or return a stubbed instance
+     * if the loading failed.
+     *
+     * @param file The file to load.
+     * @return The {@link Configuration} that has been loaded or a stub.
+     */
+    default Configuration tryLoad(File file) {
+        try {
+            return load(file);
+        } catch (FileNotFoundException ignored) {
+            return new Configuration() {
+                @Override
+                public <T> T get(Property<T> property, T defaultValue) {
+                    return defaultValue;
+                }
+
+                @Override
+                public boolean exists(Property<?> property) {
+                    return false;
+                }
+            };
+        }
     }
 }

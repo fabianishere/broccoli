@@ -31,11 +31,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.level.GameSession;
 import nl.tudelft.broccoli.core.level.SimpleLevel;
 import nl.tudelft.broccoli.libgdx.scene.Context;
 import nl.tudelft.broccoli.libgdx.scene.GridActor;
-import nl.tudelft.broccoli.defpro.Configuration;
 
 import javax.swing.*;
 
@@ -46,6 +46,11 @@ import javax.swing.*;
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public class Broccoli extends Game {
+    /**
+     * The game {@link Configuration} to use.
+     */
+    private final Configuration config;
+
     /**
      * A {@link Stage} for the scene we want to render.
      */
@@ -62,22 +67,28 @@ public class Broccoli extends Game {
     private Context context;
 
     /**
+     * Construct a {@link Broccoli} instance.
+     *
+     * @param config The game configuration to use.
+     */
+    public Broccoli(Configuration config) {
+        this.config = config;
+    }
+
+    /**
      * This method is invoked when the {@link Application} is first created.
      */
     @Override
     public void create() {
         stage = new Stage(new ScreenViewport());
         session = new SimpleLevel().create();
-        context = new Context();
+        context = new Context(config);
 
         GridActor grid = new GridActor(session.getGrid(), context);
         grid.setFillParent(true);
         stage.addActor(grid);
 
         Gdx.input.setInputProcessor(stage);
-
-        Configuration config = new Configuration();
-        config.load();
     }
 
     /**
