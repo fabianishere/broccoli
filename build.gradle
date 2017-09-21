@@ -23,44 +23,35 @@
  * THE SOFTWARE.
  */
 
-apply plugin: 'java'
-apply plugin: 'jacoco'
-apply plugin: 'checkstyle'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
+allprojects {
+    apply plugin: 'jacoco'
 
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
-checkstyle {
-    configFile = file("${project.rootDir}/gradle/config/checkstyle.xml")
-    toolVersion = '7.2'
-    ignoreFailures = false
-    sourceSets = [project.sourceSets.main]
-}
-
-findbugs {
-    toolVersion = "3.0.0"
-    ignoreFailures = false
-    sourceSets = [project.sourceSets.main]
-    reportsDir = file("$project.buildDir/reports/findbugs")
-    effort = "max"
-}
-
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled = false
-        html.enabled = true
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
     }
 }
 
-pmd {
-    toolVersion = '4.3'
-    ignoreFailures = false
-    sourceSets = [project.sourceSets.main]
-    reportsDir = file("$project.buildDir/reports/pmd")
-    ruleSets = ["basic", "braces", "strings", "design", "unusedcode"]
+subprojects {
+    apply plugin: 'java'
+}
+
+task codeCoverageReport(type: JacocoReport) {
+    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
+
+    subprojects.each {
+        sourceSets it.sourceSets.main
+    }
+
+    reports {
+        xml.enabled true
+        xml.destination file("${buildDir}/reports/jacoco/report.xml")
+        html.enabled false
+        csv.enabled false
+    }
+}
+
+codeCoverageReport.dependsOn {
+    subprojects*.test
 }

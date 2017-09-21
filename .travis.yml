@@ -1,1 +1,6 @@
 language: java
+script:
+  - ./gradlew check
+  - ./gradlew codeCoverageReport
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -t e3bd8270-37f8-496c-aee9-457ae61d88d1
