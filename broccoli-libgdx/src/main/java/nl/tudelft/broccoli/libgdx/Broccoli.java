@@ -89,6 +89,8 @@ public class Broccoli extends Game {
         stage.addActor(grid);
 
         Gdx.input.setInputProcessor(stage);
+
+        new BackgroundMusic("sound/music/placeholder.mp3");
     }
 
     /**
