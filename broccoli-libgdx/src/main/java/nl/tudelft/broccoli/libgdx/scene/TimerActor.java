@@ -36,8 +36,8 @@ public class TimerActor extends TileableActor<TimerTile> {
             public void run() {
                 nextTexture();
             }
-        }, getTileable().getMaxTime() / 5.f,
-                getTileable().getMaxTime() / 5.f, 4);
+        }, getTileable().getMaxTime() / 4.f,
+                getTileable().getMaxTime() / 4.f, 3);
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
