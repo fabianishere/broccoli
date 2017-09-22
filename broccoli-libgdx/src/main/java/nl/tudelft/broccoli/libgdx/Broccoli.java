@@ -141,6 +141,7 @@ public class Broccoli extends Game {
             return;
         }
 
+
         // Draw the scene stage
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
