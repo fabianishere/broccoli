@@ -25,7 +25,7 @@
 
 package nl.tudelft.broccoli.core.nexus;
 
-import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.config.DoubleProperty;
 import nl.tudelft.broccoli.core.config.Property;
 import nl.tudelft.broccoli.core.grid.Direction;
@@ -46,9 +46,9 @@ public class SpawningNexus extends Nexus {
         new DoubleProperty("nexus.joker", 0);
 
     /**
-     * The possible type of balls.
+     * The possible type of marbles.
      */
-    private static final Ball.Type[] BALLS = Ball.Type.values();
+    private static final Marble.Type[] MARBLES = Marble.Type.values();
 
     /**
      * The {@link Random} instance used for determining the color of the spawned ball.
@@ -81,33 +81,33 @@ public class SpawningNexus extends Nexus {
     }
 
     /**
-     * Spawn a new {@link Ball} onto this {@link SpawningNexus}.
+     * Spawn a new {@link Marble} onto this {@link SpawningNexus}.
      *
      * @return The ball that has been spawned.
      * @throws IllegalStateException if the nexus is occupied by a ball.
      */
-    public Ball spawn() {
+    public Marble spawn() {
         if (getContext().isOccupied()) {
-            throw new IllegalStateException("The nexus is already occupied by a ball");
+            throw new IllegalStateException("The nexus is already occupied by a marble");
         }
 
-        Ball ball;
+        Marble marble;
 
         System.out.println(joker);
 
         if (random.nextDouble() < joker) {
-            ball = Ball.of(Ball.Type.JOKER);
+            marble = Marble.of(Marble.Type.JOKER);
         } else {
-            ball = Ball.of(BALLS[random.nextInt(BALLS.length - 1)]);
+            marble = Marble.of(MARBLES[random.nextInt(MARBLES.length - 1)]);
         }
 
-        accept(direction, ball);
+        accept(direction, marble);
         getContext().setOccupied(true);
-        return ball;
+        return marble;
     }
 
     /**
-     * Return the {@link Random} instance used for selecting the color of a new {@link Ball}.
+     * Return the {@link Random} instance used for selecting the color of a new {@link Marble}.
      *
      * @return The random instance to generate the ball color.
      */

@@ -1,5 +1,6 @@
 package nl.tudelft.broccoli.core.level;
 
+import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.grid.Direction;
@@ -77,7 +78,6 @@ public class SimpleLevel implements Level {
 
             grid.place(0, 2, new Receptor());
             grid.place(0, 1, new VerticalTrack());
-
 
             grid.place(1, 2, new HorizontalTrack());
             grid.place(2, 2, new Receptor());

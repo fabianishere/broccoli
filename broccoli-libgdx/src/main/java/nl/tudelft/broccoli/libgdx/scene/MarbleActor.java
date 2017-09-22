@@ -30,48 +30,48 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
-import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.Marble;
 
 /**
- * An {@link Actor} that represents an in-game ball.
+ * An {@link Actor} that represents an in-game marble.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class BallActor extends Actor {
+public class MarbleActor extends Actor {
     /**
-     * The texture for a blue ball.
+     * The texture for a blue marble.
      */
     private static final Texture TX_BALL_BLUE =
         new Texture(Gdx.files.classpath("sprites/marbles/blue/0.png"));
 
     /**
-     * The texture for a green ball.
+     * The texture for a green marble.
      */
     private static final Texture TX_BALL_GREEN =
         new Texture(Gdx.files.classpath("sprites/marbles/green/0.png"));
 
     /**
-     * The texture for a pink ball.
+     * The texture for a pink marble.
      */
     private static final Texture TX_BALL_PINK =
         new Texture(Gdx.files.classpath("sprites/marbles/pink/0.png"));
 
     /**
-     * The texture for a yellow ball.
+     * The texture for a yellow marble.
      */
     private static final Texture TX_BALL_YELLOW =
         new Texture(Gdx.files.classpath("sprites/marbles/yellow/0.png"));
 
     /**
-     * The texture for a joker ball.
+     * The texture for a joker marble.
      */
     private static final Texture TX_BALL_JOKER =
             new Texture(Gdx.files.classpath("sprites/marbles/joker/0.png"));
 
     /**
-     * The ball of this actor.
+     * The marble of this actor.
      */
-    private Ball ball;
+    private Marble marble;
 
     /**
      * The game context of the actor.
@@ -79,42 +79,42 @@ public class BallActor extends Actor {
     private Context context;
 
     /**
-     * The {@link Texture} of the ball.
+     * The {@link Texture} of the marble.
      */
     private Texture texture;
 
     /**
-     * Construct a {@link BallActor} instance.
+     * Construct a {@link MarbleActor} instance.
      *
-     * @param ball The ball to create this actor for.
+     * @param marble The marble to create this actor for.
      * @param context The context of the actor.
      */
-    public BallActor(Ball ball, Context context) {
-        this.ball = ball;
+    public MarbleActor(Marble marble, Context context) {
+        this.marble = marble;
         this.context = context;
-        this.context.register(ball, this);
+        this.context.register(marble, this);
         this.texture = findTexture();
-        this.setUserObject(ball);
+        this.setUserObject(marble);
         this.setSize(texture.getWidth(), texture.getHeight());
         this.setOrigin(Align.center);
     }
 
     /**
-     * Return the {@link Ball} of this actor.
+     * Return the {@link Marble} of this actor.
      *
-     * @return The ball of this actor.
+     * @return The marble of this actor.
      */
-    public Ball getBall() {
-        return ball;
+    public Marble getMarble() {
+        return marble;
     }
 
     /**
-     * Find the correct {@link Texture} for the ball.
+     * Find the correct {@link Texture} for the marble.
      *
-     * @return A texture for the ball.
+     * @return A texture for the marble.
      */
     private Texture findTexture() {
-        switch (ball.getType()) {
+        switch (marble.getType()) {
             case BLUE:
                 return TX_BALL_BLUE;
             case GREEN:

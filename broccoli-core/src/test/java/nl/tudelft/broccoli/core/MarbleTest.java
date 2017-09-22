@@ -30,14 +30,14 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class BallTest {
+public class MarbleTest {
     /**
      * Test if creating a pink ball gives a pink ball.
      */
     @Test
     public void createPinkBall() {
-        Ball ball = Ball.of(Ball.Type.PINK);
-        assertThat(ball.getType()).isEqualTo(Ball.Type.PINK);
+        Marble marble = Marble.of(Marble.Type.PINK);
+        assertThat(marble.getType()).isEqualTo(Marble.Type.PINK);
     }
 
     /**
@@ -45,8 +45,8 @@ public class BallTest {
      */
     @Test
     public void createBlueBall() {
-        Ball ball = Ball.of(Ball.Type.BLUE);
-        assertThat(ball.getType()).isEqualTo(Ball.Type.BLUE);
+        Marble marble = Marble.of(Marble.Type.BLUE);
+        assertThat(marble.getType()).isEqualTo(Marble.Type.BLUE);
     }
 
     /**
@@ -54,8 +54,8 @@ public class BallTest {
      */
     @Test
     public void createGreenBall() {
-        Ball ball = Ball.of(Ball.Type.GREEN);
-        assertThat(ball.getType()).isEqualTo(Ball.Type.GREEN);
+        Marble marble = Marble.of(Marble.Type.GREEN);
+        assertThat(marble.getType()).isEqualTo(Marble.Type.GREEN);
     }
 
     /**
@@ -63,8 +63,8 @@ public class BallTest {
      */
     @Test
     public void createYellowBall() {
-        Ball ball = Ball.of(Ball.Type.YELLOW);
-        assertThat(ball.getType()).isEqualTo(Ball.Type.YELLOW);
+        Marble marble = Marble.of(Marble.Type.YELLOW);
+        assertThat(marble.getType()).isEqualTo(Marble.Type.YELLOW);
     }
 
     /**
@@ -72,8 +72,8 @@ public class BallTest {
      */
     @Test
     public void createJoker() {
-        Ball ball = Ball.of(Ball.Type.JOKER);
-        assertThat(ball.getType()).isEqualTo(Ball.Type.JOKER);
+        Marble marble = Marble.of(Marble.Type.JOKER);
+        assertThat(marble.getType()).isEqualTo(Marble.Type.JOKER);
     }
 
     /**
@@ -81,8 +81,8 @@ public class BallTest {
      */
     @Test
     public void createBallNull() {
-        Ball ball = Ball.of(null);
-        assertThat(ball.getType()).isEqualTo(null);
+        Marble marble = Marble.of(null);
+        assertThat(marble.getType()).isEqualTo(null);
     }
 
     /**
@@ -90,9 +90,9 @@ public class BallTest {
      */
     @Test
     public void isCompatibleSameColour() {
-        Ball greenBall1 = Ball.of(Ball.Type.GREEN);
-        Ball greenBall2 = Ball.of(Ball.Type.GREEN);
-        assertThat(greenBall1.isCompatible(greenBall2)).isTrue();
+        Marble greenMarble1 = Marble.of(Marble.Type.GREEN);
+        Marble greenMarble2 = Marble.of(Marble.Type.GREEN);
+        assertThat(greenMarble1.isCompatible(greenMarble2)).isTrue();
     }
 
     /**
@@ -100,9 +100,9 @@ public class BallTest {
      */
     @Test
     public void isCompatibleJokerFirst() {
-        Ball joker = Ball.of(Ball.Type.JOKER);
-        Ball greenBall = Ball.of(Ball.Type.GREEN);
-        assertThat(joker.isCompatible(greenBall)).isTrue();
+        Marble joker = Marble.of(Marble.Type.JOKER);
+        Marble greenMarble = Marble.of(Marble.Type.GREEN);
+        assertThat(joker.isCompatible(greenMarble)).isTrue();
     }
 
     /**
@@ -110,9 +110,9 @@ public class BallTest {
      */
     @Test
     public void isCompatibleJokerSecond() {
-        Ball joker = Ball.of(Ball.Type.JOKER);
-        Ball greenBall = Ball.of(Ball.Type.GREEN);
-        assertThat(greenBall.isCompatible(joker)).isTrue();
+        Marble joker = Marble.of(Marble.Type.JOKER);
+        Marble greenMarble = Marble.of(Marble.Type.GREEN);
+        assertThat(greenMarble.isCompatible(joker)).isTrue();
     }
 
     /**
@@ -120,8 +120,8 @@ public class BallTest {
      */
     @Test
     public void isCompatibleBothJokers() {
-        Ball joker1 = Ball.of(Ball.Type.JOKER);
-        Ball joker2 = Ball.of(Ball.Type.JOKER);
+        Marble joker1 = Marble.of(Marble.Type.JOKER);
+        Marble joker2 = Marble.of(Marble.Type.JOKER);
         assertThat(joker1.isCompatible(joker2)).isTrue();
     }
 
@@ -130,7 +130,7 @@ public class BallTest {
      */
     @Test
     public void isCompatibleNull() {
-        Ball joker = Ball.of(Ball.Type.JOKER);
+        Marble joker = Marble.of(Marble.Type.JOKER);
         assertThat(joker.isCompatible(null)).isFalse();
     }
 }

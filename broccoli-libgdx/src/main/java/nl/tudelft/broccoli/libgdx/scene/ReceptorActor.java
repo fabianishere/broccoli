@@ -34,7 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Align;
-import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.grid.TileableListener;
@@ -122,7 +122,7 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
                 continue;
             }
 
-            ballAccepted(getTileable(), direction, slot.getBall());
+            ballAccepted(getTileable(), direction, slot.getMarble());
         }
     }
 
@@ -162,15 +162,15 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
     }
 
     /**
-     * This method is invoked when a {@link Tileable} has disposed a ball.
+     * This method is invoked when a {@link Tileable} has disposed a marble.
      *
-     * @param tileable  The tileable that has disposed the ball.
-     * @param direction The direction from which the ball was disposed.
-     * @param ball      The ball that has been disposed.
+     * @param tileable  The tileable that has disposed the marble.
+     * @param direction The direction from which the marble was disposed.
+     * @param marble      The marble that has been disposed.
      */
     @Override
-    public void ballDisposed(Tileable tileable, Direction direction, Ball ball) {
-        Actor actor = getContext().actor(ball);
+    public void ballDisposed(Tileable tileable, Direction direction, Marble marble) {
+        Actor actor = getContext().actor(marble);
 
         if (actor != null) {
             actor.remove();
@@ -178,21 +178,21 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
     }
 
     /**
-     * This method is invoked when a {@link Tileable} has accepted a ball.
+     * This method is invoked when a {@link Tileable} has accepted a marble.
      *
-     * @param tileable The tileable that has accepted the ball.
-     * @param direction The direction from which the ball was accepted.
-     * @param ball The ball that has been accepted.
+     * @param tileable The tileable that has accepted the marble.
+     * @param direction The direction from which the marble was accepted.
+     * @param marble The marble that has been accepted.
      */
     @Override
-    public void ballAccepted(Tileable tileable, Direction direction, Ball ball) {
+    public void ballAccepted(Tileable tileable, Direction direction, Marble marble) {
         Receptor receptor = getTileable();
         Vector2 position = positions.get(direction.rotate(-receptor.getRotation()));
         Slot slot = receptor.getSlot(direction);
 
-        // Get the actor for the ball or create a new one if one does not exist yet.
-        Actor registry = getContext().actor(ball);
-        Actor actor = registry != null ? registry : new BallActor(ball, getContext());
+        // Get the actor for the marble or create a new one if one does not exist yet.
+        Actor registry = getContext().actor(marble);
+        Actor actor = registry != null ? registry : new MarbleActor(marble, getContext());
 
         actor.setPosition(position.x, position.y, Align.center);
         actor.addListener(new InputListener() {

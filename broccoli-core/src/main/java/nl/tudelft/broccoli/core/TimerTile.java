@@ -37,5 +37,4 @@ public class TimerTile extends Empty {
     public int getMaxTime() {
         return time;
     }
-
 }

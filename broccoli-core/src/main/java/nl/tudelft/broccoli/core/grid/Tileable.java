@@ -25,7 +25,7 @@
 
 package nl.tudelft.broccoli.core.grid;
 
-import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.Entity;
 
 import java.util.HashSet;
@@ -52,7 +52,7 @@ public abstract class Tileable implements Entity {
      * Determine whether this tileable entity has a connection at the given direction with the
      * entity next to this entity in the given direction.
      *
-     * <p>This means the entity is able to have a {@link Ball} travel from the given direction onto
+     * <p>This means the entity is able to have a {@link Marble} travel from the given direction onto
      * the tile.</p>
      *
      * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}
@@ -83,16 +83,16 @@ public abstract class Tileable implements Entity {
     public abstract boolean accepts(Direction direction);
 
     /**
-     * Accept a {@link Ball} onto the tile of this tileable entity.
+     * Accept a {@link Marble} onto the tile of this tileable entity.
      *
      * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}
      * meaning the direction may need to be inverted.</p>
      *
-     * @param direction The direction from which a ball wants to be accepted onto this tileable
+     * @param direction The direction from which a marble wants to be accepted onto this tileable
      *                  entity.
-     * @param ball The ball that wants to be accepted onto the tile of this tileable entity.
+     * @param marble The marble that wants to be accepted onto the tile of this tileable entity.
      */
-    public abstract void accept(Direction direction, Ball ball);
+    public abstract void accept(Direction direction, Marble marble);
 
     /**
      * Determine whether this entity is connected with the neighbour at the given direction. This
@@ -131,15 +131,15 @@ public abstract class Tileable implements Entity {
     }
 
     /**
-     * Release a {@link Ball} onto a neighbour tile.
+     * Release a {@link Marble} onto a neighbour tile.
      *
      * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}
      * meaning the direction may need to be inverted.</p>
      *
-     * @param direction The direction of the neighbour to which the ball should be send.
-     * @param ball The ball that wants to be accepted onto the tile of a neighbour.
+     * @param direction The direction of the neighbour to which the marble should be send.
+     * @param marble The marble that wants to be accepted onto the tile of a neighbour.
      */
-    public void release(Direction direction, Ball ball) {
+    public void release(Direction direction, Marble marble) {
         if (tile == null) {
             throw new IllegalStateException("The entity is not placed on a tile");
         }
@@ -147,7 +147,7 @@ public abstract class Tileable implements Entity {
         Tile neighbour = tile.get(direction);
 
         if (neighbour != null) {
-            neighbour.getTileable().accept(direction.inverse(), ball);
+            neighbour.getTileable().accept(direction.inverse(), marble);
         }
     }
 
@@ -202,38 +202,38 @@ public abstract class Tileable implements Entity {
     }
 
     /**
-     * Inform the listeners of this {@link Tileable} that it has accepted a ball.
+     * Inform the listeners of this {@link Tileable} that it has accepted a marble.
      *
-     * @param direction The direction from which the ball has been accepted.
-     * @param ball The ball the tileable has accepted.
+     * @param direction The direction from which the marble has been accepted.
+     * @param marble The marble the tileable has accepted.
      */
-    protected void informAcceptation(Direction direction, Ball ball) {
+    protected void informAcceptation(Direction direction, Marble marble) {
         for (TileableListener listener : listeners) {
-            listener.ballAccepted(this, direction, ball);
+            listener.ballAccepted(this, direction, marble);
         }
     }
 
     /**
-     * Inform the listeners of this {@link Tileable} that it has disposed a ball.
+     * Inform the listeners of this {@link Tileable} that it has disposed a marble.
      *
-     * @param direction The direction from which the ball has been disposed.
-     * @param ball The ball the tileable has disposed.
+     * @param direction The direction from which the marble has been disposed.
+     * @param marble The marble the tileable has disposed.
      */
-    protected void informDispose(Direction direction, Ball ball) {
+    protected void informDispose(Direction direction, Marble marble) {
         for (TileableListener listener : listeners) {
-            listener.ballDisposed(this, direction, ball);
+            listener.ballDisposed(this, direction, marble);
         }
     }
 
     /**
-     * Inform the listeners of this {@link Tileable} that it has released a ball.
+     * Inform the listeners of this {@link Tileable} that it has released a marble.
      *
-     * @param direction The direction from which the ball has been released.
-     * @param ball The ball the tileable has released.
+     * @param direction The direction from which the marble has been released.
+     * @param marble The marble the tileable has released.
      */
-    protected void informRelease(Direction direction, Ball ball) {
+    protected void informRelease(Direction direction, Marble marble) {
         for (TileableListener listener : listeners) {
-            listener.ballReleased(this, direction, ball);
+            listener.ballReleased(this, direction, marble);
         }
     }
 }

@@ -25,13 +25,13 @@
 
 package nl.tudelft.broccoli.core.receptor;
 
-import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.track.Track;
 
 /**
- * An object with four {@link Slot}s (R1.2a) which accepts {@link Ball}s in open slots (R1.2b) via
+ * An object with four {@link Slot}s (R1.2a) which accepts {@link Marble}s in open slots (R1.2b) via
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
@@ -121,7 +121,7 @@ public class Receptor extends Tileable {
         Slot slot = slots[0];
 
         for (int i = 1; i < slots.length; i++) {
-            if (!slot.isOccupied() || !slot.getBall().isCompatible(slots[i].getBall())) {
+            if (!slot.isOccupied() || !slot.getMarble().isCompatible(slots[i].getMarble())) {
                 return false;
             }
             slot = slots[i];
@@ -177,9 +177,9 @@ public class Receptor extends Tileable {
         private Direction direction;
 
         /**
-         * The ball stored in this slot.
+         * The marble stored in this slot.
          */
-        private Ball ball;
+        private Marble marble;
 
         /**
          * Construct an {@link InternalSlot} instance.
@@ -191,14 +191,14 @@ public class Receptor extends Tileable {
         }
 
         /**
-         * Return the {@link Ball} that is stored in this slot.
+         * Return the {@link Marble} that is stored in this slot.
          *
-         * @return The ball that is stored in this slot or <code>null</code> if the slot is
+         * @return The marble that is stored in this slot or <code>null</code> if the slot is
          *         unoccupied.
          */
         @Override
-        public Ball getBall() {
-            return ball;
+        public Marble getMarble() {
+            return marble;
         }
 
         /**
@@ -212,21 +212,21 @@ public class Receptor extends Tileable {
         }
 
         /**
-         * Accept a ball into this slot if the slot is not already occupied.
+         * Accept a marble into this slot if the slot is not already occupied.
          *
-         * @param ball The ball to accept in this slot.
+         * @param marble The marble to accept in this slot.
          * @throws IllegalStateException if the slot is already occupied.
          */
         @Override
-        public void accept(Ball ball) {
+        public void accept(Marble marble) {
             if (isOccupied()) {
                 throw new IllegalStateException("The slot is already occupied");
             } else if (isLocked()) {
                 throw new IllegalStateException("The receptor is locked");
             }
 
-            this.ball = ball;
-            informAcceptation(getDirection(), ball);
+            this.marble = marble;
+            informAcceptation(getDirection(), marble);
 
             // Mark the receptor if all balls are of the same color (R1.2e)
             if (shouldMark()) {
@@ -235,7 +235,7 @@ public class Receptor extends Tileable {
         }
 
         /**
-         * Release the current ball in the slot to the {@link Track} the port of this slot is
+         * Release the current marble in the slot to the {@link Track} the port of this slot is
          * connected to.
          *
          * @throws IllegalStateException if the slot is currently unoccupied or the port of this
@@ -254,23 +254,23 @@ public class Receptor extends Tileable {
             Direction direction = getDirection();
 
             if (!isConnected(direction) || !isReleasable(direction)) {
-                throw new IllegalStateException("The slot cannot release the ball to its neighbor");
+                throw new IllegalStateException("The slot cannot release the marble to its neighbor");
             }
 
-            informRelease(direction, ball);
-            Receptor.this.release(direction, ball);
-            ball = null;
+            informRelease(direction, marble);
+            Receptor.this.release(direction, marble);
+            marble = null;
         }
 
         /**
-         * Dispose the ball in the slot from the environment.
+         * Dispose the marble in the slot from the environment.
          *
          * @throws IllegalStateException if the slot is currently unoccupied.
          */
         @Override
         public void dispose() {
-            informDispose(getDirection(), ball);
-            ball = null;
+            informDispose(getDirection(), marble);
+            marble = null;
         }
 
         /**
@@ -284,11 +284,11 @@ public class Receptor extends Tileable {
     }
 
     /**
-     * Determine whether the neighbour at the given direction accepts a ball onto its tile at the
+     * Determine whether the neighbour at the given direction accepts a marble onto its tile at the
      * moment of execution.
      *
      * @param direction The direction of the neighbour relative to this entity.
-     * @return <code>true</code> if the tileable entity accepts the ball onto its tile,
+     * @return <code>true</code> if the tileable entity accepts the marble onto its tile,
      *         <code>false</code> otherwise.
      */
     @Override
@@ -300,14 +300,14 @@ public class Receptor extends Tileable {
      * Determine whether this tileable entity has a connection at the given direction with the
      * entity next to this entity in the given direction.
      *
-     * <p>This means the entity is able to have a {@link Ball} travel from the given direction onto
+     * <p>This means the entity is able to have a {@link Marble} travel from the given direction onto
      * the tile.</p>
      *
      * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}
      * meaning the direction may need to be inverted.</p>
      *
      * @param direction The direction from the origin of the tile to a possible port of the entity.
-     * @return <code>true</code> if a ball is able to travel from that direction, <code>false</code>
+     * @return <code>true</code> if a marble is able to travel from that direction, <code>false</code>
      *         otherwise.
      */
     @Override
@@ -316,13 +316,13 @@ public class Receptor extends Tileable {
     }
 
     /**
-     * Determine whether this tileable entity accepts a ball onto its tile.
+     * Determine whether this tileable entity accepts a marble onto its tile.
      *
      * <p>This class will only accept balls if the slot at that direction is not occupied yet.
      *
-     * @param direction The direction from which a ball wants to be accepted onto this tileable
+     * @param direction The direction from which a marble wants to be accepted onto this tileable
      *                  entity.
-     * @return <code>true</code> if the tileable entity accepts the ball onto its tile,
+     * @return <code>true</code> if the tileable entity accepts the marble onto its tile,
      *         <code>false</code> otherwise.
      */
     @Override
@@ -331,16 +331,16 @@ public class Receptor extends Tileable {
     }
 
     /**
-     * Accept the given {@link Ball} at the given direction.
+     * Accept the given {@link Marble} at the given direction.
      *
      * <p>This class will only accept balls if the slot at that direction is not occupied yet.
      *
-     * @param direction The direction from which a ball wants to be accepted onto this tileable
+     * @param direction The direction from which a marble wants to be accepted onto this tileable
      *                  entity.
-     * @param ball The ball that wants to be accepted onto the tile of this tileable entity.
+     * @param marble The marble that wants to be accepted onto the tile of this tileable entity.
      */
     @Override
-    public void accept(Direction direction, Ball ball) {
-        getSlot(direction).accept(ball);
+    public void accept(Direction direction, Marble marble) {
+        getSlot(direction).accept(marble);
     }
 }

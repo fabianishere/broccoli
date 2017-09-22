@@ -25,29 +25,29 @@
 
 package nl.tudelft.broccoli.core.receptor;
 
-import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 
 /**
- * A slot on a {@link Receptor} which stores {@link Ball}s.
+ * A slot on a {@link Receptor} which stores {@link Marble}s.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public interface Slot {
     /**
-     * Return the {@link Ball} that is stored in this slot.
+     * Return the {@link Marble} that is stored in this slot.
      *
      * @return The ball that is stored in this slot or <code>null</code> if the slot is unoccupied.
      */
-    Ball getBall();
+    Marble getMarble();
 
     /**
-     * Determine whether the slot is occupied with a {@link Ball}.
+     * Determine whether the slot is occupied with a {@link Marble}.
      *
      * @return <code>true</code> if the slot is occupied with a ball, <code>false</code> otherwise.
      */
     default boolean isOccupied() {
-        return getBall() != null;
+        return getMarble() != null;
     }
 
     /**
@@ -65,12 +65,12 @@ public interface Slot {
     Direction getDirection();
 
     /**
-     * Accept a ball into this slot if the slot is not already occupied.
+     * Accept a marble into this slot if the slot is not already occupied.
      *
-     * @param ball The ball to accept in this slot.
+     * @param marble The marble to accept in this slot.
      * @throws IllegalStateException if the slot is already occupied.
      */
-    void accept(Ball ball);
+    void accept(Marble marble);
 
     /**
      * Release the ball in the slot to the neighbour this slot is connected to.

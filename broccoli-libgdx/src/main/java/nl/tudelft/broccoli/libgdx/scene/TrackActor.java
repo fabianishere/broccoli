@@ -31,7 +31,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Align;
-import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.grid.TileableListener;
@@ -89,16 +89,16 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
     }
 
     /**
-     * This method is invoked when a {@link Tileable} has accepted a ball.
+     * This method is invoked when a {@link Tileable} has accepted a marble.
      *
-     * @param tileable The tileable that has accepted the ball.
-     * @param direction The direction from which the ball was accepted.
-     * @param ball The ball that has been accepted.
+     * @param tileable The tileable that has accepted the marble.
+     * @param direction The direction from which the marble was accepted.
+     * @param marble The marble that has been accepted.
      */
     @Override
-    public void ballAccepted(Tileable tileable, Direction direction, Ball ball) {
+    public void ballAccepted(Tileable tileable, Direction direction, Marble marble) {
         Track track = getTileable();
-        Actor actor = getContext().actor(ball);
+        Actor actor = getContext().actor(marble);
         Action move;
 
         switch (direction) {
@@ -127,11 +127,11 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
             Actions.run(() -> {
                 Direction inverse = direction.inverse();
                 if (!track.isReleasable(inverse)) {
-                    ballAccepted(tileable, inverse, ball);
+                    ballAccepted(tileable, inverse, marble);
                     return;
                 }
 
-                track.release(inverse, ball);
+                track.release(inverse, marble);
             }))
         );
         addActor(actor);

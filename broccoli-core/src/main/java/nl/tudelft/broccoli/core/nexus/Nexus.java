@@ -25,7 +25,7 @@
 
 package nl.tudelft.broccoli.core.nexus;
 
-import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
@@ -55,7 +55,7 @@ public class Nexus extends HorizontalTrack {
      * Determine whether this tileable entity has a connection at the given direction with the
      * entity next to this entity in the given direction.
      *
-     * <p>This means the entity is able to have a {@link Ball} travel from the given direction onto
+     * <p>This means the entity is able to have a {@link Marble} travel from the given direction onto
      * the tile.</p>
      *
      * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}

@@ -25,7 +25,7 @@
 
 package nl.tudelft.broccoli.core.track;
 
-import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.grid.Tile;
@@ -59,7 +59,7 @@ public class VerticalTrack extends Track {
      * Determine whether this tileable entity has a connection at the given direction with the
      * entity next to this entity in the given direction.
      *
-     * <p>This means the entity is able to have a {@link Ball} travel from the given direction onto
+     * <p>This means the entity is able to have a {@link Marble} travel from the given direction onto
      * the tile.</p>
      *
      * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}
@@ -94,18 +94,18 @@ public class VerticalTrack extends Track {
     }
 
     /**
-     * Accept a {@link Ball} onto the tile of this tileable entity.
+     * Accept a {@link Marble} onto the tile of this tileable entity.
      *
-     * @param direction The direction from which a ball wants to be accepted onto this tileable
+     * @param direction The direction from which a marble wants to be accepted onto this tileable
      *                  entity.
-     * @param ball      The ball that wants to be accepted onto the tile of this tileable entity.
+     * @param marble      The marble that wants to be accepted onto the tile of this tileable entity.
      */
     @Override
-    public void accept(Direction direction, Ball ball) {
+    public void accept(Direction direction, Marble marble) {
         switch (direction) {
             case TOP:
             case BOTTOM:
-                informAcceptation(direction, ball);
+                informAcceptation(direction, marble);
                 break;
             default:
                 throw new IllegalArgumentException("The track does not accept balls from the given "

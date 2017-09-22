@@ -25,7 +25,7 @@
 
 package nl.tudelft.broccoli.core.grid;
 
-import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.Marble;
 
 /**
  * A listener interfaces for events related to a {@link Tileable}.
@@ -34,29 +34,29 @@ import nl.tudelft.broccoli.core.Ball;
  */
 public interface TileableListener {
     /**
-     * This method is invoked when a {@link Tileable} has accepted a ball.
+     * This method is invoked when a {@link Tileable} has accepted a marble.
      *
-     * @param tileable The tileable that has accepted the ball.
-     * @param direction The direction from which the ball was accepted.
-     * @param ball The ball that has been accepted.
+     * @param tileable The tileable that has accepted the marble.
+     * @param direction The direction from which the marble was accepted.
+     * @param marble The marble that has been accepted.
      */
-    default void ballAccepted(Tileable tileable, Direction direction, Ball ball) {}
+    default void ballAccepted(Tileable tileable, Direction direction, Marble marble) {}
 
     /**
-     * This method is invoked when a {@link Tileable} has disposed a ball.
+     * This method is invoked when a {@link Tileable} has disposed a marble.
      *
-     * @param tileable The tileable that has disposed the ball.
-     * @param direction The direction from which the ball was disposed.
-     * @param ball The ball that has been disposed.
+     * @param tileable The tileable that has disposed the marble.
+     * @param direction The direction from which the marble was disposed.
+     * @param marble The marble that has been disposed.
      */
-    default void ballDisposed(Tileable tileable, Direction direction, Ball ball) {}
+    default void ballDisposed(Tileable tileable, Direction direction, Marble marble) {}
 
     /**
-     * This method is invoked when a {@link Tileable} has released a ball to a neighbour.
+     * This method is invoked when a {@link Tileable} has released a marble to a neighbour.
      *
-     * @param tileable The tileable that has released the ball.
-     * @param direction The direction from which the ball was released.
-     * @param ball The ball that has been released.
+     * @param tileable The tileable that has released the marble.
+     * @param direction The direction from which the marble was released.
+     * @param marble The marble that has been released.
      */
-    default void ballReleased(Tileable tileable, Direction direction, Ball ball) {}
+    default void ballReleased(Tileable tileable, Direction direction, Marble marble) {}
 }

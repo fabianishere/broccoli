@@ -33,7 +33,7 @@ import nl.tudelft.broccoli.core.track.Track;
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public final class Ball implements Entity {
+public final class Marble implements Entity {
     /**
      * The type of the ball.
      */
@@ -51,22 +51,22 @@ public final class Ball implements Entity {
     }
 
     /**
-     * Construct a {@link Ball} instance.
+     * Construct a {@link Marble} instance.
      *
      * @param type The type of the ball to create.
      */
-    private Ball(Type type) {
+    private Marble(Type type) {
         this.type = type;
     }
 
     /**
-     * Return a {@link Ball} instance with the given type.
+     * Return a {@link Marble} instance with the given type.
      *
      * @param type The type of ball to get.
-     * @return An instance of {@link Ball} with the given type.
+     * @return An instance of {@link Marble} with the given type.
      */
-    public static Ball of(Type type) {
-        return new Ball(type);
+    public static Marble of(Type type) {
+        return new Marble(type);
     }
 
     /**
@@ -79,7 +79,7 @@ public final class Ball implements Entity {
     }
 
     /**
-     * Determine whether the this {@link Ball} instance is compatible with the given ball.
+     * Determine whether the this {@link Marble} instance is compatible with the given ball.
      *
      * <p>Compatibility is determined by comparing the type (colour) of the ball, but if either of
      * the balls is a joker, the result is always <code>true</code>.</p>
@@ -88,7 +88,7 @@ public final class Ball implements Entity {
      * @return <code>true</code> if the ball is compatible with the given ball, <code>false</code>
      *         otherwise.
      */
-    public boolean isCompatible(Ball other) {
+    public boolean isCompatible(Marble other) {
         return other != null && (type.equals(Type.JOKER) || other.type.equals(Type.JOKER)
             || type.equals(other.type));
     }

@@ -25,7 +25,7 @@
 
 package nl.tudelft.broccoli.core.receptor;
 
-import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import org.junit.Test;
 
@@ -90,9 +90,9 @@ public class ReceptorTest {
     @Test
     public void acceptBall() {
         Receptor receptor = new Receptor();
-        Ball ball = Ball.of(Ball.Type.BLUE);
-        receptor.accept(Direction.TOP, ball);
-        assertThat(receptor.getSlot(Direction.TOP).getBall()).isEqualTo(ball);
+        Marble marble = Marble.of(Marble.Type.BLUE);
+        receptor.accept(Direction.TOP, marble);
+        assertThat(receptor.getSlot(Direction.TOP).getMarble()).isEqualTo(marble);
     }
 
     /**
@@ -101,7 +101,7 @@ public class ReceptorTest {
     @Test
     public void notAcceptWhenSlotOccupied() {
         Receptor receptor = new Receptor();
-        receptor.accept(Direction.TOP, Ball.of(Ball.Type.BLUE));
+        receptor.accept(Direction.TOP, Marble.of(Marble.Type.BLUE));
         assertThat(receptor.accepts(Direction.TOP)).isFalse();
     }
 }

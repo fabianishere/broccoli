@@ -29,7 +29,7 @@ import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 
 /**
- * An empty {@link Tileable} which does not accepts {@link Ball}s from any direction.
+ * An empty {@link Tileable} which does not accepts {@link Marble}s from any direction.
  *
  * @author Christian Slothouber (f.c.slothouber@student.tudelft.nl)
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
@@ -39,7 +39,7 @@ public class Empty extends Tileable {
      * Determine whether this tileable entity allows a connection at the given direction with the
      * entity next to this entity in the given direction.
      *
-     * <p>This means the entity is able to have a {@link Ball} travel from the given direction onto
+     * <p>This means the entity is able to have a {@link Marble} travel from the given direction onto
      * the tile.</p>
      *
      * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}
@@ -68,14 +68,14 @@ public class Empty extends Tileable {
     }
 
     /**
-     * Accept a {@link Ball} onto the tile of this tileable entity.
+     * Accept a {@link Marble} onto the tile of this tileable entity.
      *
-     * @param direction The direction from which a ball wants to be accepted onto this tileable
+     * @param direction The direction from which a marble wants to be accepted onto this tileable
      *                  entity.
-     * @param ball The ball that wants to be accepted onto the tile of this tileable entity.
+     * @param marble The marble that wants to be accepted onto the tile of this tileable entity.
      */
     @Override
-    public void accept(Direction direction, Ball ball) {
+    public void accept(Direction direction, Marble marble) {
         throw new IllegalArgumentException("An empty entity does not accept from any direction");
     }
 }
