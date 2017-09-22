@@ -25,6 +25,8 @@
 
 package nl.tudelft.broccoli.core.level;
 
+import nl.tudelft.broccoli.core.config.Configuration;
+
 /**
  * Implementors of the {@link Level} interface provide a factory interface to create a specific
  * configuration of a {@link GameSession} representing an in-game level.
@@ -39,9 +41,10 @@ public interface Level {
     /**
      * Create a new {@link GameSession} with this {@link Level}'s configuration.
      *
+     * @param config The game configuration to use.
      * @return A {@link GameSession} for this {@link Level}.
      */
-    GameSession create();
+    GameSession create(Configuration config);
 
     /**
      * Return the name of this level.

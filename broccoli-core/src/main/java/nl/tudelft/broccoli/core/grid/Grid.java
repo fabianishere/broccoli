@@ -26,6 +26,8 @@
 package nl.tudelft.broccoli.core.grid;
 
 import nl.tudelft.broccoli.core.Entity;
+import nl.tudelft.broccoli.core.config.IntegerProperty;
+import nl.tudelft.broccoli.core.config.Property;
 
 /**
  * A grid system on which the entities of the game are placed.
@@ -34,6 +36,16 @@ import nl.tudelft.broccoli.core.Entity;
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public class Grid implements Entity {
+    /**
+     * A configuration property for the width of the grid.
+     */
+    public static final Property<Integer> WIDTH = new IntegerProperty("grid.width", 4);
+
+    /**
+     * A configuration property for the height of the grid.
+     */
+    public static final Property<Integer> HEIGHT = new IntegerProperty("grid.height", 4);
+
     /**
      * The tiles of the grid.
      */

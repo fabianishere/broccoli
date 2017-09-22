@@ -1,7 +1,19 @@
 # This file contains the configuration for the Broccoli game in a bizarre
 # format.
-bool jokersAllowed = true
-int timeLimit = 200
-# real
-# string
+
+# The size of the grid
+int grid.width = 5
+int grid.height = 5
+
+# The probability that a joker is spawned. 0 disables jokers.
+real nexus.joker = 0.1
+
+# The maximum amount of time allowed for a level
+int timer.max = 200
+
+# Window properties
+int window.width = 480
+int window.height = 800
+string window.title = Broccoli
+
 # list

@@ -31,7 +31,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import nl.tudelft.broccoli.core.config.Configuration;
+import nl.tudelft.broccoli.core.config.*;
 import nl.tudelft.broccoli.core.level.GameSession;
 import nl.tudelft.broccoli.core.level.SimpleLevel;
 import nl.tudelft.broccoli.libgdx.scene.Context;
@@ -46,6 +46,24 @@ import javax.swing.*;
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public class Broccoli extends Game {
+    /**
+     * The width of the window.
+     */
+    public static final Property<Integer> WINDOW_WIDTH =
+        new IntegerProperty("window.width", 800);
+
+    /**
+     * The height of the window.
+     */
+    public static final Property<Integer> WINDOW_HEIGHT =
+        new IntegerProperty("window.height", 480);
+
+    /**
+     * The title of the window.
+     */
+    public static final Property<String> WINDOW_TITLE =
+        new StringProperty("window.title", "Broccoli");
+
     /**
      * The game {@link Configuration} to use.
      */
@@ -81,7 +99,7 @@ public class Broccoli extends Game {
     @Override
     public void create() {
         stage = new Stage(new ScreenViewport());
-        session = new SimpleLevel().create();
+        session = new SimpleLevel().create(config);
         context = new Context(config);
 
         GridActor grid = new GridActor(session.getGrid(), context);
@@ -89,6 +107,9 @@ public class Broccoli extends Game {
         stage.addActor(grid);
 
         Gdx.input.setInputProcessor(stage);
+
+        Gdx.graphics.setWindowedMode(config.get(WINDOW_WIDTH), config.get(WINDOW_HEIGHT));
+        Gdx.graphics.setTitle(config.get(WINDOW_TITLE));
 
         new BackgroundMusic("sound/music/placeholder.mp3");
     }

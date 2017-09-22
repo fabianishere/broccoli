@@ -25,6 +25,8 @@
 
 package nl.tudelft.broccoli.core.level;
 
+import nl.tudelft.broccoli.core.config.Configuration;
+import nl.tudelft.broccoli.core.config.Property;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,13 +37,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SimpleLevelTest {
 
     private SimpleLevel simpleLevel = new SimpleLevel();
+    private Configuration config = new Configuration() {
+        @Override
+        public <T> T get(Property<T> property, T defaultValue) {
+            return defaultValue;
+        }
+
+        @Override
+        public boolean exists(Property<?> property) {
+            return false;
+        }
+    };
 
     /**
      * Test if calling the create function gives an instance of a {@link GameSession}.
      */
     @Test
     public void createTest() {
-        assertThat(simpleLevel.create()).isInstanceOf(GameSession.class);
+        assertThat(simpleLevel.create(config)).isInstanceOf(GameSession.class);
     }
 
     /**

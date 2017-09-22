@@ -31,13 +31,13 @@ public class TimerActor extends TileableActor<TimerTile> {
 
         currentTextureId = 0;
         timer = new Timer();
-        timer.scheduleTask(new Timer.Task() {
+        timer.scheduleTask(new com.badlogic.gdx.utils.Timer.Task() {
             @Override
             public void run() {
                 nextTexture();
             }
-        }, getTileable().getMaxTime() / 4.f,
-                getTileable().getMaxTime() / 4.f, 3);
+        }, getTileable().getMaxTime() / 5.f,
+                getTileable().getMaxTime() / 5.f, 4);
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {

@@ -1,7 +1,7 @@
 package nl.tudelft.broccoli.core.level;
 
-import nl.tudelft.broccoli.core.Ball;
 import nl.tudelft.broccoli.core.TimerTile;
+import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.grid.Tile;
@@ -24,11 +24,12 @@ public class SimpleLevel implements Level {
     /**
      * Create a new {@link GameSession} with this {@link Level}'s configuration.
      *
+     * @param config The game configuration to use.
      * @return A {@link GameSession} for this {@link Level}.
      */
     @Override
-    public GameSession create() {
-        return new SimpleGame();
+    public GameSession create(Configuration config) {
+        return new SimpleGame(config);
     }
 
     /**
@@ -46,47 +47,46 @@ public class SimpleLevel implements Level {
      */
     private class SimpleGame implements GameSession {
         /**
+         * The game configuration.
+         */
+        private final Configuration config;
+
+        /**
          * The grid of this game.
          */
-        private Grid grid;
+        private final Grid grid;
 
         /**
          * Construct a {@link SimpleGame} instance.
+         *
+         * @param config The game configuration to use.
          */
-        public SimpleGame() {
-            grid = new Grid(4, 4);
+        public SimpleGame(Configuration config) {
+            this.config = config;
+            this.grid = new Grid(config.get(Grid.WIDTH), config.get(Grid.HEIGHT));
 
             NexusContext context = new NexusContext();
             grid.place(0, 3, new Nexus(context));
             grid.place(1, 3, new Nexus(context));
             grid.place(2, 3, new Nexus(context));
-            grid.place(3, 3, new SpawningNexus(context, new Random(), Direction.RIGHT));
+            grid.place(3, 3, new SpawningNexus(context, new Random(), Direction.RIGHT,
+                config.get(SpawningNexus.JOKER_PROBABILITY)));
 
-            TimerTile timer = new TimerTile(300);
+            TimerTile timer = new TimerTile(config.get(TimerTile.MAX_TIME));
             grid.place(3, 2, timer);
 
-            Receptor receptorA = new Receptor();
-            receptorA.getSlot(Direction.TOP).accept(Ball.of(Ball.Type.BLUE));
-            grid.place(0, 2, receptorA);
+            grid.place(0, 2, new Receptor());
             grid.place(0, 1, new VerticalTrack());
 
-            Receptor receptorB = new Receptor();
-            receptorB.getSlot(Direction.TOP).accept(Ball.of(Ball.Type.BLUE));
 
             grid.place(1, 2, new HorizontalTrack());
-            grid.place(2, 2, receptorB);
+            grid.place(2, 2, new Receptor());
             grid.place(2, 1, new VerticalTrack());
 
-            Receptor receptorC = new Receptor();
-            receptorC.getSlot(Direction.TOP).accept(Ball.of(Ball.Type.BLUE));
-
-            grid.place(0, 0, receptorC);
+            grid.place(0, 0, new Receptor());
             grid.place(1, 0, new HorizontalTrack());
 
-            Receptor receptorD = new Receptor();
-            receptorD.getSlot(Direction.TOP).accept(Ball.of(Ball.Type.BLUE));
-
-            grid.place(2, 0, receptorD);
+            grid.place(2, 0, new Receptor());
         }
 
         /**

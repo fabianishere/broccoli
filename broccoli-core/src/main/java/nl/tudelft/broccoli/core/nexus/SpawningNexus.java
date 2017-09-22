@@ -26,6 +26,8 @@
 package nl.tudelft.broccoli.core.nexus;
 
 import nl.tudelft.broccoli.core.Ball;
+import nl.tudelft.broccoli.core.config.DoubleProperty;
+import nl.tudelft.broccoli.core.config.Property;
 import nl.tudelft.broccoli.core.grid.Direction;
 
 import java.util.Random;
@@ -37,6 +39,12 @@ import java.util.Random;
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public class SpawningNexus extends Nexus {
+    /**
+     * A configuration property to configure the probability of a joker occurring.
+     */
+    public static final Property<Double> JOKER_PROBABILITY =
+        new DoubleProperty("nexus.joker", 0);
+
     /**
      * The possible type of balls.
      */
@@ -53,16 +61,23 @@ public class SpawningNexus extends Nexus {
     private final Direction direction;
 
     /**
+     * The probability of a joker occurring.
+     */
+    private final double joker;
+
+    /**
      * Construct a {@link SpawningNexus} instance.
      *
      * @param context The nexus context instance to use.
      * @param random The random number generator to use for selecting the colors.
      * @param direction The direction from which the balls will be spawned.
+     * @param joker The probability of a joker occurring.
      */
-    public SpawningNexus(NexusContext context, Random random, Direction direction) {
+    public SpawningNexus(NexusContext context, Random random, Direction direction, double joker) {
         super(context);
         this.random = random;
         this.direction = direction;
+        this.joker = joker;
     }
 
     /**
@@ -77,15 +92,13 @@ public class SpawningNexus extends Nexus {
         }
 
         Ball ball;
-        boolean jokersAllowed = true; //TODO: make it possible to set this boolean
-        int multiplier = 7; //rarity of a joker
-        int bound = jokersAllowed ? 4 * multiplier + 1 : 4 * multiplier;
-        int draw = random.nextInt(bound + 1);
 
-        if (draw == 4 * multiplier + 1) {
+        System.out.println(joker);
+
+        if (random.nextDouble() < joker) {
             ball = Ball.of(Ball.Type.JOKER);
         } else {
-            ball = Ball.of(BALLS[draw / multiplier]);
+            ball = Ball.of(BALLS[random.nextInt(BALLS.length - 1)]);
         }
 
         accept(direction, ball);
