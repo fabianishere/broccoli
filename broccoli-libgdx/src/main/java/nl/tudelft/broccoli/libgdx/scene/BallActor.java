@@ -63,6 +63,12 @@ public class BallActor extends Actor {
         new Texture(Gdx.files.classpath("sprites/marbles/yellow/0.png"));
 
     /**
+     * The texture for a joker ball.
+     */
+    private static final Texture TX_BALL_JOKER =
+            new Texture(Gdx.files.classpath("sprites/marbles/joker/0.png"));
+
+    /**
      * The ball of this actor.
      */
     private Ball ball;
@@ -117,6 +123,8 @@ public class BallActor extends Actor {
                 return TX_BALL_PINK;
             case YELLOW:
                 return TX_BALL_YELLOW;
+            case JOKER:
+                return TX_BALL_JOKER;
             default:
                 // XXX Fix this case
                 return TX_BALL_BLUE;

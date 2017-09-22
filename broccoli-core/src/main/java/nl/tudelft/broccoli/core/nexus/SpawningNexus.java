@@ -76,8 +76,18 @@ public class SpawningNexus extends Nexus {
             throw new IllegalStateException("The nexus is already occupied by a ball");
         }
 
-        // We skip the Joker ball for now
-        Ball ball = Ball.of(BALLS[random.nextInt(BALLS.length - 1)]);
+        Ball ball;
+        boolean jokersAllowed = true; //TODO: make it possible to set this boolean
+        int multiplier = 7; //rarity of a joker
+        int bound = jokersAllowed ? 4 * multiplier + 1 : 4 * multiplier;
+        int draw = random.nextInt(bound + 1);
+
+        if (draw == 4 * multiplier + 1) {
+            ball = Ball.of(Ball.Type.JOKER);
+        } else {
+            ball = Ball.of(BALLS[draw / multiplier]);
+        }
+
         accept(direction, ball);
         getContext().setOccupied(true);
         return ball;
