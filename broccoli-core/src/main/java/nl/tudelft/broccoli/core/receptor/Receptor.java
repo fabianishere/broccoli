@@ -254,7 +254,8 @@ public class Receptor extends Tileable {
             Direction direction = getDirection();
 
             if (!isConnected(direction) || !isReleasable(direction)) {
-                throw new IllegalStateException("The slot cannot release the marble to its neighbor");
+                throw new IllegalStateException("The slot cannot release the marble "
+                        + "to its neighbor");
             }
 
             informRelease(direction, marble);
@@ -300,15 +301,15 @@ public class Receptor extends Tileable {
      * Determine whether this tileable entity has a connection at the given direction with the
      * entity next to this entity in the given direction.
      *
-     * <p>This means the entity is able to have a {@link Marble} travel from the given direction onto
-     * the tile.</p>
+     * <p>This means the entity is able to have a {@link Marble} travel from the given direction
+     * onto the tile.</p>
      *
      * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}
      * meaning the direction may need to be inverted.</p>
      *
      * @param direction The direction from the origin of the tile to a possible port of the entity.
-     * @return <code>true</code> if a marble is able to travel from that direction, <code>false</code>
-     *         otherwise.
+     * @return <code>true</code> if a marble is able to travel from that direction,
+     *         <code>false</code> otherwise.
      */
     @Override
     public boolean allowsConnection(Direction direction) {

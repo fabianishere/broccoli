@@ -1,6 +1,5 @@
 package nl.tudelft.broccoli.core.level;
 
-import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.grid.Direction;

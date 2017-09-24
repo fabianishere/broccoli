@@ -39,8 +39,8 @@ public class Empty extends Tileable {
      * Determine whether this tileable entity allows a connection at the given direction with the
      * entity next to this entity in the given direction.
      *
-     * <p>This means the entity is able to have a {@link Marble} travel from the given direction onto
-     * the tile.</p>
+     * <p>This means the entity is able to have a {@link Marble} travel from the given direction
+     * onto the tile.</p>
      *
      * <p>Be aware that the direction parameter is seen from the origin of this {@link Tileable}
      * meaning the direction may need to be inverted.</p>
