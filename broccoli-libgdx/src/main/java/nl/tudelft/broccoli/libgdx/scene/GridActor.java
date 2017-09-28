@@ -31,6 +31,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.grid.Tile;
+import nl.tudelft.broccoli.libgdx.Context;
 
 /**
  * An {@link Actor} node in the 2d scene which represents an in-game grid.

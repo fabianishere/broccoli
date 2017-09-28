@@ -29,12 +29,12 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import nl.tudelft.broccoli.core.config.*;
 import nl.tudelft.broccoli.core.level.GameSession;
 import nl.tudelft.broccoli.core.level.SimpleLevel;
-import nl.tudelft.broccoli.libgdx.scene.Context;
 import nl.tudelft.broccoli.libgdx.scene.GridActor;
 
 import javax.swing.*;
@@ -100,7 +100,7 @@ public class Broccoli extends Game {
     public void create() {
         stage = new Stage(new ScreenViewport());
         session = new SimpleLevel().create(config);
-        context = new Context(config);
+        context = new Context(config, new TextureAtlas(Gdx.files.classpath("atlas/sprites.atlas")));
 
         GridActor grid = new GridActor(session.getGrid(), context);
         grid.setFillParent(true);

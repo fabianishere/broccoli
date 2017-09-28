@@ -25,9 +25,8 @@
 
 package nl.tudelft.broccoli.libgdx.scene;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -38,6 +37,7 @@ import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.grid.TileableListener;
 import nl.tudelft.broccoli.core.nexus.Nexus;
 import nl.tudelft.broccoli.core.nexus.SpawningNexus;
+import nl.tudelft.broccoli.libgdx.Context;
 
 /**
  * An {@link Actor} for a (spawning) nexus on the grid.
@@ -46,18 +46,6 @@ import nl.tudelft.broccoli.core.nexus.SpawningNexus;
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public class NexusActor extends TileableActor<Nexus> implements TileableListener {
-    /**
-     * The texture for an unconnected nexus.
-     */
-    private static final Texture TX_NEXUS =
-        new Texture(Gdx.files.classpath("sprites/nexus/0.png"));
-
-    /**
-     * The texture for a connected nexus.
-     */
-    private static final Texture TX_NEXUS_CONNECTED =
-        new Texture(Gdx.files.classpath("sprites/nexus/9.png"));
-
     /**
      * The travel time multiplier for travel speed over this track.
      */
@@ -74,6 +62,11 @@ public class NexusActor extends TileableActor<Nexus> implements TileableListener
     private boolean spawning = false;
 
     /**
+     * The sprites of the nexus.
+     */
+    private Sprite[] sprites = new Sprite[16];
+
+    /**
      * Construct a {@link NexusActor} instance.
      *
      * @param nexus The tileable entity to create the actor for.
@@ -84,16 +77,20 @@ public class NexusActor extends TileableActor<Nexus> implements TileableListener
         nexus.addListener(this);
         connected = nexus.isConnected(Direction.BOTTOM);
         spawning = nexus instanceof SpawningNexus;
+
+        for (int i = 0; i < sprites.length; i++) {
+            sprites[i] = context.getTextureAtlas().createSprite("nexus", i);
+        }
     }
 
     /**
-     * Return the tile {@link Texture} for this {@link Tileable}.
+     * Return the tile {@link Sprite} for this {@link Tileable}.
      *
-     * @return The tile texture.
+     * @return The tile sprite.
      */
     @Override
-    public Texture getTileTexture() {
-        return connected ? TX_NEXUS_CONNECTED : TX_NEXUS;
+    public Sprite getTileSprite() {
+        return connected ? sprites[9] : sprites[0];
     }
 
     /**

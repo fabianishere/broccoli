@@ -25,9 +25,9 @@
 
 package nl.tudelft.broccoli.libgdx.scene;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -40,6 +40,7 @@ import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.grid.TileableListener;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.receptor.Slot;
+import nl.tudelft.broccoli.libgdx.Context;
 
 import java.util.EnumMap;
 
@@ -50,34 +51,29 @@ import java.util.EnumMap;
  */
 public class ReceptorActor extends TileableActor<Receptor> implements TileableListener {
     /**
-     * A marked texture of a receptor.
+     * The marked receptor sprite of this receptor.
      */
-    private static final Texture TX_RECEPTOR_MARKED =
-        new Texture(Gdx.files.classpath("sprites/receptor/marked/0.png"));
+    private final Sprite marked;
 
     /**
-     * An unmarked texture of a receptor.
+     * The unmarked receptor sprite of this receptor.
      */
-    private static final Texture TX_RECEPTOR_UNMARKED =
-        new Texture(Gdx.files.classpath("sprites/receptor/unmarked/0.png"));
+    private final Sprite unmarked;
 
     /**
-     * The texture for a tile of a marked receptor.
+     * The marked receptor tile sprites of this receptor.
      */
-    private static final Texture TX_TILE_MARKED =
-        new Texture(Gdx.files.classpath("sprites/tiles/receptor/marked/14.png"));
+    private final Sprite[] markedTiles = new Sprite[15];
 
     /**
-     * The texture for a tile of an unmarked receptor.
+     * The unmarked receptor tile sprites of this receptor.
      */
-    private static final Texture TX_TILE_UNMARKED =
-        new Texture(Gdx.files.classpath("sprites/tiles/receptor/unmarked/14.png"));
+    private final Sprite[] unmarkedTiles = new Sprite[15];
 
     /**
      * A map which maps the direction of slots to their positions on the receptor.
      */
     private EnumMap<Direction, Vector2> positions = new EnumMap<>(Direction.class);
-
 
     /**
      * Construct a {@link ReceptorActor} instance.
@@ -87,8 +83,19 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
      */
     public ReceptorActor(Receptor receptor, Context context) {
         super(receptor, context);
+
+        // Initialise sprites of the receptor.
+        TextureAtlas atlas = context.getTextureAtlas();
+        marked = atlas.createSprite("receptor/marked");
+        unmarked = atlas.createSprite("receptor/unmarked");
+
+        for (int i = 0; i < markedTiles.length; i++) {
+            markedTiles[i] = atlas.createSprite("tiles/receptor/marked", i);
+            unmarkedTiles[i] = atlas.createSprite("tiles/receptor/unmarked", i);
+        }
+
         receptor.addListener(this);
-        setSize(TX_RECEPTOR_MARKED.getWidth(), TX_RECEPTOR_MARKED.getHeight());
+        setSize(unmarked.getWidth(), unmarked.getHeight());
         setOrigin(Align.center);
         addListener(new InputListener() {
             @Override
@@ -127,22 +134,22 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
     }
 
     /**
-     * Return the receptor {@link Texture} for the receptor's current state.
+     * Return the tile {@link Sprite} for this {@link Tileable}.
      *
-     * @return The receptor texture.
+     * @return The tile sprite.
      */
-    public Texture getReceptorTexture() {
-        return getTileable().isMarked() ? TX_RECEPTOR_MARKED : TX_RECEPTOR_UNMARKED;
+    @Override
+    public Sprite getTileSprite() {
+        return getTileable().isMarked() ? markedTiles[0] : unmarkedTiles[0];
     }
 
     /**
-     * Return the tile {@link Texture} for this {@link Tileable}.
+     * Return the receptor {@link Sprite} for the receptor's current state.
      *
-     * @return The tile texture.
+     * @return The receptor sprite.
      */
-    @Override
-    public Texture getTileTexture() {
-        return getTileable().isMarked() ? TX_TILE_MARKED : TX_TILE_UNMARKED;
+    public Sprite getReceptorSprite() {
+        return getTileable().isMarked() ? marked : unmarked;
     }
 
     /**
@@ -153,11 +160,9 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        Texture txt = getReceptorTexture();
-        batch.draw(txt, getX(), getY(), getOriginX(), getOriginY(), getWidth(),
-            getHeight(), getScaleX(), getScaleY(), getRotation(), 0, 0,
-            txt.getWidth(), txt.getHeight(), false, false);
-
+        Sprite receptor = getReceptorSprite();
+        receptor.setRotation(getRotation());
+        receptor.draw(batch);
         super.draw(batch, parentAlpha);
     }
 

@@ -23,6 +23,16 @@
  * THE SOFTWARE.
  */
 
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath "com.badlogicgames.gdx:gdx-tools:1.9.6"
+	}
+}
+
 group 'nl.tudelft.broccoli'
 version '1.0-SNAPSHOT'
 
@@ -34,12 +44,38 @@ mainClassName = "nl.tudelft.broccoli.libgdx.DesktopLauncher"
 dependencies {
 	compile project(':broccoli-core')
 	compile project(':broccoli-defpro')
-	compile "com.badlogicgames.gdx:gdx:1.9.3"
-	compile "com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.3"
-	compile "com.badlogicgames.gdx:gdx-platform:1.9.3:natives-desktop"
+	compile "com.badlogicgames.gdx:gdx:1.9.6"
+	compile "com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.6"
+	compile "com.badlogicgames.gdx:gdx-platform:1.9.6:natives-desktop"
 
 	testCompile 'junit:junit:4.12'
 	testCompile 'org.assertj:assertj-core:3.8.0'
-	testCompile "com.badlogicgames.gdx:gdx-backend-headless:1.9.3"
+	testCompile "com.badlogicgames.gdx:gdx-backend-headless:1.9.6"
 	testCompile "org.mockito:mockito-core:1.+"
 }
+
+// An array containing the input directory of the packer,
+// the output directory and the name of the texture atlas.
+project.ext.texturePacker = ["sprites", "atlas", "sprites"]
+
+// Import the texture packer
+import com.badlogic.gdx.tools.texturepacker.TexturePacker
+
+// Add a new task that packs the textures for you
+task pack() {
+	def input = file("${project.projectDir}/src/main/resources/${texturePacker[0]}")
+	def output = file("${project.projectDir}/src/main/resources/${texturePacker[1]}")
+	// Only run the packer on file changes
+	inputs.dir input
+	outputs.dir output
+
+	doLast {
+		if (project.ext.has('texturePacker')) {
+			logger.info "Calling TexturePacker: " + texturePacker
+			TexturePacker.process(input.getAbsolutePath(), output.getAbsolutePath(), texturePacker[2])
+		}
+	}
+}
+
+// Pack sprites during the processing of resources
+processResources.dependsOn pack

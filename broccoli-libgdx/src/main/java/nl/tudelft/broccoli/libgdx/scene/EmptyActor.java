@@ -25,11 +25,11 @@
 
 package nl.tudelft.broccoli.libgdx.scene;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import nl.tudelft.broccoli.core.Empty;
 import nl.tudelft.broccoli.core.grid.Tileable;
+import nl.tudelft.broccoli.libgdx.Context;
 
 /**
  * An {@link Actor} for an empty tile.
@@ -38,10 +38,9 @@ import nl.tudelft.broccoli.core.grid.Tileable;
  */
 public class EmptyActor extends TileableActor<Empty> {
     /**
-     * The texture for an empty tile.
+     * The sprite for an empty tile.
      */
-    private static final Texture TX_TILE_EMPTY =
-        new Texture(Gdx.files.classpath("sprites/tiles/empty/0.png"));
+    private final Sprite empty;
 
     /**
      * Construct a {@link TileableActor} instance.
@@ -51,15 +50,17 @@ public class EmptyActor extends TileableActor<Empty> {
      */
     public EmptyActor(Empty tileable, Context context) {
         super(tileable, context);
+        empty = context.getTextureAtlas().createSprite("tiles/empty");
     }
 
     /**
-     * Return the tile {@link Texture} for this {@link Tileable}.
+     * Return the tile {@link Sprite} for this {@link Tileable}.
      *
-     * @return The tile texture.
+     * @return The tile sprite.
      */
     @Override
-    public Texture getTileTexture() {
-        return TX_TILE_EMPTY;
+    public Sprite getTileSprite() {
+        return empty;
     }
+
 }

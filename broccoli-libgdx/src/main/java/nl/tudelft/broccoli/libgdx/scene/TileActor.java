@@ -25,8 +25,8 @@
 
 package nl.tudelft.broccoli.libgdx.scene;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import nl.tudelft.broccoli.core.Empty;
@@ -37,6 +37,7 @@ import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.nexus.Nexus;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.Track;
+import nl.tudelft.broccoli.libgdx.Context;
 
 /**
  * An {@link Actor} that represents a {@link Tile} on a {@link Grid}.
@@ -73,8 +74,8 @@ public class TileActor extends Group {
         this.addActor(tileableActor);
         this.setUserObject(tile);
 
-        Texture texture = tileableActor.getTileTexture();
-        setSize(texture.getWidth(), texture.getHeight());
+        Sprite sprite = tileableActor.getTileSprite();
+        setSize(sprite.getWidth(), sprite.getHeight());
     }
 
     /**
@@ -95,10 +96,12 @@ public class TileActor extends Group {
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        Texture txt = tileableActor.getTileTexture();
-        batch.draw(txt, getX(), getY(), getOriginX(), getOriginY(), getWidth(),
-            getHeight(), getScaleX(), getScaleY(), getRotation(), 0, 0,
-            txt.getWidth(), txt.getHeight(), false, false);
+        Sprite tile = tileableActor.getTileSprite();
+        tile.setScale(getScaleX(), getScaleY());
+        tile.setOrigin(getOriginX(), getOriginY());
+        tile.setRotation(getRotation());
+        tile.setPosition(getX(), getY());
+        tile.draw(batch);
     }
 
     /**

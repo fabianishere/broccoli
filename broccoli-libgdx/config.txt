@@ -2,8 +2,8 @@
 # format.
 
 # The size of the grid
-int grid.width = 5
-int grid.height = 5
+int grid.width = 4
+int grid.height = 4
 
 # The probability that a joker is spawned. 0 disables jokers.
 real nexus.joker = 0.1
@@ -12,8 +12,8 @@ real nexus.joker = 0.1
 int timer.max = 200
 
 # Window properties
-int window.width = 480
-int window.height = 800
+int window.width = 800
+int window.height = 480
 string window.title = Broccoli
 
 # list

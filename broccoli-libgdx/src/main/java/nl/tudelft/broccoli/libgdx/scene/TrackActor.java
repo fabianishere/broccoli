@@ -25,8 +25,7 @@
 
 package nl.tudelft.broccoli.libgdx.scene;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -37,6 +36,7 @@ import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.grid.TileableListener;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import nl.tudelft.broccoli.core.track.Track;
+import nl.tudelft.broccoli.libgdx.Context;
 
 /**
  * An {@link Actor} for a track on the grid.
@@ -45,26 +45,14 @@ import nl.tudelft.broccoli.core.track.Track;
  */
 public class TrackActor extends TileableActor<Track> implements TileableListener {
     /**
-     * The texture for a horizontal track.
-     */
-    private static final Texture TX_TILE_HORIZONTAL =
-        new Texture(Gdx.files.classpath("sprites/tiles/horizontal/0.png"));
-
-    /**
-     * The texture for a vertical track.
-     */
-    private static final Texture TX_TILE_VERTICAL =
-        new Texture(Gdx.files.classpath("sprites/tiles/vertical/0.png"));
-
-    /**
      * The travel time multiplier for travel speed over this track.
      */
     private static final float TRAVEL_TIME = 0.008f;
 
     /**
-     * A flag to indicate whether this track is horizontal or vertical.
+     * The sprite for this track.
      */
-    private boolean horizontal = false;
+    private Sprite sprite;
 
     /**
      * Construct a {@link TileableActor} instance.
@@ -75,18 +63,24 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
     public TrackActor(Track tileable, Context context) {
         super(tileable, context);
         tileable.addListener(this);
-        horizontal = tileable instanceof HorizontalTrack;
+
+        if (tileable instanceof HorizontalTrack) {
+            sprite = context.getTextureAtlas().createSprite("tiles/horizontal");
+        } else {
+            sprite = context.getTextureAtlas().createSprite("tiles/vertical");
+        }
     }
 
     /**
-     * Return the tile {@link Texture} for this {@link Tileable}.
+     * Return the tile {@link Sprite} for this {@link Tileable}.
      *
-     * @return The tile texture.
+     * @return The tile sprite.
      */
     @Override
-    public Texture getTileTexture() {
-        return horizontal ? TX_TILE_HORIZONTAL : TX_TILE_VERTICAL;
+    public Sprite getTileSprite() {
+        return sprite;
     }
+
 
     /**
      * This method is invoked when a {@link Tileable} has accepted a marble.

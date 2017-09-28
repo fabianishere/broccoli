@@ -23,8 +23,9 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import nl.tudelft.broccoli.core.Entity;
 import nl.tudelft.broccoli.core.config.Configuration;
@@ -44,6 +45,11 @@ public class Context {
     private final Configuration config;
 
     /**
+     * The {@link TextureAtlas} we get the sprites from.
+     */
+    private final TextureAtlas atlas;
+
+    /**
      * The actor registry which maps entities to their respective actor in the scene.
      */
     private final Map<Entity, Actor> registry = new HashMap<>();
@@ -52,9 +58,11 @@ public class Context {
      * Construct a {@link Context} instance.
      *
      * @param config The configuration to use.
+     * @param atlas The texture atlas to use.
      */
-    public Context(Configuration config) {
+    public Context(Configuration config, TextureAtlas atlas) {
         this.config = config;
+        this.atlas = atlas;
     }
 
     /**
@@ -85,5 +93,14 @@ public class Context {
      */
     public Configuration getConfiguration() {
         return config;
+    }
+
+    /**
+     * Return the {@link TextureAtlas} containing the sprites of the game.
+     *
+     * @return The texture atlas of the game sprites.
+     */
+    public TextureAtlas getTextureAtlas() {
+        return atlas;
     }
 }

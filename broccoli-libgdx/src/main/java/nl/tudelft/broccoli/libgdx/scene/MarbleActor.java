@@ -25,12 +25,13 @@
 
 package nl.tudelft.broccoli.libgdx.scene;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
 import nl.tudelft.broccoli.core.Marble;
+import nl.tudelft.broccoli.libgdx.Context;
+
 
 /**
  * An {@link Actor} that represents an in-game marble.
@@ -38,36 +39,6 @@ import nl.tudelft.broccoli.core.Marble;
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public class MarbleActor extends Actor {
-    /**
-     * The texture for a blue marble.
-     */
-    private static final Texture TX_BALL_BLUE =
-        new Texture(Gdx.files.classpath("sprites/marbles/blue/0.png"));
-
-    /**
-     * The texture for a green marble.
-     */
-    private static final Texture TX_BALL_GREEN =
-        new Texture(Gdx.files.classpath("sprites/marbles/green/0.png"));
-
-    /**
-     * The texture for a pink marble.
-     */
-    private static final Texture TX_BALL_PINK =
-        new Texture(Gdx.files.classpath("sprites/marbles/pink/0.png"));
-
-    /**
-     * The texture for a yellow marble.
-     */
-    private static final Texture TX_BALL_YELLOW =
-        new Texture(Gdx.files.classpath("sprites/marbles/yellow/0.png"));
-
-    /**
-     * The texture for a joker marble.
-     */
-    private static final Texture TX_BALL_JOKER =
-            new Texture(Gdx.files.classpath("sprites/marbles/joker/0.png"));
-
     /**
      * The marble of this actor.
      */
@@ -79,9 +50,9 @@ public class MarbleActor extends Actor {
     private Context context;
 
     /**
-     * The {@link Texture} of the marble.
+     * The sprite for this marble.
      */
-    private Texture texture;
+    private Sprite sprite;
 
     /**
      * Construct a {@link MarbleActor} instance.
@@ -93,9 +64,10 @@ public class MarbleActor extends Actor {
         this.marble = marble;
         this.context = context;
         this.context.register(marble, this);
-        this.texture = findTexture();
+        this.sprite = context.getTextureAtlas().createSprite("marbles/"
+            + marble.getType().name().toLowerCase());
         this.setUserObject(marble);
-        this.setSize(texture.getWidth(), texture.getHeight());
+        this.setSize(sprite.getWidth(), sprite.getHeight());
         this.setOrigin(Align.center);
     }
 
@@ -109,29 +81,6 @@ public class MarbleActor extends Actor {
     }
 
     /**
-     * Find the correct {@link Texture} for the marble.
-     *
-     * @return A texture for the marble.
-     */
-    private Texture findTexture() {
-        switch (marble.getType()) {
-            case BLUE:
-                return TX_BALL_BLUE;
-            case GREEN:
-                return TX_BALL_GREEN;
-            case PINK:
-                return TX_BALL_PINK;
-            case YELLOW:
-                return TX_BALL_YELLOW;
-            case JOKER:
-                return TX_BALL_JOKER;
-            default:
-                // XXX Fix this case
-                return TX_BALL_BLUE;
-        }
-    }
-
-    /**
      * Draw the tile onto the screen.
      *
      * @param batch The batch to use.
@@ -139,10 +88,11 @@ public class MarbleActor extends Actor {
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(texture, getX(), getY(), getOriginX(), getOriginY(), getWidth(),
-            getHeight(), getScaleX(), getScaleY(), getRotation(), 0, 0,
-            texture.getWidth(), texture.getHeight(), false, false);
-
+        sprite.setScale(getScaleX(), getScaleY());
+        sprite.setOrigin(getOriginX(), getOriginY());
+        sprite.setRotation(getRotation());
+        sprite.setPosition(getX(), getY());
+        sprite.draw(batch, parentAlpha);
         super.draw(batch, parentAlpha);
     }
 }

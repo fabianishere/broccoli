@@ -25,10 +25,11 @@
 
 package nl.tudelft.broccoli.libgdx.scene;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import nl.tudelft.broccoli.core.Entity;
 import nl.tudelft.broccoli.core.grid.Tileable;
+import nl.tudelft.broccoli.libgdx.Context;
 
 /**
  * An actor in the scene for a {@link nl.tudelft.broccoli.core.grid.Tileable} entity.
@@ -62,11 +63,11 @@ public abstract class TileableActor<T extends Tileable> extends WidgetGroup {
     }
 
     /**
-     * Return the tile {@link Texture} for this {@link Tileable}.
+     * Return the tile {@link Sprite} for this {@link Tileable}.
      *
-     * @return The tile texture.
+     * @return The tile sprite.
      */
-    public abstract Texture getTileTexture();
+    public abstract Sprite getTileSprite();
 
     /**
      * Return the {@link Tileable} of this actor.
