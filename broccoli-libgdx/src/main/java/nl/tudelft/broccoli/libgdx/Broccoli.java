@@ -28,6 +28,7 @@ package nl.tudelft.broccoli.libgdx;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -46,6 +47,8 @@ import javax.swing.*;
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public class Broccoli extends Game {
+
+
     /**
      * The width of the window.
      */
@@ -83,6 +86,11 @@ public class Broccoli extends Game {
      * The game {@link Context} to use.
      */
     private Context context;
+
+    /**
+     * Boolean paused.
+     */
+    private boolean paused = false;
 
     /**
      * Construct a {@link Broccoli} instance.
@@ -142,10 +150,20 @@ public class Broccoli extends Game {
         }
 
 
-        // Draw the scene stage
-        stage.act(Gdx.graphics.getDeltaTime());
+
+        if (!paused) {
+            // Draw the scene stage
+            stage.act(Gdx.graphics.getDeltaTime());
+        }
+
         stage.draw();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            paused = !paused;
+            Gdx.input.setInputProcessor(paused ? null : stage);
+        }
     }
+
+
 
     /**
      * This method is invoked to dispose resources allocated by the game.
