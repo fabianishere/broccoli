@@ -27,9 +27,12 @@ package nl.tudelft.broccoli.core.nexus;
 
 import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.config.DoubleProperty;
+import nl.tudelft.broccoli.core.config.ListProperty;
 import nl.tudelft.broccoli.core.config.Property;
 import nl.tudelft.broccoli.core.grid.Direction;
 
+import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 
 /**
@@ -44,6 +47,12 @@ public class SpawningNexus extends Nexus {
      */
     public static final Property<Double> JOKER_PROBABILITY =
         new DoubleProperty("nexus.joker", 0);
+
+    /**
+     * The initial sequence of balls.
+     */
+    public static final Property<List<String>> INITIAL_SEQUENCE =
+        new ListProperty<>(String.class,"nexus.initial");
 
     /**
      * The possible type of marbles.
@@ -66,18 +75,26 @@ public class SpawningNexus extends Nexus {
     private final double joker;
 
     /**
+     * The initial sequence of balls to spawn.
+     */
+    private final Queue<Marble.Type> initial;
+
+    /**
      * Construct a {@link SpawningNexus} instance.
      *
      * @param context The nexus context instance to use.
      * @param random The random number generator to use for selecting the colors.
      * @param direction The direction from which the balls will be spawned.
      * @param joker The probability of a joker occurring.
+     * @param initial The initial sequence of balls to spawn.
      */
-    public SpawningNexus(NexusContext context, Random random, Direction direction, double joker) {
+    public SpawningNexus(NexusContext context, Random random, Direction direction, double joker,
+            Queue<Marble.Type> initial) {
         super(context);
         this.random = random;
         this.direction = direction;
         this.joker = joker;
+        this.initial = initial;
     }
 
     /**
@@ -93,9 +110,9 @@ public class SpawningNexus extends Nexus {
 
         Marble marble;
 
-        System.out.println(joker);
-
-        if (random.nextDouble() < joker) {
+        if (!initial.isEmpty()) {
+            marble = Marble.of(initial.poll());
+        } else if (random.nextDouble() < joker) {
             marble = Marble.of(Marble.Type.JOKER);
         } else {
             marble = Marble.of(MARBLES[random.nextInt(MARBLES.length - 1)]);

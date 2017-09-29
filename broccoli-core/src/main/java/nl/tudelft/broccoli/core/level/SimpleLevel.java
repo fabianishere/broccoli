@@ -1,5 +1,6 @@
 package nl.tudelft.broccoli.core.level;
 
+import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.grid.Direction;
@@ -12,7 +13,11 @@ import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import nl.tudelft.broccoli.core.track.VerticalTrack;
 
+import java.util.ArrayDeque;
+import java.util.List;
+import java.util.Queue;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * A very basic, static {@link Level} used for testing purposes.
@@ -69,8 +74,21 @@ public class SimpleLevel implements Level {
             grid.place(0, 3, new Nexus(context));
             grid.place(1, 3, new Nexus(context));
             grid.place(2, 3, new Nexus(context));
+
+            // Read the initial sequence of balls from the configuration
+            List<String> initialStrings = config.get(SpawningNexus.INITIAL_SEQUENCE);
+            Queue<Marble.Type> initial = new ArrayDeque<>(initialStrings.stream()
+                .map(str -> {
+                    try {
+                        return Marble.Type.valueOf(str);
+                    } catch (IllegalArgumentException e) {
+                        return Marble.Type.BLUE;
+                    }
+                }).collect(Collectors.toList())
+            );
+
             grid.place(3, 3, new SpawningNexus(context, new Random(), Direction.RIGHT,
-                config.get(SpawningNexus.JOKER_PROBABILITY)));
+                config.get(SpawningNexus.JOKER_PROBABILITY), initial));
 
             TimerTile timer = new TimerTile(config.get(TimerTile.MAX_TIME));
             grid.place(3, 2, timer);

@@ -7,6 +7,8 @@ int grid.height = 4
 
 # The probability that a joker is spawned. 0 disables jokers.
 real nexus.joker = 0.1
+# The initial sequence of balls.
+string nexus.initial = [YELLOW, YELLOW, GREEN, PINK, BLUE, BLUE, BLUE]
 
 # The maximum amount of time allowed for a level
 int timer.max = 200
