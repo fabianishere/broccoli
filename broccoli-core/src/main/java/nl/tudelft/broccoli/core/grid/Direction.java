@@ -66,10 +66,20 @@ public enum Direction {
      * Rotate a {@link Direction} by <code>n</code> amount of 90 degree clockwise turns and return
      * the new direction.
      *
-     * @param turns The amount of to make.
+     * @param turns The amount of turns to make.
      * @return The resulting direction.
      */
     public Direction rotate(int turns) {
         return VALUES[Math.floorMod(ordinal() + turns, VALUES.length)];
+    }
+
+    /**
+     * Return a {@link Direction} given an clockwise index.
+     *
+     * @param index The index of the direction to get.
+     * @return The resulting direction.
+     */
+    public static Direction from(int index) {
+        return VALUES[Math.floorMod(index, VALUES.length)];
     }
 }

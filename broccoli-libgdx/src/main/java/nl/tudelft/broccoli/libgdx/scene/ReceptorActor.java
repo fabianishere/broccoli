@@ -97,6 +97,11 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
     private final Sprite[] unmarkedTiles = new Sprite[15];
 
     /**
+     * The index of the tile.
+     */
+    private int tileIndex;
+
+    /**
      * A map which maps the direction of slots to their positions on the receptor.
      */
     private EnumMap<Direction, Vector2> positions = new EnumMap<>(Direction.class);
@@ -115,9 +120,20 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
         marked = atlas.createSprite("receptor/marked");
         unmarked = atlas.createSprite("receptor/unmarked");
 
-        for (int i = 0; i < markedTiles.length; i++) {
-            markedTiles[i] = atlas.createSprite("tiles/receptor/marked", i);
-            unmarkedTiles[i] = atlas.createSprite("tiles/receptor/unmarked", i);
+        for (int i = 1; i <= markedTiles.length; i++) {
+            markedTiles[i - 1] = atlas.createSprite("tiles/receptor/marked", i);
+            unmarkedTiles[i - 1] = atlas.createSprite("tiles/receptor/unmarked", i);
+        }
+
+        // Generate the index of the adaptive tile.
+        // We generate this index by creating a number between 1-15 representing the directions
+        // at which the receptor is connected in binary in counterclockwise order starting from
+        // the TOP direction (e.g. 1010 means TOP and BOTTOM are connected)
+        // This is done by flipping the bits on the tile index on the places it is connected.
+        for (int i = 0; i < 4; i++) {
+            if (receptor.isConnected(Direction.from(4 - i))) {
+                tileIndex |= (1 << (3 - i));
+            }
         }
 
         receptor.addListener(this);
@@ -178,7 +194,7 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
      */
     @Override
     public Sprite getTileSprite() {
-        return getTileable().isMarked() ? markedTiles[0] : unmarkedTiles[0];
+        return getTileable().isMarked() ? markedTiles[tileIndex - 1] : unmarkedTiles[tileIndex - 1];
     }
 
     /**

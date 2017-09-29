@@ -619,49 +619,49 @@ tiles/receptor/marked
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 0
+  index: 1
 tiles/receptor/marked
   rotate: false
   xy: 558, 47
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 1
+  index: 2
 tiles/receptor/marked
   rotate: false
   xy: 697, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 2
+  index: 3
 tiles/receptor/marked
   rotate: false
   xy: 836, 325
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 3
+  index: 4
 tiles/receptor/marked
   rotate: false
   xy: 697, 47
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 4
+  index: 5
 tiles/receptor/marked
   rotate: false
   xy: 836, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 5
+  index: 6
 tiles/receptor/marked
   rotate: false
   xy: 836, 47
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 6
+  index: 7
 
 sprites2.png
 size: 1024,1024
@@ -933,161 +933,161 @@ tiles/receptor/marked
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 7
+  index: 8
 tiles/receptor/marked
   rotate: false
   xy: 2, 742
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 8
+  index: 9
 tiles/receptor/marked
   rotate: false
   xy: 141, 881
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 9
+  index: 10
 tiles/receptor/marked
   rotate: false
   xy: 2, 603
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 10
+  index: 11
 tiles/receptor/marked
   rotate: false
   xy: 141, 742
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 11
+  index: 12
 tiles/receptor/marked
   rotate: false
   xy: 280, 881
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 12
+  index: 13
 tiles/receptor/marked
   rotate: false
   xy: 2, 464
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 13
+  index: 14
 tiles/receptor/marked
   rotate: false
   xy: 141, 603
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 14
+  index: 15
 tiles/receptor/unmarked
   rotate: false
   xy: 141, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 0
+  index: 1
 tiles/receptor/unmarked
   rotate: false
   xy: 280, 325
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 1
+  index: 2
 tiles/receptor/unmarked
   rotate: false
   xy: 419, 464
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 2
+  index: 3
 tiles/receptor/unmarked
   rotate: false
   xy: 558, 603
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 3
+  index: 4
 tiles/receptor/unmarked
   rotate: false
   xy: 697, 742
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 4
+  index: 5
 tiles/receptor/unmarked
   rotate: false
   xy: 836, 881
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 5
+  index: 6
 tiles/receptor/unmarked
   rotate: false
   xy: 141, 47
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 6
+  index: 7
 tiles/receptor/unmarked
   rotate: false
   xy: 280, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 7
+  index: 8
 tiles/receptor/unmarked
   rotate: false
   xy: 419, 325
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 8
+  index: 9
 tiles/receptor/unmarked
   rotate: false
   xy: 558, 464
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 9
+  index: 10
 tiles/receptor/unmarked
   rotate: false
   xy: 697, 603
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 10
+  index: 11
 tiles/receptor/unmarked
   rotate: false
   xy: 836, 742
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 11
+  index: 12
 tiles/receptor/unmarked
   rotate: false
   xy: 280, 47
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 12
+  index: 13
 tiles/receptor/unmarked
   rotate: false
   xy: 419, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 13
+  index: 14
 tiles/receptor/unmarked
   rotate: false
   xy: 558, 325
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 14
+  index: 15
 tiles/vertical
   rotate: false
   xy: 697, 464
