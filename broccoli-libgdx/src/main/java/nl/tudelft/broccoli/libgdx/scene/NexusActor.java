@@ -135,9 +135,9 @@ public class NexusActor extends TileableActor<Nexus> implements TileableListener
             move,
             Actions.run(() -> {
                 if (nexus.isReleasable(Direction.BOTTOM)) {
+                    actor.clearActions();
                     nexus.release(Direction.BOTTOM, marble);
                     nexus.getContext().setOccupied(false);
-                    actor.clearActions();
                     return;
                 }
                 move.restart();

@@ -102,7 +102,7 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
         Track track = getTileable();
         Actor actor = getContext().actor(marble);
         Action move;
-
+        actor.setRotation(0.f);
         switch (direction) {
             case TOP:
                 actor.setPosition(getWidth() / 2.f, getHeight(), Align.center);

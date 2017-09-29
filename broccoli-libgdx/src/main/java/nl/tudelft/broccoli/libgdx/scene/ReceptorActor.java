@@ -31,6 +31,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -53,6 +54,11 @@ import java.util.EnumMap;
  */
 public class ReceptorActor extends TileableActor<Receptor> implements TileableListener {
     /**
+     * The travel time multiplier for travel speed over this track.
+     */
+    private static final float TRAVEL_TIME = 0.008f;
+    
+   /**
      * The turn sound of a receptor.
      */
     private static final Sound ROTATE =
@@ -128,9 +134,20 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
                         Actions.run(ROTATE::play),
                         Actions.rotateBy(-90.f, 0.2f),
                         Actions.run(() -> receptor.rotate(1))
+
                     ),
                     Actions.run(receptor::unlock)
                 ));
+
+                for (Direction d : Direction.values()) {
+                    if (receptor.getSlot(d).isOccupied()) {
+                        Marble ball = receptor.getSlot(d).getMarble();
+                        Actor actor = getContext().actor(ball);
+                        actor.addAction(Actions.sequence(
+                                Actions.rotateBy(90.f, 0.2f)
+                        ));
+                    }
+                }
                 return true;
             }
         });
@@ -224,22 +241,76 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
         Actor registry = getContext().actor(marble);
         Actor actor = registry != null ? registry : new MarbleActor(marble, getContext());
 
-        actor.setPosition(position.x, position.y, Align.center);
+        float ballRadius = 25.f;
+
+        int turns = (5 - receptor.getRotation()) % 4;
+
+        int[] sin = {0, 1, 0, -1};
+        int[] cos = {1, 0, -1, 0};
+
+        Action move;
+        Action moveReverse;
+
+        actor.setRotation(90.f - turns * 90.f);
+        switch (direction) {
+            case TOP:
+                actor.setPosition(position.x - cos[turns] * ballRadius,
+                        position.y + sin[turns] * ballRadius, Align.center);
+                move = Actions.moveBy(ballRadius * cos[turns],
+                        - ballRadius * sin[turns], ballRadius * TRAVEL_TIME);
+                moveReverse = Actions.moveBy(- ballRadius * cos[turns],
+                        ballRadius * sin[turns], ballRadius * TRAVEL_TIME);
+                break;
+            case BOTTOM:
+                actor.setPosition(position.x + cos[turns] * ballRadius,
+                        position.y - sin[turns] * ballRadius, Align.center);
+                move = Actions.moveBy(- ballRadius * cos[turns],
+                        ballRadius * sin[turns], ballRadius * TRAVEL_TIME);
+                moveReverse = Actions.moveBy(ballRadius * cos[turns],
+                        - ballRadius * sin[turns], ballRadius * TRAVEL_TIME);
+                break;
+            case LEFT:
+                actor.setPosition(position.x - sin[turns] * ballRadius,
+                        position.y - cos[turns] * ballRadius, Align.center);
+                move = Actions.moveBy(ballRadius * sin[turns],
+                        ballRadius * cos[turns], ballRadius * TRAVEL_TIME);
+                moveReverse = Actions.moveBy(- ballRadius * sin[turns],
+                        - ballRadius * cos[turns], ballRadius * TRAVEL_TIME);
+                break;
+            case RIGHT:
+                actor.setPosition(position.x + sin[turns] * ballRadius,
+                        position.y + cos[turns] * ballRadius, Align.center);
+                move = Actions.moveBy(- ballRadius * sin[turns],
+                        - ballRadius * cos[turns], ballRadius * TRAVEL_TIME);
+                moveReverse = Actions.moveBy(ballRadius * sin[turns],
+                        ballRadius * cos[turns], ballRadius * TRAVEL_TIME);
+                break;
+            default:
+                actor.setPosition(position.x, position.y, Align.center);
+                move = Actions.sequence();
+                moveReverse = Actions.sequence();
+        }
         actor.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (receptor.isReleasable(slot.getDirection())) {
-                    actor.addAction(Actions.run(() -> {
-                        actor.removeListener(this);
-                        slot.release();
-                    }));
+                    actor.addAction(Actions.sequence(
+                            moveReverse,
+                            Actions.run(() -> {
+                                actor.removeListener(this);
+                                slot.release();
+                            }))
+                    );
                 }
-
                 // Stop the event from propagating
                 event.stop();
                 return true;
             }
         });
+        actor.addAction(Actions.sequence(
+                move
+        ));
+
         addActor(actor);
 
         DOCK.play();
