@@ -25,6 +25,8 @@
 
 package nl.tudelft.broccoli.libgdx.scene;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -50,6 +52,24 @@ import java.util.EnumMap;
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public class ReceptorActor extends TileableActor<Receptor> implements TileableListener {
+    /**
+     * The turn sound of a receptor.
+     */
+    private static final Sound ROTATE =
+        Gdx.audio.newSound(Gdx.files.classpath("sound/sfx/rotate.wav"));
+
+    /**
+     * The dock sound of a receptor.
+     */
+    private static final Sound DOCK =
+        Gdx.audio.newSound(Gdx.files.classpath("sound/sfx/dock.wav"));
+
+    /**
+     * The explosion sound of a receptor.
+     */
+    private static final Sound EXPLODE =
+        Gdx.audio.newSound(Gdx.files.classpath("sound/sfx/explode.wav"));
+
     /**
      * The marked receptor sprite of this receptor.
      */
@@ -105,6 +125,7 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
                 addAction(Actions.sequence(
                     Actions.run(receptor::lock),
                     Actions.parallel(
+                        Actions.run(ROTATE::play),
                         Actions.rotateBy(-90.f, 0.2f),
                         Actions.run(() -> receptor.rotate(1))
                     ),
@@ -180,6 +201,10 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
         if (actor != null) {
             actor.remove();
         }
+
+        if (getTileable().isMarked()) {
+            EXPLODE.play();
+        }
     }
 
     /**
@@ -216,5 +241,7 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
             }
         });
         addActor(actor);
+
+        DOCK.play();
     }
 }

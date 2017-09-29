@@ -1,8 +1,8 @@
 package nl.tudelft.broccoli.libgdx.scene;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.libgdx.Context;

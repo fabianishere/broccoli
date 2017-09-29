@@ -25,6 +25,8 @@
 
 package nl.tudelft.broccoli.libgdx.scene;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -44,6 +46,12 @@ import nl.tudelft.broccoli.libgdx.Context;
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public class TrackActor extends TileableActor<Track> implements TileableListener {
+    /**
+     * The bounce sound in case a ball is denied.
+     */
+    private static final Sound BOUNCE =
+        Gdx.audio.newSound(Gdx.files.classpath("sound/sfx/bounce.wav"));
+
     /**
      * The travel time multiplier for travel speed over this track.
      */
@@ -121,6 +129,7 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
             Actions.run(() -> {
                 Direction inverse = direction.inverse();
                 if (!track.isReleasable(inverse)) {
+                    BOUNCE.play();
                     ballAccepted(tileable, inverse, marble);
                     return;
                 }
