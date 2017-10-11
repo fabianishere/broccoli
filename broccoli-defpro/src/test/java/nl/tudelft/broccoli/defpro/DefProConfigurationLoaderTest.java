@@ -25,21 +25,18 @@
 
 package nl.tudelft.broccoli.defpro;
 
-import nl.tu.delft.defpro.api.IDefProAPI;
-import nl.tudelft.broccoli.core.config.BooleanProperty;
-import nl.tudelft.broccoli.core.config.ConfigurationLoader;
-import nl.tudelft.broccoli.core.config.Property;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import nl.tudelft.broccoli.core.config.BooleanProperty;
+import nl.tudelft.broccoli.core.config.ConfigurationLoader;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Test suite for {@link DefProConfigurationLoader} class.

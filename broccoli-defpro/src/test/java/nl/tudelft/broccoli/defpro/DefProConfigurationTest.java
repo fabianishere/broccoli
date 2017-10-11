@@ -25,6 +25,11 @@
 
 package nl.tudelft.broccoli.defpro;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import nl.tu.delft.defpro.api.IDefProAPI;
 import nl.tu.delft.defpro.exception.NotExistingVariableException;
 import nl.tudelft.broccoli.core.config.*;
@@ -33,11 +38,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * A test suite for the {@link DefProConfiguration} class.
@@ -103,7 +103,7 @@ public class DefProConfigurationTest {
     }
 
     /**
-     * Test whether the default boolean value is returned for the given key if it is non existing
+     * Test whether the default boolean value is returned for the given key if it is non existing.
      */
     @Test
     public void getDefaultBooleanProperty() throws Exception {
@@ -121,7 +121,7 @@ public class DefProConfigurationTest {
     }
 
     /**
-     * Test whether the default double value is returned for the given key if it is non existing
+     * Test whether the default double value is returned for the given key if it is non existing.
      */
     @Test
     public void getDefaultDoubleProperty() throws Exception {
@@ -139,7 +139,7 @@ public class DefProConfigurationTest {
     }
 
     /**
-     * Test whether the default integer value is returned for the given key if it is non existing
+     * Test whether the default integer value is returned for the given key if it is non existing.
      */
     @Test
     public void getDefaultIntegerProperty() throws Exception {
@@ -157,7 +157,7 @@ public class DefProConfigurationTest {
     }
 
     /**
-     * Test whether the default string value is returned for the given key if it is non existing
+     * Test whether the default string value is returned for the given key if it is non existing.
      */
     @Test
     public void getDefaultStringProperty() throws Exception {
@@ -181,16 +181,19 @@ public class DefProConfigurationTest {
     public void getBooleanListProperty() throws Exception {
         List<Boolean> list = Lists.newArrayList(false, true);
         when(api.getListBoolValueOf("a")).thenReturn(list);
-        assertThat(config.get(new ListProperty<>(Boolean.class, "a", Lists.emptyList()))).isEqualTo(list);
+        assertThat(config.get(new ListProperty<>(Boolean.class, "a", Lists.emptyList())))
+            .isEqualTo(list);
     }
 
     /**
-     * Test whether the default list of booleans is returned for the given key if it is non existing
+     * Test whether the default list of booleans is returned for the given key if it is non
+     * existing.
      */
     @Test
     public void getDefaultBooleanListProperty() throws Exception {
         when(api.getListRealValueOf(anyString())).thenThrow(new NotExistingVariableException(""));
-        assertThat(config.get(new ListProperty<>(Boolean.class,"a", Lists.emptyList()))).isEqualTo(Lists.emptyList());
+        assertThat(config.get(new ListProperty<>(Boolean.class,"a", Lists.emptyList())))
+            .isEqualTo(Lists.emptyList());
     }
 
     /**
@@ -200,16 +203,18 @@ public class DefProConfigurationTest {
     public void getDoubleListProperty() throws Exception {
         List<Double> list = Lists.newArrayList(1.0, 2.0);
         when(api.getListRealValueOf("a")).thenReturn(list);
-        assertThat(config.get(new ListProperty<>(Double.class, "a", Lists.emptyList()))).isEqualTo(list);
+        assertThat(config.get(new ListProperty<>(Double.class, "a", Lists.emptyList())))
+            .isEqualTo(list);
     }
 
     /**
-     * Test whether the default list of doubles is returned for the given key if it is non existing
+     * Test whether the default list of doubles is returned for the given key if it is non existing.
      */
     @Test
     public void getDefaultDoubleListProperty() throws Exception {
         when(api.getListRealValueOf(anyString())).thenThrow(new NotExistingVariableException(""));
-        assertThat(config.get(new ListProperty<>(Double.class,"a", Lists.emptyList()))).isEqualTo(Lists.emptyList());
+        assertThat(config.get(new ListProperty<>(Double.class,"a", Lists.emptyList())))
+            .isEqualTo(Lists.emptyList());
     }
 
     /**
@@ -219,16 +224,19 @@ public class DefProConfigurationTest {
     public void getIntegerListProperty() throws Exception {
         List<Integer> list = Lists.newArrayList(1, 2);
         when(api.getListIntValueOf("a")).thenReturn(list);
-        assertThat(config.get(new ListProperty<>(Integer.class, "a", Lists.emptyList()))).isEqualTo(list);
+        assertThat(config.get(new ListProperty<>(Integer.class, "a", Lists.emptyList())))
+            .isEqualTo(list);
     }
 
     /**
-     * Test whether the default list of integers is returned for the given key if it is non existing
+     * Test whether the default list of integers is returned for the given key if it is non
+     * existing.
      */
     @Test
     public void getDefaultIntegerListProperty() throws Exception {
         when(api.getListIntValueOf(anyString())).thenThrow(new NotExistingVariableException(""));
-        assertThat(config.get(new ListProperty<>(Integer.class,"a", Lists.emptyList()))).isEqualTo(Lists.emptyList());
+        assertThat(config.get(new ListProperty<>(Integer.class,"a", Lists.emptyList())))
+            .isEqualTo(Lists.emptyList());
     }
 
     /**
@@ -238,15 +246,18 @@ public class DefProConfigurationTest {
     public void getStringListProperty() throws Exception {
         List<String> list = Lists.newArrayList("a", "b");
         when(api.getListStringValueOf("a")).thenReturn(list);
-        assertThat(config.get(new ListProperty<>(String.class, "a", Lists.emptyList()))).isEqualTo(list);
+        assertThat(config.get(new ListProperty<>(String.class, "a", Lists.emptyList())))
+            .isEqualTo(list);
     }
 
     /**
-     * Test whether the default list of strings is returned for the given key if it is non existing
+     * Test whether the default list of strings is returned for the given key if it is non
+     * existing.
      */
     @Test
     public void getDefaultStringListProperty() throws Exception {
         when(api.getListStringValueOf(anyString())).thenThrow(new NotExistingVariableException(""));
-        assertThat(config.get(new ListProperty<>(String.class,"a", Lists.emptyList()))).isEqualTo(Lists.emptyList());
+        assertThat(config.get(new ListProperty<>(String.class,"a", Lists.emptyList())))
+            .isEqualTo(Lists.emptyList());
     }
 }

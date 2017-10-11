@@ -25,11 +25,11 @@
 
 package nl.tudelft.broccoli.core.level;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.config.Property;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Testing class that tests the {@link SimpleLevel} class.

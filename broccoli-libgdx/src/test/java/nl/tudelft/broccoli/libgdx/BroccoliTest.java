@@ -1,13 +1,13 @@
 package nl.tudelft.broccoli.libgdx;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
+
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.config.Property;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThatCode;
 
 /**
  * This class tests the tests the {@link Broccoli} class.

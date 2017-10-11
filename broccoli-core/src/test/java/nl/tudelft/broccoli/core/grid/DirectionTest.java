@@ -25,21 +25,19 @@
 
 package nl.tudelft.broccoli.core.grid;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 /**
- * A class to test the {@link Direction} enum
+ * A class to test the {@link Direction} enum.
  */
 public class DirectionTest {
     /**
      * Tests the inverse method with Top.
      */
     @Test
-    public void inverseTestTop(){
+    public void inverseTestTop() {
         assertThat(Direction.TOP.inverse()).isEqualTo(Direction.BOTTOM);
     }
 
@@ -47,7 +45,7 @@ public class DirectionTest {
      * Tests the inverse method with Bottom.
      */
     @Test
-    public void inverseTestBottom(){
+    public void inverseTestBottom() {
         assertThat(Direction.BOTTOM.inverse()).isEqualTo(Direction.TOP);
     }
 
@@ -55,7 +53,7 @@ public class DirectionTest {
      * Tests the inverse method with Left.
      */
     @Test
-    public void inverseTestLeft(){
+    public void inverseTestLeft() {
         assertThat(Direction.LEFT.inverse()).isEqualTo(Direction.RIGHT);
     }
 
@@ -63,15 +61,7 @@ public class DirectionTest {
      * Tests the inverse method with Right.
      */
     @Test
-    public void inverseTestRight(){
+    public void inverseTestRight() {
         assertThat(Direction.RIGHT.inverse()).isEqualTo(Direction.LEFT);
-    }
-
-    /**
-     * Tests the inverse method with Null.
-     */
-    @Test
-    public void inverseTestNull(){
-        assertThatThrownBy(() -> ((Direction) null).inverse()).isInstanceOf(NullPointerException.class);
     }
 }

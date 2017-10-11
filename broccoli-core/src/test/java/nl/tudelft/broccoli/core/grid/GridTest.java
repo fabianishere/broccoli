@@ -25,13 +25,13 @@
 
 package nl.tudelft.broccoli.core.grid;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import nl.tudelft.broccoli.core.track.VerticalTrack;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A class to test the {@link Grid} class.
@@ -43,7 +43,7 @@ public class GridTest {
     @Test
     public void negativeConstructorTest() {
         assertThatThrownBy(() -> {
-            Grid grid = new Grid(-1,-1);
+            new Grid(-1,-1);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -51,9 +51,9 @@ public class GridTest {
      * The constructor should throw an exception if given 0 values.
      */
     @Test
-    public void emptyConstructorTest(){
+    public void emptyConstructorTest() {
         assertThatThrownBy(() -> {
-            Grid grid = new Grid(0,0);
+            new Grid(0,0);
         }).isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -61,7 +61,7 @@ public class GridTest {
      * Tests the getWidth and getHeight methods.
      */
     @Test
-    public void gettersTest(){
+    public void gettersTest() {
         Grid grid = new Grid(3,2);
         assertThat(grid.getWidth()).isEqualTo(3);
         assertThat(grid.getHeight()).isEqualTo(2);
@@ -71,10 +71,10 @@ public class GridTest {
      * Tests the in points of the onGrid method.
      */
     @Test
-    public void onGridInPointsTest(){
+    public void onGridInPointsTest() {
         Grid grid = new Grid(3,2);
-        for (int x = 0; x<3; x++){
-            for (int y = 0; y<2; y++){
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 2; y++) {
                 assertThat(grid.onGrid(x,y)).isTrue();
             }
         }
@@ -84,12 +84,12 @@ public class GridTest {
      * Tests the out points of the onGrid method.
      */
     @Test
-    public void onGridOutPointsTest(){
+    public void onGridOutPointsTest() {
         Grid grid = new Grid(3,2);
         int x = -1;
         int y = -1;
 
-        while(y < 2) {
+        while (y < 2) {
             while (x < 4) {
                 assertThat(grid.onGrid(x, y)).isFalse();
                 x++;
@@ -101,7 +101,7 @@ public class GridTest {
         x = -1;
         y = -1;
 
-        while(x < 4) {
+        while (x < 4) {
             while (y < 3) {
                 assertThat(grid.onGrid(x, y)).isFalse();
                 y++;
@@ -115,10 +115,10 @@ public class GridTest {
      * Tests the place and get method with a few Tileables.
      */
     @Test
-    public void placeGetTest(){
+    public void placeGetTest() {
         Grid grid = new Grid(3,1);
-        Tileable[] tileTypes = {new Receptor(), new HorizontalTrack(), new VerticalTrack() };
-        for(int x = 0; x < 3; x++){
+        Tileable[] tileTypes = { new Receptor(), new HorizontalTrack(), new VerticalTrack() };
+        for (int x = 0; x < 3; x++) {
             grid.place(x,0, tileTypes[x]);
             assertThat(grid.get(x,0).getTileable()).isEqualTo(tileTypes[x]);
         }

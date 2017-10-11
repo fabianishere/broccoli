@@ -25,11 +25,11 @@
 
 package nl.tudelft.broccoli.core.receptor;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test class for testing the {@link Receptor} class.

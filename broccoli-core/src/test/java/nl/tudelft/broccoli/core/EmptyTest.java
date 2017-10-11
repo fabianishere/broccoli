@@ -25,12 +25,16 @@
 
 package nl.tudelft.broccoli.core;
 
-import nl.tudelft.broccoli.core.grid.Direction;
-import org.junit.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import nl.tudelft.broccoli.core.grid.Direction;
+import nl.tudelft.broccoli.core.grid.Tileable;
+import org.junit.Test;
+
+/**
+ * Tests for an empty {@link Tileable} object.
+ */
 public class EmptyTest {
     Empty empty = new Empty();
 

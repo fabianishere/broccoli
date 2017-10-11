@@ -25,11 +25,13 @@
 
 package nl.tudelft.broccoli.core;
 
-import org.junit.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.Test;
 
+/**
+ * Tests for the {@link Marble} class.
+ */
 public class MarbleTest {
     /**
      * Test if creating a pink ball gives a pink ball.

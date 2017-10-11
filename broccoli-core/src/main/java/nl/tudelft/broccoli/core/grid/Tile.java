@@ -69,14 +69,19 @@ public abstract class Tile implements Entity {
     /**
      * Return the {@link Tile} that is directly connected to this {@link Tile} in the given
      * {@link Direction}.
-     * .
+     *
      * @param direction The direction to get the {@link Tile} of.
      * @return The tile that is directly connected to this tile in the given direction.
+     * @throws IllegalArgumentException if the specified {@link Direction} is <code>null</code>.
      */
     public Tile get(Direction direction) {
         Grid grid = getGrid();
         int x = getX();
         int y = getY();
+
+        if (direction == null) {
+            throw new IllegalArgumentException();
+        }
 
         switch (direction) {
             case TOP:
@@ -88,7 +93,7 @@ public abstract class Tile implements Entity {
             case LEFT:
                 return grid.get(x - 1, y);
             default:
-                return null;
+                throw new IllegalArgumentException("The specified direction is not supported");
         }
     }
 

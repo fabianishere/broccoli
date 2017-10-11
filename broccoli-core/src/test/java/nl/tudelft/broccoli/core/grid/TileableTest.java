@@ -25,12 +25,12 @@
 
 package nl.tudelft.broccoli.core.grid;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import nl.tudelft.broccoli.core.track.VerticalTrack;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * A class to test the abstract {@link Tileable} class.
@@ -44,7 +44,7 @@ public class TileableTest {
      * Sets up a grid an onGrid tile and an off the grid tile ☺.
      */
     @Before
-    public void setUp(){
+    public void setUp() {
         grid = new Grid(1, 1);
         htrack = new HorizontalTrack();
         vtrack = new VerticalTrack();

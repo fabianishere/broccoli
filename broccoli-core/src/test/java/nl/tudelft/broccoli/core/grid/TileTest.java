@@ -25,17 +25,17 @@
 
 package nl.tudelft.broccoli.core.grid;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import nl.tudelft.broccoli.core.track.VerticalTrack;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 /**
- * A class to test the {@link Tile} class
+ * A class to test the {@link Tile} class.
  */
 public class TileTest {
     Grid grid;
@@ -47,7 +47,7 @@ public class TileTest {
      * Sets up a grid to test.
      */
     @Before
-    public void setUp(){
+    public void setUp() {
         grid = new Grid(2, 2);
         htrack = new HorizontalTrack();
         vtrack = new VerticalTrack();
@@ -78,7 +78,7 @@ public class TileTest {
      * Tests the get method with the TOP direction.
      */
     @Test
-    public void getTOP() {
+    public void getTop() {
         assertThat(grid.get(0,0).get(Direction.TOP).getTileable()).isEqualTo(receptor);
     }
 
@@ -86,7 +86,7 @@ public class TileTest {
      * Tests the get method with the BOTTOM direction.
      */
     @Test
-    public void getBOTTOM() {
+    public void getBottom() {
         assertThat(grid.get(0,1).get(Direction.BOTTOM).getTileable()).isEqualTo(htrack);
     }
 
@@ -94,7 +94,7 @@ public class TileTest {
      * Tests the get method with the RIGHT direction.
      */
     @Test
-    public void getRIGHT() {
+    public void getRight() {
         assertThat(grid.get(0,0).get(Direction.RIGHT).getTileable()).isEqualTo(vtrack);
     }
 
@@ -102,7 +102,7 @@ public class TileTest {
      * Tests the get method with the LEFT direction.
      */
     @Test
-    public void getLEFT() {
+    public void getLleft() {
         assertThat(grid.get(1,0).get(Direction.LEFT).getTileable()).isEqualTo(htrack);
     }
 
@@ -111,7 +111,8 @@ public class TileTest {
      */
     @Test
     public void getDirectionNull() {
-        assertThatThrownBy(() -> grid.get(1,0).get(null).getTileable()).isInstanceOf(Exception.class);
+        assertThatThrownBy(() -> grid.get(1,0).get(null).getTileable())
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     /**
