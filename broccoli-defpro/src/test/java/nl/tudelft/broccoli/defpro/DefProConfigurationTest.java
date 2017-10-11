@@ -117,7 +117,7 @@ public class DefProConfigurationTest {
     @Test
     public void getDoubleProperty() throws Exception {
         when(api.getRealValueOf("a")).thenReturn(1.0);
-        assertThat(config.get(new DoubleProperty("a", 1.0))).isEqualTo(1.0);
+        assertThat(config.get(new DoubleProperty("a"))).isEqualTo(1.0);
     }
 
     /**
@@ -135,7 +135,7 @@ public class DefProConfigurationTest {
     @Test
     public void getIntegerProperty() throws Exception {
         when(api.getIntegerValueOf("a")).thenReturn(1);
-        assertThat(config.get(new IntegerProperty("a", 1))).isEqualTo(1);
+        assertThat(config.get(new IntegerProperty("a"))).isEqualTo(1);
     }
 
     /**
