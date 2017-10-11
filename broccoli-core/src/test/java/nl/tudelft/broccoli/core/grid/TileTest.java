@@ -102,7 +102,7 @@ public class TileTest {
      * Tests the get method with the LEFT direction.
      */
     @Test
-    public void getLleft() {
+    public void getLeft() {
         assertThat(grid.get(1,0).get(Direction.LEFT).getTileable()).isEqualTo(htrack);
     }
 
@@ -111,7 +111,7 @@ public class TileTest {
      */
     @Test
     public void getDirectionNull() {
-        assertThatThrownBy(() -> grid.get(1,0).get(null).getTileable())
+        assertThatThrownBy(() -> grid.get(1,0).get(null))
             .isInstanceOf(IllegalArgumentException.class);
     }
 
