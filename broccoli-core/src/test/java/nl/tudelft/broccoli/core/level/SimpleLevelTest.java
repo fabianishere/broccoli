@@ -26,10 +26,22 @@
 package nl.tudelft.broccoli.core.level;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.config.Property;
+import nl.tudelft.broccoli.core.grid.Direction;
+import nl.tudelft.broccoli.core.grid.Grid;
+import nl.tudelft.broccoli.core.grid.Tile;
+import nl.tudelft.broccoli.core.nexus.SpawningNexus;
+import nl.tudelft.broccoli.core.receptor.Receptor;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 /**
  * Testing class that tests the {@link SimpleLevel} class.
@@ -37,17 +49,20 @@ import org.junit.Test;
 public class SimpleLevelTest {
 
     private SimpleLevel simpleLevel = new SimpleLevel();
-    private Configuration config = new Configuration() {
-        @Override
-        public <T> T get(Property<T> property, T defaultValue) {
-            return defaultValue;
-        }
+    private Configuration config;
 
-        @Override
-        public boolean exists(Property<?> property) {
-            return false;
-        }
-    };
+    /**
+     * Setup the test suite.
+     */
+    @Before
+    public void setUp() {
+        config = mock(Configuration.class);
+        when(config.exists(any())).thenReturn(false);
+        when(config.get(any()))
+            .thenAnswer((invocation) -> invocation.getArgumentAt(0, Property.class).getDefault());
+        when(config.get(any(), any()))
+            .thenAnswer((invocation) -> invocation.getArgumentAt(1, Object.class));
+    }
 
     /**
      * Test if calling the create function gives an instance of a {@link GameSession}.
@@ -61,7 +76,83 @@ public class SimpleLevelTest {
      * Test to see if getting the name of the level is simple.
      */
     @Test
-    public void getNameTest() {
+    public void getName() {
         assertThat(simpleLevel.getName()).isEqualTo("simple");
+    }
+
+    /**
+     * Test that the game is linked to the level that created it.
+     */
+    @Test
+    public void getLevel() {
+        assertThat(simpleLevel.create(config).getLevel()).isEqualTo(simpleLevel);
+    }
+
+    /**
+     * Test that the game uses the initial sequence defined in the config.
+     */
+    @Test
+    public void useInitialSequence() {
+        when(config.exists(SpawningNexus.INITIAL_SEQUENCE)).thenReturn(true);
+        when(config.get(SpawningNexus.INITIAL_SEQUENCE)).thenReturn(Arrays.asList("GREEN",
+            "BLUE", "PINK", "JOKER", "YELLOW", "INVALID"));
+
+        GameSession session = simpleLevel.create(config);
+        SpawningNexus nexus = (SpawningNexus) session.getGrid().get(3, 3).getTileable();
+        assertThat(nexus.spawn().getType()).isEqualTo(Marble.Type.GREEN);
+        nexus.getContext().setOccupied(false);
+        assertThat(nexus.spawn().getType()).isEqualTo(Marble.Type.BLUE);
+        nexus.getContext().setOccupied(false);
+        assertThat(nexus.spawn().getType()).isEqualTo(Marble.Type.PINK);
+        nexus.getContext().setOccupied(false);
+        assertThat(nexus.spawn().getType()).isEqualTo(Marble.Type.JOKER);
+        nexus.getContext().setOccupied(false);
+        assertThat(nexus.spawn().getType()).isEqualTo(Marble.Type.YELLOW);
+        nexus.getContext().setOccupied(false);
+        assertThat(nexus.spawn().getType()).isEqualTo(Marble.Type.BLUE);
+    }
+
+    /**
+     * Test that the game returns the correct grid.
+     */
+    @Test
+    public void getGrid() {
+        GameSession session = simpleLevel.create(config);
+        assertThat(session.getGrid().getHeight())
+            .isEqualTo(Grid.HEIGHT.getDefault());
+        assertThat(session.getGrid().getWidth())
+            .isEqualTo(Grid.WIDTH.getDefault());
+    }
+
+    /**
+     * Test that the game is initially not won.
+     */
+    @Test
+    public void isNotWon() {
+        GameSession session = simpleLevel.create(config);
+        assertThat(session.isWon()).isFalse();
+    }
+
+    /**
+     * Test that the game is won.
+     */
+    @Test
+    public void isWon() {
+        GameSession session = simpleLevel.create(config);
+        Grid grid = session.getGrid();
+
+        for (int j = 0; j < grid.getHeight(); j++) {
+            for (int i = 0; i < grid.getWidth(); i++) {
+                Tile tile = grid.get(i, j);
+
+                if (tile.getTileable() instanceof Receptor) {
+                    Receptor receptor = (Receptor) tile.getTileable();
+                    for (Direction direction : Direction.values()) {
+                        receptor.accept(direction, Marble.of(Marble.Type.BLUE));
+                    }
+                }
+            }
+        }
+        assertThat(session.isWon()).isTrue();
     }
 }
