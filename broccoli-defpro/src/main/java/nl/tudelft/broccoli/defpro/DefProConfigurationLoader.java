@@ -31,6 +31,11 @@ import nl.tudelft.broccoli.core.config.ConfigurationLoader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 /**
  * A {@link ConfigurationLoader} for the Defensive Programming Reader API.
@@ -51,5 +56,19 @@ public class DefProConfigurationLoader implements ConfigurationLoader {
             throw new FileNotFoundException("The given file does not exist");
         }
         return new DefProConfiguration(APIProvider.getAPI(file.getAbsolutePath()));
+    }
+
+    /**
+     * Load the given {@link InputStream} as a {@link Configuration} instance.
+     *
+     * @param input The input stream to read the configuration from.
+     * @return The {@link Configuration} that has been loaded.
+     * @throws IOException if the loader failed to read from the input stream.
+     */
+    @Override
+    public Configuration load(InputStream input) throws IOException {
+        Path path = Files.createTempFile("defpro", "config");
+        Files.copy(input, path, StandardCopyOption.REPLACE_EXISTING);
+        return load(path.toFile());
     }
 }
