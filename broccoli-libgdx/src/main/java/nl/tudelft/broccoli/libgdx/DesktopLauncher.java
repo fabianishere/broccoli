@@ -30,7 +30,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import nl.tudelft.broccoli.core.config.ConfigurationLoader;
 import nl.tudelft.broccoli.defpro.DefProConfigurationLoader;
 
-import java.io.File;
+import java.io.InputStream;
 
 /**
  * A launcher for the Gudeballs game implementation using libgdx as front-end,
@@ -56,8 +56,8 @@ public final class DesktopLauncher {
         config.height = 480;
         config.resizable = false;
 
-        File path = new File("config.txt");
+        InputStream input = DesktopLauncher.class.getResourceAsStream("/config.txt");
         ConfigurationLoader loader = new DefProConfigurationLoader();
-        new LwjglApplication(new Broccoli(loader.tryLoad(path)), config);
+        new LwjglApplication(new Broccoli(loader.tryLoad(input)), config);
     }
 }
