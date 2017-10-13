@@ -253,7 +253,7 @@ public class Receptor extends Tileable {
 
             Direction direction = getDirection();
 
-            if (!isConnected(direction) || !isReleasable(direction)) {
+            if (!isConnected(direction) || !isReleasable(direction, marble)) {
                 throw new IllegalStateException("The slot cannot release the marble "
                         + "to its neighbor");
             }
@@ -292,8 +292,8 @@ public class Receptor extends Tileable {
      *         <code>false</code> otherwise.
      */
     @Override
-    public boolean isReleasable(Direction direction) {
-        return !isLocked() && super.isReleasable(direction);
+    public boolean isReleasable(Direction direction, Marble marble) {
+        return !isLocked() && super.isReleasable(direction, marble);
     }
 
     /**
@@ -326,7 +326,7 @@ public class Receptor extends Tileable {
      *         <code>false</code> otherwise.
      */
     @Override
-    public boolean accepts(Direction direction) {
+    public boolean accepts(Direction direction, Marble marble) {
         return !locked && !getSlot(direction).isOccupied();
     }
 

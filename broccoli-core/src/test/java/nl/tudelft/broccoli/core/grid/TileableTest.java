@@ -41,6 +41,7 @@ import org.junit.Test;
  */
 public class TileableTest {
     private Grid grid;
+    private Marble marble;
 
     /**
      * Sets up a grid an onGrid tile and an off the grid tile ☺.
@@ -52,6 +53,7 @@ public class TileableTest {
         grid.place(1, 0, new HorizontalTrack());
         grid.place(0, 1, new HorizontalTrack());
         grid.place(1, 1, new Empty());
+        marble = Marble.of(Marble.Type.GREEN);
     }
 
     @Test
@@ -94,25 +96,25 @@ public class TileableTest {
     @Test
     public void isReleasable() {
         Tileable tileable = grid.get(0, 0).getTileable();
-        assertThat(tileable.isReleasable(Direction.RIGHT)).isTrue();
+        assertThat(tileable.isReleasable(Direction.RIGHT, marble)).isTrue();
     }
 
     @Test
     public void isNotReleasable() {
         Tileable tileable = grid.get(0, 0).getTileable();
-        assertThat(tileable.isReleasable(Direction.LEFT)).isFalse();
+        assertThat(tileable.isReleasable(Direction.LEFT, marble)).isFalse();
     }
 
     @Test
     public void neighbourDoesNotAllowReleasing() {
         Tileable tileable = grid.get(0, 1).getTileable();
-        assertThat(tileable.isReleasable(Direction.RIGHT)).isFalse();
+        assertThat(tileable.isReleasable(Direction.RIGHT, marble)).isFalse();
     }
 
     @Test
     public void unplacedNotReleasable() {
         Track track = new HorizontalTrack();
-        assertThatThrownBy(() -> track.isReleasable(Direction.RIGHT))
+        assertThatThrownBy(() -> track.isReleasable(Direction.RIGHT, marble))
             .isInstanceOf(IllegalStateException.class);
     }
 

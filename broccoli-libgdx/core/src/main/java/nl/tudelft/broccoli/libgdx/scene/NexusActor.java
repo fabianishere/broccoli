@@ -134,7 +134,7 @@ public class NexusActor extends TileableActor<Nexus> implements TileableListener
         actor.addAction(Actions.sequence(
             move,
             Actions.run(() -> {
-                if (nexus.isReleasable(Direction.BOTTOM)) {
+                if (nexus.isReleasable(Direction.BOTTOM, marble)) {
                     actor.clearActions();
                     nexus.release(Direction.BOTTOM, marble);
                     nexus.getContext().setOccupied(false);
@@ -145,7 +145,7 @@ public class NexusActor extends TileableActor<Nexus> implements TileableListener
             move,
             Actions.run(() -> {
                 Direction inverse = direction.inverse();
-                if (!nexus.isReleasable(inverse)) {
+                if (!nexus.isReleasable(inverse, marble)) {
                     ballAccepted(tileable, inverse, marble);
                     return;
                 }

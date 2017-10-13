@@ -77,6 +77,12 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
         Gdx.audio.newSound(Gdx.files.classpath("sound/sfx/explode.wav"));
 
     /**
+     * The clank sound in case a ball cannot be released.
+     */
+    private static final Sound CLANK =
+        Gdx.audio.newSound(Gdx.files.classpath("sound/sfx/clank.wav"));
+
+    /**
      * The marked receptor sprite of this receptor.
      */
     private final Sprite marked;
@@ -121,8 +127,8 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
         unmarked = atlas.createSprite("receptor/unmarked");
 
         for (int i = 1; i <= markedTiles.length; i++) {
-            markedTiles[i - 1] = atlas.createSprite("tiles/receptor/marked", i);
-            unmarkedTiles[i - 1] = atlas.createSprite("tiles/receptor/unmarked", i);
+            markedTiles[i - 1] = atlas.createSprite("receptor/tile_marked", i);
+            unmarkedTiles[i - 1] = atlas.createSprite("receptor/tile_unmarked", i);
         }
 
         // Generate the index of the adaptive tile.
@@ -266,11 +272,14 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
         actor.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (receptor.isReleasable(slot.getDirection())) {
+                if (receptor.isReleasable(slot.getDirection(), marble)) {
                     actor.clearActions();
                     actor.removeListener(this);
                     slot.release();
+                } else {
+                    CLANK.play();
                 }
+
                 // Stop the event from propagating
                 event.stop();
                 return true;

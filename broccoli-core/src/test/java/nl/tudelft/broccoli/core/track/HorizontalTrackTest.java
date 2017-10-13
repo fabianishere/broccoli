@@ -44,11 +44,17 @@ public class HorizontalTrackTest {
     private HorizontalTrack track;
 
     /**
+     * The tested marble.
+     */
+    private Marble marble;
+
+    /**
      * Setup the test suite.
      */
     @Before
     public void setUp() {
         track = new HorizontalTrack();
+        marble = Marble.of(Marble.Type.GREEN);
     }
 
     /**
@@ -155,7 +161,7 @@ public class HorizontalTrackTest {
      */
     @Test
     public void acceptsLeft() {
-        assertThat(track.accepts(Direction.LEFT)).isTrue();
+        assertThat(track.accepts(Direction.LEFT, marble)).isTrue();
     }
 
     /**
@@ -163,7 +169,7 @@ public class HorizontalTrackTest {
      */
     @Test
     public void acceptsRight() {
-        assertThat(track.accepts(Direction.RIGHT)).isTrue();
+        assertThat(track.accepts(Direction.RIGHT, marble)).isTrue();
     }
 
     /**
@@ -171,7 +177,7 @@ public class HorizontalTrackTest {
      */
     @Test
     public void notAcceptsTop() {
-        assertThat(track.accepts(Direction.TOP)).isFalse();
+        assertThat(track.accepts(Direction.TOP, marble)).isFalse();
     }
 
     /**
@@ -179,7 +185,7 @@ public class HorizontalTrackTest {
      */
     @Test
     public void notAcceptsBottom() {
-        assertThat(track.accepts(Direction.BOTTOM)).isFalse();
+        assertThat(track.accepts(Direction.BOTTOM, marble)).isFalse();
     }
 
     /**

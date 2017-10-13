@@ -31,12 +31,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.grid.TileableListener;
-import nl.tudelft.broccoli.core.track.HorizontalTrack;
+import nl.tudelft.broccoli.core.track.FilterTrack;
 import nl.tudelft.broccoli.core.track.Track;
 import nl.tudelft.broccoli.libgdx.Context;
 
@@ -44,13 +45,14 @@ import nl.tudelft.broccoli.libgdx.Context;
  * An {@link Actor} for a track on the grid.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
+ * @author Christian Slothouber (f.c.slothouber@student.tudelft.nl)
  */
 public class TrackActor extends TileableActor<Track> implements TileableListener {
     /**
      * The bounce sound in case a ball is denied.
      */
     private static final Sound BOUNCE =
-        Gdx.audio.newSound(Gdx.files.classpath("sound/sfx/bounce.wav"));
+            Gdx.audio.newSound(Gdx.files.classpath("sound/sfx/bounce.wav"));
 
     /**
      * The travel time multiplier for travel speed over this track.
@@ -63,20 +65,61 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
     private Sprite sprite;
 
     /**
+     * A possible overlay image for a special {@link Track}s if necessary.
+     */
+    private Image modifier;
+
+    /**
      * Construct a {@link TileableActor} instance.
      *
      * @param tileable The tileable entity to create the actor for.
-     * @param context The game context of this actor.
+     * @param context  The game context of this actor.
      */
     public TrackActor(Track tileable, Context context) {
         super(tileable, context);
         tileable.addListener(this);
 
-        if (tileable instanceof HorizontalTrack) {
-            sprite = context.getTextureAtlas().createSprite("tiles/horizontal");
-        } else {
-            sprite = context.getTextureAtlas().createSprite("tiles/vertical");
+        int tileIndex = 0;
+        // Generate the index of the adaptive tile.
+        // We generate this index by creating a number between 1-15 representing the directions
+        // at which the track is connected in binary in counterclockwise order starting from
+        // the TOP direction (e.g. 1010 means TOP and BOTTOM are connected)
+        // This is done by flipping the bits on the tile index on the places it is connected.
+        for (int i = 0; i < 4; i++) {
+            if (tileable.isConnected(Direction.from(4 - i))) {
+                tileIndex |= 1 << (3 - i);
+            }
         }
+        sprite = context.getTextureAtlas().createSprite("tile", tileIndex);
+        modifier = getModifier();
+
+        if (modifier != null) {
+            addActor(modifier);
+        }
+    }
+
+    /**
+     * Initialize the modifier for this track.
+     *
+     * @return The modifier of this track.
+     */
+    private Image getModifier() {
+        if (getTileable() instanceof FilterTrack) {
+            FilterTrack track = (FilterTrack) getTileable();
+            Image image = new Image(getContext().getTextureAtlas()
+                .findRegion("filter/" + track.getMarbleType().toString().toLowerCase()));
+
+            // We use a 3 pixel offset since the image is incorrectly aligned
+            image.setPosition(
+                sprite.getWidth() / 2 + 3,
+                sprite.getHeight() / 2 - 3,
+                Align.center
+            );
+
+            return image;
+        }
+
+        return null;
     }
 
     /**
@@ -93,9 +136,9 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
     /**
      * This method is invoked when a {@link Tileable} has accepted a marble.
      *
-     * @param tileable The tileable that has accepted the marble.
+     * @param tileable  The tileable that has accepted the marble.
      * @param direction The direction from which the marble was accepted.
-     * @param marble The marble that has been accepted.
+     * @param marble    The marble that has been accepted.
      */
     @Override
     public void ballAccepted(Tileable tileable, Direction direction, Marble marble) {
@@ -139,7 +182,7 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
                         * TRAVEL_TIME),
                 Actions.run(() -> {
                     Direction inverse = direction.inverse();
-                    if (!track.isReleasable(inverse)) {
+                    if (!track.isReleasable(inverse, marble)) {
                         BOUNCE.play();
                         ballAccepted(tileable, inverse, marble);
                         return;

@@ -46,11 +46,17 @@ public class VerticalTrackTest {
     private VerticalTrack track;
 
     /**
+     * The tested marble.
+     */
+    private Marble marble;
+
+    /**
      * Setup the test suite.
      */
     @Before
     public void setUp() {
         track = new VerticalTrack();
+        marble = Marble.of(Marble.Type.GREEN);
     }
 
     /**
@@ -118,7 +124,6 @@ public class VerticalTrackTest {
     /**
      * Test if a track allows a connection from the bottom.
      */
-    @Test
     public void allowsBottom() {
         assertThat(track.allowsConnection(Direction.BOTTOM)).isTrue();
     }
@@ -139,7 +144,6 @@ public class VerticalTrackTest {
         assertThat(track.allowsConnection(Direction.RIGHT)).isFalse();
     }
 
-
     /**
      * Test if a track does not allow a connection from direction <code>null</code>.
      */
@@ -154,7 +158,7 @@ public class VerticalTrackTest {
      */
     @Test
     public void acceptsTop() {
-        assertThat(track.accepts(Direction.TOP)).isTrue();
+        assertThat(track.accepts(Direction.TOP, marble)).isTrue();
     }
 
     /**
@@ -162,7 +166,7 @@ public class VerticalTrackTest {
      */
     @Test
     public void acceptsBottom() {
-        assertThat(track.accepts(Direction.BOTTOM)).isTrue();
+        assertThat(track.accepts(Direction.BOTTOM, marble)).isTrue();
     }
 
     /**
@@ -170,7 +174,7 @@ public class VerticalTrackTest {
      */
     @Test
     public void notAcceptsLeft() {
-        assertThat(track.accepts(Direction.LEFT)).isFalse();
+        assertThat(track.accepts(Direction.LEFT, marble)).isFalse();
     }
 
     /**
@@ -178,7 +182,7 @@ public class VerticalTrackTest {
      */
     @Test
     public void notAcceptsRight() {
-        assertThat(track.accepts(Direction.RIGHT)).isFalse();
+        assertThat(track.accepts(Direction.RIGHT, marble)).isFalse();
     }
 
     /**

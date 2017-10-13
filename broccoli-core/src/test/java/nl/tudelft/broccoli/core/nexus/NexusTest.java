@@ -2,6 +2,7 @@ package nl.tudelft.broccoli.core.nexus;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,12 +22,18 @@ public class NexusTest {
     private NexusContext context;
 
     /**
+     * The marble to use.
+     */
+    private Marble marble;
+
+    /**
      * Setup the test suite.
      */
     @Before
     public void setUp() {
         context = new NexusContext();
         nexus = new Nexus(context);
+        marble = Marble.of(Marble.Type.GREEN);
     }
 
     @Test
@@ -52,22 +59,22 @@ public class NexusTest {
 
     @Test
     public void acceptsLeft() {
-        assertThat(nexus.accepts(Direction.LEFT)).isTrue();
+        assertThat(nexus.accepts(Direction.LEFT, marble)).isTrue();
     }
 
     @Test
     public void acceptsRight() {
-        assertThat(nexus.accepts(Direction.RIGHT)).isTrue();
+        assertThat(nexus.accepts(Direction.RIGHT, marble)).isTrue();
     }
 
     @Test
     public void notAcceptsTop() {
-        assertThat(nexus.accepts(Direction.TOP)).isFalse();
+        assertThat(nexus.accepts(Direction.TOP, marble)).isFalse();
     }
 
     @Test
     public void notAcceptsBottom() {
-        assertThat(nexus.accepts(Direction.BOTTOM)).isFalse();
+        assertThat(nexus.accepts(Direction.BOTTOM, marble)).isFalse();
     }
 
     @Test

@@ -48,11 +48,17 @@ public class ReceptorTest {
     private Receptor receptor;
 
     /**
+     * The marble to use.
+     */
+    private Marble marble;
+
+    /**
      * Setup the test suite.
      */
     @Before
     public void setUp() {
         receptor = new Receptor();
+        marble = Marble.of(Marble.Type.GREEN);
     }
 
     /**
@@ -97,7 +103,7 @@ public class ReceptorTest {
     @Test
     public void acceptsWhenSlotEmpty() {
         Receptor receptor = new Receptor();
-        assertThat(receptor.accepts(Direction.LEFT)).isTrue();
+        assertThat(receptor.accepts(Direction.LEFT, marble)).isTrue();
     }
 
     /**
@@ -148,7 +154,7 @@ public class ReceptorTest {
     @Test
     public void notAcceptWhenSlotOccupied() {
         receptor.accept(Direction.TOP, Marble.of(Marble.Type.BLUE));
-        assertThat(receptor.accepts(Direction.TOP)).isFalse();
+        assertThat(receptor.accepts(Direction.TOP, marble)).isFalse();
     }
 
     /**
@@ -157,7 +163,7 @@ public class ReceptorTest {
     @Test
     public void notAcceptWhenLocked() {
         receptor.lock();
-        assertThat(receptor.accepts(Direction.TOP)).isFalse();
+        assertThat(receptor.accepts(Direction.TOP, marble)).isFalse();
     }
 
     /**
@@ -207,7 +213,7 @@ public class ReceptorTest {
         Grid grid = new Grid(2, 1);
         grid.place(0, 0, new HorizontalTrack());
         grid.place(1, 0, receptor);
-        assertThat(receptor.isReleasable(Direction.LEFT)).isFalse();
+        assertThat(receptor.isReleasable(Direction.LEFT, marble)).isFalse();
     }
 
     /**
@@ -217,7 +223,7 @@ public class ReceptorTest {
     public void unlockedReceptorIsNotReleasable() {
         Grid grid = new Grid(1, 1);
         grid.place(0, 0, receptor);
-        assertThat(receptor.isReleasable(Direction.LEFT)).isFalse();
+        assertThat(receptor.isReleasable(Direction.LEFT, marble)).isFalse();
     }
 
     /**
@@ -228,7 +234,7 @@ public class ReceptorTest {
         Grid grid = new Grid(2, 1);
         grid.place(0, 0, new HorizontalTrack());
         grid.place(1, 0, receptor);
-        assertThat(receptor.isReleasable(Direction.LEFT)).isTrue();
+        assertThat(receptor.isReleasable(Direction.LEFT, marble)).isTrue();
     }
 
     /**
@@ -307,7 +313,7 @@ public class ReceptorTest {
         Direction direction = Direction.LEFT;
         Tileable tileable = mock(Tileable.class);
         when(tileable.allowsConnection(direction.inverse())).thenReturn(false);
-        when(tileable.accepts(direction.inverse())).thenReturn(true);
+        when(tileable.accepts(direction.inverse(), marble)).thenReturn(true);
 
         Grid grid = new Grid(2, 1);
         grid.place(0, 0, tileable);
@@ -331,7 +337,7 @@ public class ReceptorTest {
         Direction direction = Direction.LEFT;
         Tileable tileable = mock(Tileable.class);
         when(tileable.allowsConnection(direction.inverse())).thenReturn(true);
-        when(tileable.accepts(direction.inverse())).thenReturn(false);
+        when(tileable.accepts(direction.inverse(), marble)).thenReturn(false);
 
         Grid grid = new Grid(2, 1);
         grid.place(0, 0, tileable);
@@ -355,7 +361,7 @@ public class ReceptorTest {
         Direction direction = Direction.LEFT;
         Tileable tileable = mock(Tileable.class);
         when(tileable.allowsConnection(direction.inverse())).thenReturn(false);
-        when(tileable.accepts(direction.inverse())).thenReturn(false);
+        when(tileable.accepts(direction.inverse(), marble)).thenReturn(false);
 
         Grid grid = new Grid(2, 1);
         grid.place(0, 0, tileable);

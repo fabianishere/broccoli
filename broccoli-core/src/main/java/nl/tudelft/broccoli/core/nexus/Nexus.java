@@ -79,7 +79,7 @@ public class Nexus extends HorizontalTrack {
      * <code>false</code> otherwise.
      */
     @Override
-    public boolean accepts(Direction direction) {
+    public boolean accepts(Direction direction, Marble marble) {
         return super.allowsConnection(direction);
     }
 

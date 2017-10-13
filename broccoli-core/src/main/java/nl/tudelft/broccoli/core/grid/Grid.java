@@ -114,7 +114,7 @@ public class Grid implements Entity {
         }
         Tile tile = tiles[y][x];
         tile.tileable = tileable;
-        tileable.tile = tile;
+        tileable.setTile(tile);
     }
 
     /**

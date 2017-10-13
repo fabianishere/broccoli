@@ -50,7 +50,7 @@ public class EmptyActor extends TileableActor<Empty> {
      */
     public EmptyActor(Empty tileable, Context context) {
         super(tileable, context);
-        empty = context.getTextureAtlas().createSprite("tiles/empty");
+        empty = context.getTextureAtlas().createSprite("tile", 0);
     }
 
     /**

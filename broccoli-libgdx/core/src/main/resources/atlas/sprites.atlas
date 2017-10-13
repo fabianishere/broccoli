@@ -139,32 +139,39 @@ counter
   index: 4
 explosion
   rotate: false
-  xy: 558, 464
+  xy: 558, 742
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
   index: 0
 explosion
   rotate: false
-  xy: 697, 603
+  xy: 697, 881
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
   index: 1
 explosion
   rotate: false
-  xy: 836, 742
+  xy: 2, 47
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
   index: 2
 explosion
   rotate: false
-  xy: 280, 47
+  xy: 141, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
   index: 3
+filter/pink
+  rotate: false
+  xy: 419, 464
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: -1
 marbles/blue
   rotate: false
   xy: 2, 2
@@ -468,206 +475,213 @@ marbles/yellow
   index: 5
 receptor/marked
   rotate: false
-  xy: 697, 325
+  xy: 280, 325
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
   index: -1
-tiles/cross
-  rotate: false
-  xy: 558, 742
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 0
-tiles/cross
-  rotate: false
-  xy: 697, 881
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 1
-tiles/cross
-  rotate: false
-  xy: 2, 47
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 2
-tiles/cross
-  rotate: false
-  xy: 141, 186
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 3
-tiles/cross
-  rotate: false
-  xy: 280, 325
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 4
-tiles/mod
-  rotate: false
-  xy: 280, 325
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 14
-tiles/empty
-  rotate: false
-  xy: 419, 464
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 0
-tiles/empty
+tile
   rotate: false
   xy: 558, 603
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 1
-tiles/empty
+  index: 0
+tile
   rotate: false
   xy: 697, 742
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 2
-tiles/empty
+  index: 1
+tile
   rotate: false
   xy: 836, 881
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 3
-tiles/empty
+  index: 2
+tile
   rotate: false
   xy: 141, 47
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 4
-tiles/empty
+  index: 3
+tile
   rotate: false
   xy: 280, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 5
-tiles/empty
+  index: 4
+tile
   rotate: false
   xy: 419, 325
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
+  index: 5
+tile
+  rotate: false
+  xy: 558, 464
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
   index: 6
-tiles/horizontal
+tile
+  rotate: false
+  xy: 697, 603
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 7
+tile
+  rotate: false
+  xy: 836, 742
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 8
+tile
+  rotate: false
+  xy: 280, 47
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 9
+tile
   rotate: false
   xy: 419, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 0
-tiles/horizontal
+  index: 10
+tile
   rotate: false
   xy: 558, 325
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 1
-tiles/horizontal
+  index: 11
+tile
   rotate: false
   xy: 697, 464
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 2
-tiles/horizontal
-  rotate: false
-  xy: 836, 603
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 3
-tiles/mod
+  index: 12
+tile
   rotate: false
   xy: 836, 603
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
   index: 13
-tiles/horizontal
+tile
   rotate: false
   xy: 419, 47
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 4
-tiles/horizontal
+  index: 14
+tile
   rotate: false
   xy: 558, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 5
-tiles/receptor/marked
+  index: 15
+tile
+  rotate: false
+  xy: 697, 325
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 16
+tile
   rotate: false
   xy: 836, 464
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 1
-tiles/receptor/marked
+  index: 21
+tile
   rotate: false
   xy: 558, 47
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 2
-tiles/receptor/marked
+  index: 26
+tile
   rotate: false
   xy: 697, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 3
-tiles/receptor/marked
+  index: 31
+tile
   rotate: false
   xy: 836, 325
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 4
-tiles/receptor/marked
+  index: 32
+tile
   rotate: false
   xy: 697, 47
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 5
-tiles/receptor/marked
+  index: 37
+tile
   rotate: false
   xy: 836, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 6
-tiles/receptor/marked
+  index: 42
+tile
+  rotate: false
+  xy: 836, 186
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 106
+tile
   rotate: false
   xy: 836, 47
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 7
+  index: 47
 
 sprites2.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+filter/blue
+  rotate: false
+  xy: 558, 56
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+filter/green
+  rotate: false
+  xy: 697, 195
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+filter/yellow
+  rotate: false
+  xy: 836, 334
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
 marbles/yellow
   rotate: false
   xy: 975, 975
@@ -712,414 +726,434 @@ marbles/yellow
   index: 11
 nexus
   rotate: false
-  xy: 836, 540
+  xy: 697, 132
   size: 137, 61
   orig: 137, 61
   offset: 0, 0
   index: 0
 nexus
   rotate: false
-  xy: 558, 123
+  xy: 688, 69
   size: 137, 61
   orig: 137, 61
   offset: 0, 0
   index: 1
 nexus
   rotate: false
-  xy: 697, 262
+  xy: 688, 6
   size: 137, 61
   orig: 137, 61
   offset: 0, 0
   index: 2
 nexus
   rotate: false
-  xy: 836, 477
+  xy: 836, 271
   size: 137, 61
   orig: 137, 61
   offset: 0, 0
   index: 3
 nexus
   rotate: false
-  xy: 558, 60
+  xy: 827, 208
   size: 137, 61
   orig: 137, 61
   offset: 0, 0
   index: 4
 nexus
   rotate: false
-  xy: 697, 199
+  xy: 836, 145
   size: 137, 61
   orig: 137, 61
   offset: 0, 0
   index: 5
 nexus
   rotate: false
-  xy: 836, 414
+  xy: 836, 82
   size: 137, 61
   orig: 137, 61
   offset: 0, 0
   index: 6
 nexus
   rotate: false
-  xy: 697, 136
+  xy: 827, 19
   size: 137, 61
   orig: 137, 61
   offset: 0, 0
   index: 7
-nexus
-  rotate: false
-  xy: 836, 351
-  size: 137, 61
-  orig: 137, 61
-  offset: 0, 0
-  index: 8
-nexus
-  rotate: false
-  xy: 697, 73
-  size: 137, 61
-  orig: 137, 61
-  offset: 0, 0
-  index: 9
-nexus
-  rotate: false
-  xy: 836, 288
-  size: 137, 61
-  orig: 137, 61
-  offset: 0, 0
-  index: 10
-nexus
-  rotate: false
-  xy: 836, 225
-  size: 137, 61
-  orig: 137, 61
-  offset: 0, 0
-  index: 11
-nexus
-  rotate: false
-  xy: 836, 162
-  size: 137, 61
-  orig: 137, 61
-  offset: 0, 0
-  index: 12
-nexus
-  rotate: false
-  xy: 836, 99
-  size: 137, 61
-  orig: 137, 61
-  offset: 0, 0
-  index: 13
-nexus
-  rotate: false
-  xy: 836, 36
-  size: 137, 61
-  orig: 137, 61
-  offset: 0, 0
-  index: 14
-nexus
-  rotate: false
-  xy: 697, 10
-  size: 137, 61
-  orig: 137, 61
-  offset: 0, 0
-  index: 15
-receptor/unmarked
-  rotate: false
-  xy: 2, 47
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: -1
-tiles/mod
-  rotate: false
-  xy: 280, 742
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 0
-tiles/mod
-  rotate: false
-  xy: 419, 881
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 1
-tiles/mod
-  rotate: false
-  xy: 2, 325
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 2
-tiles/mod
-  rotate: false
-  xy: 141, 464
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 3
-tiles/mod
+receptor/tile_marked
   rotate: false
   xy: 280, 603
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 4
-tiles/mod
+  index: 1
+receptor/tile_marked
   rotate: false
   xy: 419, 742
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 5
-tiles/mod
+  index: 2
+receptor/tile_marked
   rotate: false
   xy: 558, 881
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 6
-tiles/mod
+  index: 3
+receptor/tile_marked
   rotate: false
   xy: 2, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 7
-tiles/mod
+  index: 4
+receptor/tile_marked
   rotate: false
   xy: 141, 325
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 8
-tiles/mod
+  index: 5
+receptor/tile_marked
   rotate: false
   xy: 280, 464
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 9
-tiles/mod
+  index: 6
+receptor/tile_marked
   rotate: false
   xy: 419, 603
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 10
-tiles/mod
+  index: 7
+receptor/tile_marked
   rotate: false
   xy: 558, 742
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 11
-tiles/mod
-  rotate: false
-  xy: 697, 881
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 12
-tiles/vertical
-  rotate: false
-  xy: 697, 881
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 2
-tiles/receptor/marked
-  rotate: false
-  xy: 2, 881
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
   index: 8
-tiles/receptor/marked
+receptor/tile_marked
   rotate: false
-  xy: 2, 742
+  xy: 697, 881
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
   index: 9
-tiles/receptor/marked
+receptor/tile_marked
   rotate: false
-  xy: 141, 881
+  xy: 2, 47
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
   index: 10
-tiles/receptor/marked
-  rotate: false
-  xy: 2, 603
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 11
-tiles/receptor/marked
-  rotate: false
-  xy: 141, 742
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 12
-tiles/receptor/marked
-  rotate: false
-  xy: 280, 881
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 13
-tiles/receptor/marked
-  rotate: false
-  xy: 2, 464
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 14
-tiles/receptor/marked
-  rotate: false
-  xy: 141, 603
-  size: 137, 137
-  orig: 137, 137
-  offset: 0, 0
-  index: 15
-tiles/receptor/unmarked
+receptor/tile_marked
   rotate: false
   xy: 141, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 1
-tiles/receptor/unmarked
+  index: 11
+receptor/tile_marked
   rotate: false
   xy: 280, 325
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 2
-tiles/receptor/unmarked
+  index: 12
+receptor/tile_marked
   rotate: false
   xy: 419, 464
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 3
-tiles/receptor/unmarked
+  index: 13
+receptor/tile_marked
   rotate: false
   xy: 558, 603
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 4
-tiles/receptor/unmarked
+  index: 14
+receptor/tile_marked
   rotate: false
   xy: 697, 742
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 5
-tiles/receptor/unmarked
+  index: 15
+receptor/tile_unmarked
   rotate: false
   xy: 836, 881
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 6
-tiles/receptor/unmarked
+  index: 1
+receptor/tile_unmarked
   rotate: false
   xy: 141, 47
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 7
-tiles/receptor/unmarked
+  index: 2
+receptor/tile_unmarked
   rotate: false
   xy: 280, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 8
-tiles/receptor/unmarked
+  index: 3
+receptor/tile_unmarked
   rotate: false
   xy: 419, 325
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 9
-tiles/receptor/unmarked
+  index: 4
+receptor/tile_unmarked
   rotate: false
   xy: 558, 464
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 10
-tiles/receptor/unmarked
+  index: 5
+receptor/tile_unmarked
   rotate: false
   xy: 697, 603
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 11
-tiles/receptor/unmarked
+  index: 6
+receptor/tile_unmarked
   rotate: false
   xy: 836, 742
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 12
-tiles/receptor/unmarked
+  index: 7
+receptor/tile_unmarked
   rotate: false
   xy: 280, 47
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 13
-tiles/receptor/unmarked
+  index: 8
+receptor/tile_unmarked
   rotate: false
   xy: 419, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 14
-tiles/receptor/unmarked
+  index: 9
+receptor/tile_unmarked
   rotate: false
   xy: 558, 325
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 15
-tiles/vertical
+  index: 10
+receptor/tile_unmarked
   rotate: false
   xy: 697, 464
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 0
-tiles/vertical
+  index: 11
+receptor/tile_unmarked
   rotate: false
   xy: 836, 603
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 1
-tiles/vertical
+  index: 12
+receptor/tile_unmarked
   rotate: false
   xy: 419, 47
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 3
-tiles/vertical
+  index: 13
+receptor/tile_unmarked
   rotate: false
   xy: 558, 186
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 4
-tiles/vertical
+  index: 14
+receptor/tile_unmarked
   rotate: false
   xy: 697, 325
   size: 137, 137
   orig: 137, 137
   offset: 0, 0
-  index: 5
+  index: 15
+receptor/unmarked
+  rotate: false
+  xy: 836, 464
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 2, 881
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 48
+tile
+  rotate: false
+  xy: 2, 742
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 53
+tile
+  rotate: false
+  xy: 2, 742
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 101
+tile
+  rotate: false
+  xy: 141, 881
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 58
+tile
+  rotate: false
+  xy: 2, 603
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 63
+tile
+  rotate: false
+  xy: 141, 742
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 64
+tile
+  rotate: false
+  xy: 280, 881
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 69
+tile
+  rotate: false
+  xy: 2, 464
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 74
+tile
+  rotate: false
+  xy: 141, 603
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 79
+tile
+  rotate: false
+  xy: 141, 603
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 95
+tile
+  rotate: false
+  xy: 280, 742
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 80
+tile
+  rotate: false
+  xy: 419, 881
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 85
+tile
+  rotate: false
+  xy: 2, 325
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 90
+tile
+  rotate: false
+  xy: 141, 464
+  size: 137, 137
+  orig: 137, 137
+  offset: 0, 0
+  index: 96
+
+sprites3.png
+size: 1024,128
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+nexus
+  rotate: false
+  xy: 2, 65
+  size: 137, 61
+  orig: 137, 61
+  offset: 0, 0
+  index: 8
+nexus
+  rotate: false
+  xy: 2, 2
+  size: 137, 61
+  orig: 137, 61
+  offset: 0, 0
+  index: 9
+nexus
+  rotate: false
+  xy: 141, 65
+  size: 137, 61
+  orig: 137, 61
+  offset: 0, 0
+  index: 10
+nexus
+  rotate: false
+  xy: 141, 2
+  size: 137, 61
+  orig: 137, 61
+  offset: 0, 0
+  index: 11
+nexus
+  rotate: false
+  xy: 280, 65
+  size: 137, 61
+  orig: 137, 61
+  offset: 0, 0
+  index: 12
+nexus
+  rotate: false
+  xy: 280, 2
+  size: 137, 61
+  orig: 137, 61
+  offset: 0, 0
+  index: 13
+nexus
+  rotate: false
+  xy: 419, 65
+  size: 137, 61
+  orig: 137, 61
+  offset: 0, 0
+  index: 14
+nexus
+  rotate: false
+  xy: 419, 2
+  size: 137, 61
+  orig: 137, 61
+  offset: 0, 0
+  index: 15

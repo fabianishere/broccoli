@@ -41,7 +41,7 @@ public abstract class Tileable implements Entity {
     /**
      * The {@link Tile} this entity is placed on.
      */
-    Tile tile;
+    private Tile tile;
 
     /**
      * The {@link TileableListener}s of this tileable entity.
@@ -77,10 +77,11 @@ public abstract class Tileable implements Entity {
      *
      * @param direction The direction from which a ball wants to be accepted onto this tileable
      *                  entity.
+     * @param marble The {@link Marble} to be accepted.
      * @return <code>true</code> if the tileable entity accepts the ball onto its tile,
      *         <code>false</code> otherwise.
      */
-    public abstract boolean accepts(Direction direction);
+    public abstract boolean accepts(Direction direction, Marble marble);
 
     /**
      * Accept a {@link Marble} onto the tile of this tileable entity.
@@ -118,16 +119,17 @@ public abstract class Tileable implements Entity {
      * moment of execution.
      *
      * @param direction The direction of the neighbour relative to this entity.
+     * @param marble The {@link Marble} to be released.
      * @return <code>true</code> if the tileable entity accepts the ball onto its tile,
      *         <code>false</code> otherwise.
      */
-    public boolean isReleasable(Direction direction) {
+    public boolean isReleasable(Direction direction, Marble marble) {
         if (tile == null) {
             throw new IllegalStateException("The entity is not placed on a tile");
         }
 
         Tile neighbour = tile.get(direction);
-        return neighbour != null && neighbour.getTileable().accepts(direction.inverse());
+        return neighbour != null && neighbour.getTileable().accepts(direction.inverse(), marble);
     }
 
     /**
@@ -160,6 +162,15 @@ public abstract class Tileable implements Entity {
      */
     public Tile getTile() {
         return tile;
+    }
+
+    /**
+     * Set the {@link Tile} the entity is placed on.
+     *
+     * @param tile The tile to place the entity on.
+     */
+    public void setTile(Tile tile) {
+        this.tile = tile;
     }
 
     /**

@@ -30,20 +30,38 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Tests for an empty {@link Tileable} object.
  */
 public class EmptyTest {
-    Empty empty = new Empty();
+    /**
+     * The object under test.
+     */
+    private Empty empty;
+
+    /**
+     * The marble to use.
+     */
+    private Marble marble;
+
+    /**
+     * Setup the test suite.
+     */
+    @Before
+    public void setUp() {
+        empty = new Empty();
+        marble = Marble.of(Marble.Type.GREEN);
+    }
 
     /**
      * Tests if the empty tile accepts a ball from the left.
      */
     @Test
     public void acceptsLeftFalse() {
-        assertThat(empty.accepts(Direction.LEFT)).isFalse();
+        assertThat(empty.accepts(Direction.LEFT, marble)).isFalse();
     }
 
     /**
@@ -51,7 +69,7 @@ public class EmptyTest {
      */
     @Test
     public void acceptsRightFalse() {
-        assertThat(empty.accepts(Direction.RIGHT)).isFalse();
+        assertThat(empty.accepts(Direction.RIGHT, marble)).isFalse();
     }
 
     /**
@@ -59,7 +77,7 @@ public class EmptyTest {
      */
     @Test
     public void acceptsTopFalse() {
-        assertThat(empty.accepts(Direction.TOP)).isFalse();
+        assertThat(empty.accepts(Direction.TOP, marble)).isFalse();
     }
 
     /**
@@ -67,7 +85,7 @@ public class EmptyTest {
      */
     @Test
     public void acceptsBottomFalse() {
-        assertThat(empty.accepts(Direction.BOTTOM)).isFalse();
+        assertThat(empty.accepts(Direction.BOTTOM, marble)).isFalse();
     }
 
     /**

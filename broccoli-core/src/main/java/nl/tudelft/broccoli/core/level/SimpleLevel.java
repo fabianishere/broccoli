@@ -10,8 +10,7 @@ import nl.tudelft.broccoli.core.nexus.Nexus;
 import nl.tudelft.broccoli.core.nexus.NexusContext;
 import nl.tudelft.broccoli.core.nexus.SpawningNexus;
 import nl.tudelft.broccoli.core.receptor.Receptor;
-import nl.tudelft.broccoli.core.track.HorizontalTrack;
-import nl.tudelft.broccoli.core.track.VerticalTrack;
+import nl.tudelft.broccoli.core.track.*;
 
 import java.util.ArrayDeque;
 import java.util.List;
@@ -101,7 +100,7 @@ public class SimpleLevel implements Level {
             grid.place(2, 1, new VerticalTrack());
 
             grid.place(0, 0, new Receptor());
-            grid.place(1, 0, new HorizontalTrack());
+            grid.place(1, 0, new FilterTrack(new HorizontalTrack(), Marble.Type.GREEN));
 
             grid.place(2, 0, new Receptor());
         }
