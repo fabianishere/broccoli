@@ -12,7 +12,7 @@ import org.junit.Test;
 /**
  * This class tests the tests the {@link Broccoli} class.
  */
-public class BroccoliTest {
+public class DesktopLauncherTest {
 
     /**
      * Trying to run the game without crashing.

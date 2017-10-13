@@ -22,9 +22,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'broccoli'
 
-include 'broccoli-core'
-include 'broccoli-defpro'
-include 'broccoli-libgdx:core'
-include 'broccoli-libgdx:desktop'
+group 'nl.tudelft.broccoli'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'application'
+apply from: "${project.rootDir}/gradle/java.gradle"
+
+mainClassName = "nl.tudelft.broccoli.libgdx.DesktopLauncher"
+
+dependencies {
+	compile project(':broccoli-libgdx:core')
+	compile project(':broccoli-defpro')
+	compile "com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.6"
+	compile "com.badlogicgames.gdx:gdx-platform:1.9.6:natives-desktop"
+
+	testCompile 'junit:junit:4.12'
+	testCompile 'org.assertj:assertj-core:3.8.0'
+}
