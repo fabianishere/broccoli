@@ -27,6 +27,7 @@ package nl.tudelft.broccoli.defpro;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -36,12 +37,11 @@ import nl.tudelft.broccoli.core.config.IntegerProperty;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.nio.charset.Charset;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+
 
 /**
  * Test suite for {@link DefProConfigurationLoader} class.
@@ -104,5 +104,33 @@ public class DefProConfigurationLoaderTest {
             StandardOpenOption.CREATE);
         assertThat(loader.tryLoad(file).get(new IntegerProperty("a"))).isEqualTo(1);
         file.deleteOnExit();
+    }
+
+    @Test
+    public void validStream() throws Exception {
+        String content = "int a = 1";
+        InputStream input = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
+        assertThat(loader.load(input).get(new IntegerProperty("a"))).isEqualTo(1);
+    }
+
+    @Test
+    public void invalidStream() throws Exception {
+        InputStream input = mock(InputStream.class);
+        when(input.read(any())).thenThrow(new IOException());
+        assertThatThrownBy(() -> loader.load(input)).isInstanceOf(IOException.class);
+    }
+
+    @Test
+    public void tryValidStream() throws Exception {
+        String content = "int a = 1";
+        InputStream input = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
+        assertThat(loader.tryLoad(input).get(new IntegerProperty("a"))).isEqualTo(1);
+    }
+
+    @Test
+    public void tryInvalidStream() throws Exception {
+        InputStream input = mock(InputStream.class);
+        when(input.read(any())).thenThrow(new IOException());
+        assertThat(loader.tryLoad(input)).isEqualTo(ConfigurationLoader.STUB);
     }
 }
