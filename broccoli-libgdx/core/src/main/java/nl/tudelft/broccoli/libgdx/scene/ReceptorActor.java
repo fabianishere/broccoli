@@ -31,7 +31,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -256,8 +255,8 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
     @Override
     public void ballAccepted(Tileable tileable, Direction direction, Marble marble) {
         // Get the actor for the marble or create a new one if one does not exist yet.
-        Actor registry = getContext().actor(marble);
-        Actor actor = registry != null ? registry : new MarbleActor(marble, getContext());
+        MarbleActor registry = (MarbleActor) getContext().actor(marble);
+        MarbleActor actor = registry != null ? registry : new MarbleActor(marble, getContext());
 
         Receptor receptor = getTileable();
         Slot slot = receptor.getSlot(direction);
@@ -265,16 +264,21 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
         Vector2 target = positions.get(direction.rotate(-receptor.getRotation())).cpy();
         Vector2 origin = stageToLocalCoordinates(actor.localToStageCoordinates(
                 new Vector2(actor.getWidth() / 2.f, actor.getHeight() / 2.f)));
-        Action move = Actions.moveToAligned(target.x, target.y, Align.center, target.dst(origin)
-            * TRAVEL_TIME);
+        actor.addAction(Actions.sequence(
+            Actions.moveToAligned(target.x, target.y, Align.center, target.dst(origin)
+                * TRAVEL_TIME),
+            Actions.run(() -> actor.setMoving(false))
+        ));
         actor.setPosition(origin.x, origin.y, Align.center);
         actor.rotateBy(-getRotation());
         actor.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (receptor.isReleasable(slot.getDirection(), marble)) {
+                Direction out = slot.getDirection();
+                if (receptor.isReleasable(out, marble)) {
                     actor.clearActions();
                     actor.removeListener(this);
+                    actor.setDirection(out);
                     slot.release();
                 } else {
                     CLANK.play();
@@ -285,7 +289,6 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
                 return true;
             }
         });
-        actor.addAction(move);
         addActor(actor);
 
         DOCK.play();

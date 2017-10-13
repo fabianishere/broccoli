@@ -103,8 +103,8 @@ public class NexusActor extends TileableActor<Nexus> implements TileableListener
     @Override
     public void ballAccepted(Tileable tileable, Direction direction, Marble marble) {
         // Get the actor for the marble or create a new one if one does not exist yet.
-        Actor registry = getContext().actor(marble);
-        Actor actor = registry != null ? registry : new MarbleActor(marble, getContext());
+        MarbleActor registry = (MarbleActor) getContext().actor(marble);
+        MarbleActor actor = registry != null ? registry : new MarbleActor(marble, getContext());
         addActor(actor);
 
         Nexus nexus = getTileable();
@@ -134,9 +134,11 @@ public class NexusActor extends TileableActor<Nexus> implements TileableListener
         actor.addAction(Actions.sequence(
             move,
             Actions.run(() -> {
-                if (nexus.isReleasable(Direction.BOTTOM, marble)) {
+                Direction out = Direction.BOTTOM;
+                if (nexus.isReleasable(out, marble)) {
                     actor.clearActions();
-                    nexus.release(Direction.BOTTOM, marble);
+                    actor.setDirection(out);
+                    nexus.release(out, marble);
                     nexus.getContext().setOccupied(false);
                     return;
                 }

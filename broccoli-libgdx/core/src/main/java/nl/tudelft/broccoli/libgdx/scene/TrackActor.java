@@ -143,7 +143,7 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
     @Override
     public void ballAccepted(Tileable tileable, Direction direction, Marble marble) {
         Track track = getTileable();
-        Actor actor = getContext().actor(marble);
+        MarbleActor actor = (MarbleActor) getContext().actor(marble);
         Vector2 origin = stageToLocalCoordinates(actor.localToStageCoordinates(
                 new Vector2(actor.getWidth() / 2.f, actor.getHeight() / 2.f)));
         Vector2 target;
@@ -155,6 +155,8 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
 
         actor.setRotation(0.f);
         actor.setPosition(origin.x, origin.y);
+        actor.setMoving(true);
+        actor.setDirection(direction.inverse());
 
         switch (direction) {
             case TOP:
