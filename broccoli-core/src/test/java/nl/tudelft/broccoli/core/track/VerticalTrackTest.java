@@ -27,17 +27,31 @@ package nl.tudelft.broccoli.core.track;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.*;
 
+import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
+import nl.tudelft.broccoli.core.grid.TileableListener;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Test class that tests the {@link VerticalTrack} class.
  */
 public class VerticalTrackTest {
+    /**
+     * The track under test.
+     */
+    private VerticalTrack track;
 
-    private VerticalTrack verTrack = new VerticalTrack();
+    /**
+     * Setup the test suite.
+     */
+    @Before
+    public void setUp() {
+        track = new VerticalTrack();
+    }
 
     /**
      * Test if an unconnected rail returns false.
@@ -45,8 +59,38 @@ public class VerticalTrackTest {
     @Test
     public void isNotConnected() {
         Grid grid = new Grid(1, 1);
-        grid.place(0, 0, verTrack);
-        assertThat(verTrack.isConnected()).isFalse();
+        grid.place(0, 0, track);
+        assertThat(track.isConnected()).isFalse();
+    }
+
+    /**
+     * Test if an unconnected rail returns false.
+     */
+    @Test
+    public void isNotConnectedBottom() {
+        Grid grid = new Grid(1, 2);
+        grid.place(0, 0, new VerticalTrack());
+        grid.place(0, 1, track);
+        assertThat(track.isConnected()).isFalse();
+    }
+
+    /**
+     * Test if an unconnected rail returns false.
+     */
+    @Test
+    public void isNotConnectedTop() {
+        Grid grid = new Grid(1, 2);
+        grid.place(0, 0, track);
+        grid.place(0, 1, new HorizontalTrack());
+        assertThat(track.isConnected()).isFalse();
+    }
+
+    /**
+     * Test if an unplaced rail throws an exception when checking if it is connected.
+     */
+    @Test
+    public void unplacedNotConnected() {
+        assertThatThrownBy(() -> track.isConnected()).isInstanceOf(IllegalStateException.class);
     }
 
     /**
@@ -54,56 +98,129 @@ public class VerticalTrackTest {
      */
     @Test
     public void isConnected() {
-        VerticalTrack vert1 = new VerticalTrack();
-        VerticalTrack vert2 = new VerticalTrack();
 
         Grid grid = new Grid(1, 3);
-        grid.place(0, 0, vert1);
-        grid.place(0, 1, verTrack);
-        grid.place(0, 2, vert2);
+        grid.place(0, 0, new VerticalTrack());
+        grid.place(0, 1, track);
+        grid.place(0, 2, new VerticalTrack());
 
-        assertThat(verTrack.isConnected()).isTrue();
+        assertThat(track.isConnected()).isTrue();
     }
 
     /**
-     * Test if a vertical track does not accept a ball from the left.
+     * Test if a track allows a connection from the top.
      */
     @Test
-    public void notAcceptsLeft() {
-        assertThat(verTrack.accepts(Direction.LEFT)).isFalse();
+    public void allowsTop() {
+        assertThat(track.allowsConnection(Direction.TOP)).isTrue();
     }
 
     /**
-     * Test if a vertical track does not accept a ball from the right.
+     * Test if a track allows a connection from the bottom.
      */
     @Test
-    public void notAcceptsRight() {
-        assertThat(verTrack.accepts(Direction.RIGHT)).isFalse();
+    public void allowsBottom() {
+        assertThat(track.allowsConnection(Direction.BOTTOM)).isTrue();
     }
 
     /**
-     * Test if a vertical track accepts a ball from the top.
+     * Test if a track does not allow a connection from the left.
+     */
+    @Test
+    public void disallowsLeft() {
+        assertThat(track.allowsConnection(Direction.LEFT)).isFalse();
+    }
+
+    /**
+     * Test if a track does not accept a ball from the right.
+     */
+    @Test
+    public void disallowsBottom() {
+        assertThat(track.allowsConnection(Direction.RIGHT)).isFalse();
+    }
+
+
+    /**
+     * Test if a track does not allow a connection from direction <code>null</code>.
+     */
+    @Test
+    public void disallowsNull() {
+        assertThatThrownBy(() -> track.allowsConnection(null))
+            .isInstanceOf(NullPointerException.class);
+    }
+
+    /**
+     * Test if a track accepts a ball from the top.
      */
     @Test
     public void acceptsTop() {
-        assertThat(verTrack.accepts(Direction.TOP)).isTrue();
+        assertThat(track.accepts(Direction.TOP)).isTrue();
     }
 
     /**
-     * Test if a vertical track accepts a ball from the bottom.
+     * Test if a track accepts a ball from the bottom.
      */
     @Test
     public void acceptsBottom() {
-        assertThat(verTrack.accepts(Direction.BOTTOM)).isTrue();
+        assertThat(track.accepts(Direction.BOTTOM)).isTrue();
     }
+
+    /**
+     * Test if a track does not accept a ball from the left.
+     */
+    @Test
+    public void notAcceptsLeft() {
+        assertThat(track.accepts(Direction.LEFT)).isFalse();
+    }
+
+    /**
+     * Test if a track does not accept a ball from the right.
+     */
+    @Test
+    public void notAcceptsRight() {
+        assertThat(track.accepts(Direction.RIGHT)).isFalse();
+    }
+
+    /**
+     * Test if giving a ball from the top is successful.
+     */
+    @Test
+    public void acceptTop() {
+        TileableListener listener = mock(TileableListener.class);
+        Marble marble = Marble.of(Marble.Type.BLUE);
+        Direction direction = Direction.TOP;
+        track.addListener(listener);
+        track.accept(direction, marble);
+        verify(listener, times(1)).ballAccepted(track, direction, marble);
+    }
+
+    /**
+     * Test if giving a ball from the bottom is successful.
+     */
+    @Test
+    public void acceptBottom() {
+        TileableListener listener = mock(TileableListener.class);
+        Marble marble = Marble.of(Marble.Type.BLUE);
+        Direction direction = Direction.BOTTOM;
+        track.addListener(listener);
+        track.accept(direction, marble);
+        verify(listener, times(1)).ballAccepted(track, direction, marble);
+    }
+
 
     /**
      * Test if giving a ball from the left gives an exception.
      */
     @Test
     public void acceptLeftException() {
-        assertThatThrownBy(() -> verTrack.accept(Direction.LEFT, null))
-                .isInstanceOf(Exception.class);
+        TileableListener listener = mock(TileableListener.class);
+        Marble marble = Marble.of(Marble.Type.BLUE);
+        Direction direction = Direction.LEFT;
+
+        track.addListener(listener);
+        assertThatThrownBy(() -> track.accept(direction, marble))
+            .isInstanceOf(IllegalArgumentException.class);
+        verify(listener, never()).ballAccepted(track, direction, marble);
     }
 
     /**
@@ -111,7 +228,13 @@ public class VerticalTrackTest {
      */
     @Test
     public void acceptRightException() {
-        assertThatThrownBy(() -> verTrack.accept(Direction.RIGHT, null))
-                .isInstanceOf(Exception.class);
+        TileableListener listener = mock(TileableListener.class);
+        Marble marble = Marble.of(Marble.Type.BLUE);
+        Direction direction = Direction.RIGHT;
+
+        track.addListener(listener);
+        assertThatThrownBy(() -> track.accept(direction, marble))
+            .isInstanceOf(IllegalArgumentException.class);
+        verify(listener, never()).ballAccepted(track, direction, marble);
     }
 }

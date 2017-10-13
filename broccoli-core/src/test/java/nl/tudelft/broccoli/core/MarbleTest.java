@@ -98,6 +98,16 @@ public class MarbleTest {
     }
 
     /**
+     * Test if two balls of different colours give false.
+     */
+    @Test
+    public void isIncompatibleDifferentColour() {
+        Marble green = Marble.of(Marble.Type.GREEN);
+        Marble blue = Marble.of(Marble.Type.BLUE);
+        assertThat(green.isCompatible(blue)).isFalse();
+    }
+
+    /**
      * Test if call made from joker with another colour gives true.
      */
     @Test

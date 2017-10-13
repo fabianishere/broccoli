@@ -147,6 +147,7 @@ public abstract class Tileable implements Entity {
         Tile neighbour = tile.get(direction);
 
         if (neighbour != null) {
+            informRelease(direction, marble);
             neighbour.getTileable().accept(direction.inverse(), marble);
         }
     }

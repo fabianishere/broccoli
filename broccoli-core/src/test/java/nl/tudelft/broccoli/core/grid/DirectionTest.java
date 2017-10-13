@@ -26,6 +26,7 @@
 package nl.tudelft.broccoli.core.grid;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.Test;
 
@@ -63,5 +64,71 @@ public class DirectionTest {
     @Test
     public void inverseTestRight() {
         assertThat(Direction.RIGHT.inverse()).isEqualTo(Direction.LEFT);
+    }
+
+    /**
+     * Tests the from method with a negative index.
+     */
+    @Test
+    public void fromNegative() {
+        assertThat(Direction.from(-1)).isEqualTo(Direction.LEFT);
+    }
+
+    /**
+     * Tests the from method with an index that overflows.
+     */
+    @Test
+    public void fromLarge() {
+        assertThat(Direction.from(4)).isEqualTo(Direction.TOP);
+    }
+
+    /**
+     * Test the conversion from the string "LEFT" to {@link Direction#LEFT}.
+     */
+    @Test
+    public void valueOfLeft() {
+        assertThat(Direction.valueOf("LEFT")).isEqualTo(Direction.LEFT);
+    }
+
+    /**
+     * Test the conversion from the string "RIGHT" to {@link Direction#RIGHT}.
+     */
+    @Test
+    public void valueOfRight() {
+        assertThat(Direction.valueOf("RIGHT")).isEqualTo(Direction.RIGHT);
+    }
+
+    /**
+     * Test the conversion from the string "TOP" to {@link Direction#TOP}.
+     */
+    @Test
+    public void valueOfTop() {
+        assertThat(Direction.valueOf("TOP")).isEqualTo(Direction.TOP);
+    }
+
+    /**
+     * Test the conversion from the string "RIGHT" to {@link Direction#RIGHT}.
+     */
+    @Test
+    public void valueOfBottom() {
+        assertThat(Direction.valueOf("BOTTOM")).isEqualTo(Direction.BOTTOM);
+    }
+
+    /**
+     * Test the conversion of an invalid string.
+     */
+    @Test
+    public void valueOfInvalid() {
+        assertThatThrownBy(() -> Direction.valueOf("test")).isInstanceOf(IllegalArgumentException
+            .class);
+    }
+
+    /**
+     * Test the conversion of an <code>null</code>string.
+     */
+    @Test
+    public void valueOfNull() {
+        assertThatThrownBy(() -> Direction.valueOf(null))
+            .isInstanceOf(NullPointerException.class);
     }
 }

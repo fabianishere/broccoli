@@ -48,18 +48,7 @@ public enum Direction {
      * @return The inverse direction.
      */
     public Direction inverse() {
-        switch (this) {
-            case TOP:
-                return BOTTOM;
-            case RIGHT:
-                return LEFT;
-            case BOTTOM:
-                return TOP;
-            case LEFT:
-                return RIGHT;
-            default:
-                return null;
-        }
+        return from(ordinal() + 2);
     }
 
     /**
@@ -70,7 +59,7 @@ public enum Direction {
      * @return The resulting direction.
      */
     public Direction rotate(int turns) {
-        return VALUES[Math.floorMod(ordinal() + turns, VALUES.length)];
+        return from(ordinal() + turns);
     }
 
     /**

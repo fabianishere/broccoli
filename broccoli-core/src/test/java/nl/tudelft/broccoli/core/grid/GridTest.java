@@ -41,10 +41,18 @@ public class GridTest {
      * The constructor should throw an exception if given negative values.
      */
     @Test
-    public void negativeConstructorTest() {
-        assertThatThrownBy(() -> {
-            new Grid(-1,-1);
-        }).isInstanceOf(IllegalArgumentException.class);
+    public void invalidWidthConstructorTest() {
+        assertThatThrownBy(() -> new Grid(-1,2))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    /**
+     * The constructor should throw an exception if given negative values.
+     */
+    @Test
+    public void invalidHeightConstructorTest() {
+        assertThatThrownBy(() -> new Grid(3,-1))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     /**
@@ -52,9 +60,8 @@ public class GridTest {
      */
     @Test
     public void emptyConstructorTest() {
-        assertThatThrownBy(() -> {
-            new Grid(0,0);
-        }).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Grid(0,0))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 
     /**
@@ -122,5 +129,15 @@ public class GridTest {
             grid.place(x,0, tileTypes[x]);
             assertThat(grid.get(x,0).getTileable()).isEqualTo(tileTypes[x]);
         }
+    }
+
+    /**
+     * This method tries to place a tile on an invalid position on the grid.
+     */
+    @Test
+    public void placeInvalid() {
+        Grid grid = new Grid(3,1);
+        assertThatThrownBy(() -> grid.place(-1, -1, null))
+            .isInstanceOf(IllegalArgumentException.class);
     }
 }

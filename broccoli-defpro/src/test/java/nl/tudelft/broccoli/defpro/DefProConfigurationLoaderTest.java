@@ -32,11 +32,16 @@ import static org.mockito.Mockito.when;
 
 import nl.tudelft.broccoli.core.config.BooleanProperty;
 import nl.tudelft.broccoli.core.config.ConfigurationLoader;
+import nl.tudelft.broccoli.core.config.IntegerProperty;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 
 /**
  * Test suite for {@link DefProConfigurationLoader} class.
@@ -84,7 +89,20 @@ public class DefProConfigurationLoaderTest {
     @Test
     public void existentFile() throws Exception {
         File file = File.createTempFile("defpro", "test");
-        loader.load(file);
+        String content = "int a = 1";
+        Files.write(file.toPath(), content.getBytes(StandardCharsets.UTF_8),
+            StandardOpenOption.CREATE);
+        assertThat(loader.load(file).get(new IntegerProperty("a"))).isEqualTo(1);
+        file.deleteOnExit();
+    }
+
+    @Test
+    public void tryExistentFile() throws Exception {
+        File file = File.createTempFile("defpro", "test");
+        String content = "int a = 1";
+        Files.write(file.toPath(), content.getBytes(StandardCharsets.UTF_8),
+            StandardOpenOption.CREATE);
+        assertThat(loader.tryLoad(file).get(new IntegerProperty("a"))).isEqualTo(1);
         file.deleteOnExit();
     }
 }

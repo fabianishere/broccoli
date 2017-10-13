@@ -258,7 +258,6 @@ public class Receptor extends Tileable {
                         + "to its neighbor");
             }
 
-            informRelease(direction, marble);
             Receptor.this.release(direction, marble);
             marble = null;
         }
