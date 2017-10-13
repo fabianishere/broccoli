@@ -28,7 +28,7 @@ package nl.tudelft.broccoli.libgdx.scene;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Align;
@@ -101,41 +101,52 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
     public void ballAccepted(Tileable tileable, Direction direction, Marble marble) {
         Track track = getTileable();
         Actor actor = getContext().actor(marble);
-        Action move;
+        Vector2 origin = stageToLocalCoordinates(actor.localToStageCoordinates(
+                new Vector2(actor.getWidth() / 2.f, actor.getHeight() / 2.f)));
+        Vector2 target;
+
+        float width = getWidth();
+        float middleX = width / 2.f;
+        float height = getHeight();
+        float middleY = height / 2.f;
+
         actor.setRotation(0.f);
+        actor.setPosition(origin.x, origin.y);
+
         switch (direction) {
             case TOP:
-                actor.setPosition(getWidth() / 2.f, getHeight(), Align.center);
-                move = Actions.moveBy(0, -getHeight(), getHeight() * TRAVEL_TIME);
+                target = new Vector2(middleX, 0);
+                actor.setPosition(middleX, origin.y, Align.center);
                 break;
             case BOTTOM:
-                actor.setPosition(getWidth() / 2.f, 0.f, Align.center);
-                move = Actions.moveBy(0, getHeight(), getHeight() * TRAVEL_TIME);
+                target = new Vector2(middleX, height);
+                actor.setPosition(middleX, origin.y, Align.center);
                 break;
             case LEFT:
-                actor.setPosition(0.f, getHeight() / 2.f, Align.center);
-                move = Actions.moveBy(getWidth(), 0, getWidth() * TRAVEL_TIME);
+                target = new Vector2(width, middleY);
+                actor.setPosition(origin.x, middleY, Align.center);
                 break;
             case RIGHT:
-                actor.setPosition(getWidth(), getHeight() / 2.f, Align.center);
-                move = Actions.moveBy(-getWidth(), 0, getWidth() * TRAVEL_TIME);
+                target = new Vector2(0, middleY);
+                actor.setPosition(origin.x, middleY, Align.center);
                 break;
             default:
-                move = Actions.sequence();
+                target = new Vector2(0, 0);
         }
 
         actor.addAction(Actions.sequence(
-            move,
-            Actions.run(() -> {
-                Direction inverse = direction.inverse();
-                if (!track.isReleasable(inverse)) {
-                    BOUNCE.play();
-                    ballAccepted(tileable, inverse, marble);
-                    return;
-                }
+                Actions.moveToAligned(target.x, target.y, Align.center, origin.dst(target)
+                        * TRAVEL_TIME),
+                Actions.run(() -> {
+                    Direction inverse = direction.inverse();
+                    if (!track.isReleasable(inverse)) {
+                        BOUNCE.play();
+                        ballAccepted(tileable, inverse, marble);
+                        return;
+                    }
 
-                track.release(inverse, marble);
-            }))
+                    track.release(inverse, marble);
+                }))
         );
         addActor(actor);
     }
