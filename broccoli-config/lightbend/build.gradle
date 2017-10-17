@@ -22,10 +22,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-rootProject.name = 'broccoli'
 
-include 'broccoli-core'
-include 'broccoli-config:lightbend'
-include 'broccoli-config:defpro'
-include 'broccoli-libgdx:core'
-include 'broccoli-libgdx:desktop'
+group 'nl.tudelft.broccoli'
+version '1.0-SNAPSHOT'
+
+apply from: "${project.rootDir}/gradle/java.gradle"
+
+repositories {
+	jcenter()
+}
+
+dependencies {
+	compile project(':broccoli-core')
+	compile 'com.typesafe:config:1.3.1'
+
+	testCompile 'junit:junit:4.12'
+	testCompile 'org.assertj:assertj-core:3.8.0'
+	testCompile 'org.mockito:mockito-core:1.+'
+}
