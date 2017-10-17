@@ -93,6 +93,16 @@ public class DefProConfigurationTest {
         assertThat(config.exists(new StringProperty("test", ""))).isFalse();
     }
 
+
+    /**
+     * Test whether a <code>null</code> property makes the method return false.
+     */
+    @Test
+    public void propertyNullNotExists() throws Exception {
+        when(api.getStringValueOf(anyString())).thenReturn(null);
+        assertThat(config.exists(new StringProperty("test", ""))).isFalse();
+    }
+
     /**
      * Test whether the correct boolean value is returned for the given key.
      */
