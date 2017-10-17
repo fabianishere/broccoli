@@ -26,6 +26,7 @@
 package nl.tudelft.broccoli.core.grid;
 
 import nl.tudelft.broccoli.core.Entity;
+import nl.tudelft.broccoli.core.config.BoundedProperty;
 import nl.tudelft.broccoli.core.config.IntegerProperty;
 import nl.tudelft.broccoli.core.config.Property;
 
@@ -39,12 +40,14 @@ public class Grid implements Entity {
     /**
      * A configuration property for the width of the grid.
      */
-    public static final Property<Integer> WIDTH = new IntegerProperty("grid.width", 4);
+    public static final Property<Integer> WIDTH = new BoundedProperty<>(
+        new IntegerProperty("grid.width", 4), 1, Integer.MAX_VALUE);
 
     /**
      * A configuration property for the height of the grid.
      */
-    public static final Property<Integer> HEIGHT = new IntegerProperty("grid.height", 4);
+    public static final Property<Integer> HEIGHT = new BoundedProperty<>(
+        new IntegerProperty("grid.height", 4), 1, Integer.MAX_VALUE);
 
     /**
      * The tiles of the grid.
