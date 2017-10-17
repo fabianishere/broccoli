@@ -51,10 +51,12 @@ public class DefProConfigurationLoader implements ConfigurationLoader {
      * @throws FileNotFoundException if the file was not found.
      */
     @Override
+    @SuppressWarnings("IllegalCatch")
     public Configuration load(File file) throws FileNotFoundException {
         if (!file.exists()) {
             throw new FileNotFoundException("The given file does not exist");
         }
+
         try {
             return new DefProConfiguration(APIProvider.getAPI(file.getAbsolutePath()));
         } catch (Exception e) {

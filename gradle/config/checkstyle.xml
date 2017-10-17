@@ -186,7 +186,9 @@ Checkstyle configuration that checks the Google coding conventions (https://goog
     <module name="StringLiteralEquality"/>
     <module name="UnnecessaryParentheses"/>
     <module name="CyclomaticComplexity"/>
+    <module name="SuppressWarningsHolder" />
   </module>
+  <module name="SuppressWarningsFilter" />
   <module name="FileTabCharacter">
     <property name="eachLine" value="true"/>
   </module>
