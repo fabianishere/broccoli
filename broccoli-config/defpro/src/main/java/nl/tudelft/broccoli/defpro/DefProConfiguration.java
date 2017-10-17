@@ -55,7 +55,7 @@ public class DefProConfiguration implements Configuration {
                 value = api.getStringValueOf(key);
             } else if (property instanceof ListProperty) {
                 ListProperty listProperty = (ListProperty) property;
-                value = getList(listProperty, (List) listProperty.getDefault());
+                value = getList(listProperty);
             }
         } catch (NotExistingVariableException ignored) {
             // We ignore the exception that has been thrown since we just return the default value.
@@ -66,7 +66,7 @@ public class DefProConfiguration implements Configuration {
             return defaultValue;
         }
 
-        return (T) value;
+        return property.map((T) value);
     }
 
     /**
@@ -89,26 +89,20 @@ public class DefProConfiguration implements Configuration {
      * Return the value of the given list property.
      *
      * @param property The property to get the value of.
-     * @param defaultValue The value of the property in case it does not exist in this object.
      * @return The value of the property.
      */
-    private List getList(ListProperty property, List defaultValue) {
+    private List getList(ListProperty property) throws NotExistingVariableException {
         Class type = property.getElementType();
 
-        try {
-            if (Boolean.class.isAssignableFrom(type)) {
-                return api.getListBoolValueOf(property.getKey());
-            } else if (Double.class.isAssignableFrom(type)) {
-                return api.getListRealValueOf(property.getKey());
-            } else if (Integer.class.isAssignableFrom(type)) {
-                return api.getListIntValueOf(property.getKey());
-            } else if (String.class.isAssignableFrom(type)) {
-                return api.getListStringValueOf(property.getKey());
-            }
-        } catch (NotExistingVariableException ignored) {
-            // We ignore the exception that has been thrown since we just return the default value.
+        if (Boolean.class.isAssignableFrom(type)) {
+            return api.getListBoolValueOf(property.getKey());
+        } else if (Double.class.isAssignableFrom(type)) {
+            return api.getListRealValueOf(property.getKey());
+        } else if (Integer.class.isAssignableFrom(type)) {
+            return api.getListIntValueOf(property.getKey());
+        } else if (String.class.isAssignableFrom(type)) {
+            return api.getListStringValueOf(property.getKey());
         }
-
-        return defaultValue;
+        return null;
     }
 }

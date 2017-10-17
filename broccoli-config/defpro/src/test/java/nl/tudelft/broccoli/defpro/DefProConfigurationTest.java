@@ -260,4 +260,44 @@ public class DefProConfigurationTest {
         assertThat(config.get(new ListProperty<>(String.class,"a", Lists.emptyList())))
             .isEqualTo(Lists.emptyList());
     }
+
+    /**
+     * Test whether the correct bounded integer value is returned for the given key.
+     */
+    @Test
+    public void getBoundedIntegerPropertyDefault() throws Exception {
+        when(api.getIntegerValueOf("a")).thenThrow(new NotExistingVariableException(""));
+        assertThat(config.get(new BoundedProperty<>(new IntegerProperty("a", -1), 0, 100)))
+            .isEqualTo(-1);
+    }
+
+    /**
+     * Test whether the correct bounded integer value is returned for the given key.
+     */
+    @Test
+    public void getBoundedIntegerPropertyInner() throws Exception {
+        when(api.getIntegerValueOf("a")).thenReturn(50);
+        assertThat(config.get(new BoundedProperty<>(new IntegerProperty("a"), 0, 100)))
+            .isEqualTo(50);
+    }
+
+    /**
+     * Test whether the correct bounded integer value is returned for the given key.
+     */
+    @Test
+    public void getBoundedIntegerPropertyLower() throws Exception {
+        when(api.getIntegerValueOf("a")).thenReturn(-1);
+        assertThat(config.get(new BoundedProperty<>(new IntegerProperty("a"), 0, 100)))
+            .isEqualTo(0);
+    }
+
+    /**
+     * Test whether the correct bounded integer value is returned for the given key.
+     */
+    @Test
+    public void getBoundedIntegerPropertyUpper() throws Exception {
+        when(api.getIntegerValueOf("a")).thenReturn(200);
+        assertThat(config.get(new BoundedProperty<>(new IntegerProperty("a"), 0, 100)))
+            .isEqualTo(100);
+    }
 }
