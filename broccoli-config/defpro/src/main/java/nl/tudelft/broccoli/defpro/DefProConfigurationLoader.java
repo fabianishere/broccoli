@@ -55,7 +55,11 @@ public class DefProConfigurationLoader implements ConfigurationLoader {
         if (!file.exists()) {
             throw new FileNotFoundException("The given file does not exist");
         }
-        return new DefProConfiguration(APIProvider.getAPI(file.getAbsolutePath()));
+        try {
+            return new DefProConfiguration(APIProvider.getAPI(file.getAbsolutePath()));
+        } catch (Exception e) {
+            throw new FileNotFoundException(e.getMessage());
+        }
     }
 
     /**
