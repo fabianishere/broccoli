@@ -60,6 +60,8 @@ public class DefProConfigurationLoader implements ConfigurationLoader {
         try {
             return new DefProConfiguration(APIProvider.getAPI(file.getAbsolutePath()));
         } catch (Exception e) {
+            // We cannot catch anything more specific than Exception since the
+            // APIProvider.getAPI(String) method forces us to catch exceptions of type Exception.
             throw new FileNotFoundException(e.getMessage());
         }
     }

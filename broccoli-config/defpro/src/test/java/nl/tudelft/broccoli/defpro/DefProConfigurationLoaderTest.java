@@ -87,6 +87,14 @@ public class DefProConfigurationLoaderTest {
     }
 
     @Test
+    public void invalidFile() throws Exception {
+        File file = mock(File.class);
+        when(file.exists()).thenReturn(true);
+
+        assertThatThrownBy(() -> loader.load(file)).isInstanceOf(FileNotFoundException.class);
+    }
+
+    @Test
     public void existentFile() throws Exception {
         File file = File.createTempFile("defpro", "test");
         String content = "int a = 1";
