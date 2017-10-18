@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.defpro;
+package nl.tudelft.broccoli.lightbend;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -44,22 +44,22 @@ import java.nio.file.StandardOpenOption;
 
 
 /**
- * Test suite for {@link DefProConfigurationLoader} class.
+ * Test suite for {@link LightbendConfigurationLoader} class.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class DefProConfigurationLoaderTest {
+public class LightbendConfigurationLoaderTest {
     /**
      * The {@link ConfigurationLoader} instance to test.
      */
-    private DefProConfigurationLoader loader;
+    private LightbendConfigurationLoader loader;
 
     /**
      * Set up the test.
      */
     @Before
     public void setUp() throws Exception {
-        loader = new DefProConfigurationLoader();
+        loader = new LightbendConfigurationLoader();
     }
 
     @Test
@@ -88,8 +88,8 @@ public class DefProConfigurationLoaderTest {
 
     @Test
     public void existentFile() throws Exception {
-        File file = File.createTempFile("defpro", "test");
-        String content = "int a = 1";
+        File file = File.createTempFile("lightbend", "test");
+        String content = "a = 1";
         Files.write(file.toPath(), content.getBytes(StandardCharsets.UTF_8),
             StandardOpenOption.CREATE);
         assertThat(loader.load(file).get(new IntegerProperty("a"))).isEqualTo(1);
@@ -98,8 +98,8 @@ public class DefProConfigurationLoaderTest {
 
     @Test
     public void tryExistentFile() throws Exception {
-        File file = File.createTempFile("defpro", "test");
-        String content = "int a = 1";
+        File file = File.createTempFile("lightbend", "test");
+        String content = "a = 1";
         Files.write(file.toPath(), content.getBytes(StandardCharsets.UTF_8),
             StandardOpenOption.CREATE);
         assertThat(loader.tryLoad(file).get(new IntegerProperty("a"))).isEqualTo(1);
@@ -108,7 +108,7 @@ public class DefProConfigurationLoaderTest {
 
     @Test
     public void validStream() throws Exception {
-        String content = "int a = 1";
+        String content = "a = 1";
         InputStream input = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
         assertThat(loader.load(input).get(new IntegerProperty("a"))).isEqualTo(1);
     }
@@ -122,7 +122,7 @@ public class DefProConfigurationLoaderTest {
 
     @Test
     public void tryValidStream() throws Exception {
-        String content = "int a = 1";
+        String content = "a = 1";
         InputStream input = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
         assertThat(loader.tryLoad(input).get(new IntegerProperty("a"))).isEqualTo(1);
     }

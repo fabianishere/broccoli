@@ -53,13 +53,13 @@ public class Broccoli extends Game {
      * The width of the window.
      */
     public static final Property<Integer> WINDOW_WIDTH =
-        new IntegerProperty("window.width", 800);
+        new BoundedProperty<>(new IntegerProperty("window.width", 800), 0, Integer.MAX_VALUE);
 
     /**
      * The height of the window.
      */
     public static final Property<Integer> WINDOW_HEIGHT =
-        new IntegerProperty("window.height", 480);
+        new BoundedProperty<>(new IntegerProperty("window.height", 480), 0, Integer.MAX_VALUE);
 
     /**
      * The title of the window.

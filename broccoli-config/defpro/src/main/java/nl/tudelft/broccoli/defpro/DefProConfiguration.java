@@ -43,24 +43,30 @@ public class DefProConfiguration implements Configuration {
         // the implementation. We checked them for you; they should work.
         Class<T> type = property.getType();
         String key = property.getKey();
+        Object value = null;
         try {
             if (Boolean.class.isAssignableFrom(type)) {
-                return (T) api.getBooleanValueOf(key);
+                value = api.getBooleanValueOf(key);
             } else if (Double.class.isAssignableFrom(type)) {
-                return (T) api.getRealValueOf(key);
+                value = api.getRealValueOf(key);
             } else if (Integer.class.isAssignableFrom(type)) {
-                return (T) api.getIntegerValueOf(key);
+                value = api.getIntegerValueOf(key);
             } else if (String.class.isAssignableFrom(type)) {
-                return (T) api.getStringValueOf(key);
+                value = api.getStringValueOf(key);
             } else if (property instanceof ListProperty) {
                 ListProperty listProperty = (ListProperty) property;
-                return (T) getList(listProperty, (List) listProperty.getDefault());
+                value = getList(listProperty);
             }
         } catch (NotExistingVariableException ignored) {
             // We ignore the exception that has been thrown since we just return the default value.
         }
 
-        return defaultValue;
+        // We do not permit null configuration values and return the default value instead.
+        if (value == null) {
+            return defaultValue;
+        }
+
+        return property.map((T) value);
     }
 
     /**
@@ -73,8 +79,7 @@ public class DefProConfiguration implements Configuration {
     @Override
     public boolean exists(Property<?> property) {
         try {
-            api.getStringValueOf(property.getKey());
-            return true;
+            return api.getStringValueOf(property.getKey()) != null;
         } catch (NotExistingVariableException ignored) {
             return false;
         }
@@ -84,26 +89,20 @@ public class DefProConfiguration implements Configuration {
      * Return the value of the given list property.
      *
      * @param property The property to get the value of.
-     * @param defaultValue The value of the property in case it does not exist in this object.
      * @return The value of the property.
      */
-    private List getList(ListProperty property, List defaultValue) {
+    private List getList(ListProperty property) throws NotExistingVariableException {
         Class type = property.getElementType();
 
-        try {
-            if (Boolean.class.isAssignableFrom(type)) {
-                return api.getListBoolValueOf(property.getKey());
-            } else if (Double.class.isAssignableFrom(type)) {
-                return api.getListRealValueOf(property.getKey());
-            } else if (Integer.class.isAssignableFrom(type)) {
-                return api.getListIntValueOf(property.getKey());
-            } else if (String.class.isAssignableFrom(type)) {
-                return api.getListStringValueOf(property.getKey());
-            }
-        } catch (NotExistingVariableException ignored) {
-            // We ignore the exception that has been thrown since we just return the default value.
+        if (Boolean.class.isAssignableFrom(type)) {
+            return api.getListBoolValueOf(property.getKey());
+        } else if (Double.class.isAssignableFrom(type)) {
+            return api.getListRealValueOf(property.getKey());
+        } else if (Integer.class.isAssignableFrom(type)) {
+            return api.getListIntValueOf(property.getKey());
+        } else if (String.class.isAssignableFrom(type)) {
+            return api.getListStringValueOf(property.getKey());
         }
-
-        return defaultValue;
+        return null;
     }
 }

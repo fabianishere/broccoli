@@ -33,7 +33,7 @@ package nl.tudelft.broccoli.core.config;
  */
 public abstract class Property<T> {
     /**
-     * The type of the property.
+     * The input type of the property.
      */
     private final Class<T> type;
 
@@ -85,5 +85,15 @@ public abstract class Property<T> {
      */
     public T getDefault() {
         return defaultValue;
+    }
+
+    /**
+     * Map the property input value to its output value.
+     *
+     * @param input The input value provided by the {@link Configuration} object.
+     * @return The property output value.
+     */
+    public T map(T input) {
+        return input;
     }
 }

@@ -28,7 +28,7 @@ package nl.tudelft.broccoli.libgdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import nl.tudelft.broccoli.core.config.ConfigurationLoader;
-import nl.tudelft.broccoli.defpro.DefProConfigurationLoader;
+import nl.tudelft.broccoli.lightbend.LightbendConfigurationLoader;
 
 import java.io.InputStream;
 
@@ -56,8 +56,8 @@ public final class DesktopLauncher {
         config.height = 480;
         config.resizable = false;
 
-        InputStream input = DesktopLauncher.class.getResourceAsStream("/config.txt");
-        ConfigurationLoader loader = new DefProConfigurationLoader();
+        InputStream input = DesktopLauncher.class.getResourceAsStream("/reference.conf");
+        ConfigurationLoader loader = new LightbendConfigurationLoader();
         new LwjglApplication(new Broccoli(loader.tryLoad(input)), config);
     }
 }

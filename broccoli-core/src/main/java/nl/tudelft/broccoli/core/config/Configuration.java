@@ -33,9 +33,9 @@ package nl.tudelft.broccoli.core.config;
  */
 public interface Configuration {
     /**
-     * Return the value of the given property as specified in the configuration provided by this
-     * interface. If the property does not exits, the method will return the default value of the
-     * property.
+     * Return the non-null value of the given property as specified in the configuration provided
+     * by this interface. If the property does not exits, the method will return the default
+     * value of the property.
      *
      * @param property The property to get the value of.
      * @param <T> The shape of the value of the property.
@@ -46,8 +46,8 @@ public interface Configuration {
     }
 
     /**
-     * Return the value of the given property as specified in the configuration provided by this
-     * interface. If the property does not exits, the method will return the given value.
+     * Return the non-null value of the given property as specified in the configuration provided
+     * by this interface. If the property does not exits, the method will return the given value.
      *
      * @param property The property to get the value of.
      * @param defaultValue The value of the property in case it does not exist in this object.
