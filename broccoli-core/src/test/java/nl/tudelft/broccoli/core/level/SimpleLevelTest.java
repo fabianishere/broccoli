@@ -149,7 +149,7 @@ public class SimpleLevelTest {
                 if (tile.getTileable() instanceof Receptor) {
                     Receptor receptor = (Receptor) tile.getTileable();
                     for (Direction direction : Direction.values()) {
-                        receptor.accept(direction, Marble.of(MarbleType.BLUE));
+                        receptor.accept(direction, new Marble(MarbleType.BLUE));
                     }
                 }
             }

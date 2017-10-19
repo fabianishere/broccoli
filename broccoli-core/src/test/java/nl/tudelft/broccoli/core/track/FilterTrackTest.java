@@ -126,7 +126,7 @@ public class FilterTrackTest {
      */
     @Test
     public void acceptsLeft() {
-        assertThat(track.accepts(Direction.LEFT, Marble.of(MarbleType.GREEN))).isTrue();
+        assertThat(track.accepts(Direction.LEFT, new Marble(MarbleType.GREEN))).isTrue();
     }
 
     /**
@@ -134,7 +134,7 @@ public class FilterTrackTest {
      */
     @Test
     public void notAcceptsLeftBlue() {
-        assertThat(track.accepts(Direction.LEFT, Marble.of(MarbleType.BLUE))).isFalse();
+        assertThat(track.accepts(Direction.LEFT, new Marble(MarbleType.BLUE))).isFalse();
     }
 
     /**
@@ -142,7 +142,7 @@ public class FilterTrackTest {
      */
     @Test
     public void acceptsRight() {
-        assertThat(track.accepts(Direction.RIGHT, Marble.of(MarbleType.GREEN))).isTrue();
+        assertThat(track.accepts(Direction.RIGHT, new Marble(MarbleType.GREEN))).isTrue();
     }
 
     /**
@@ -150,7 +150,7 @@ public class FilterTrackTest {
      */
     @Test
     public void notAcceptsTop() {
-        assertThat(track.accepts(Direction.TOP, Marble.of(MarbleType.GREEN))).isFalse();
+        assertThat(track.accepts(Direction.TOP, new Marble(MarbleType.GREEN))).isFalse();
     }
 
     /**
@@ -158,7 +158,7 @@ public class FilterTrackTest {
      */
     @Test
     public void notAcceptsBottom() {
-        assertThat(track.accepts(Direction.BOTTOM, Marble.of(MarbleType.GREEN))).isFalse();
+        assertThat(track.accepts(Direction.BOTTOM, new Marble(MarbleType.GREEN))).isFalse();
     }
 
     /**
@@ -167,7 +167,7 @@ public class FilterTrackTest {
     @Test
     public void acceptLeft() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         Direction direction = Direction.LEFT;
         track.addListener(listener);
         track.accept(direction, marble);
@@ -180,7 +180,7 @@ public class FilterTrackTest {
     @Test
     public void acceptRight() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         Direction direction = Direction.RIGHT;
         track.addListener(listener);
         track.accept(direction, marble);
@@ -194,7 +194,7 @@ public class FilterTrackTest {
     @Test
     public void acceptTopException() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         Direction direction = Direction.TOP;
 
         track.addListener(listener);
@@ -209,7 +209,7 @@ public class FilterTrackTest {
     @Test
     public void acceptBottomException() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         Direction direction = Direction.BOTTOM;
 
         track.addListener(listener);
@@ -243,7 +243,7 @@ public class FilterTrackTest {
         grid.place(1, 0, new HorizontalTrack());
         FilterTrack track = new FilterTrack(tileable, MarbleType.GREEN);
         Direction direction = Direction.RIGHT;
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         track.addListener(listener);
         tileable.accept(direction, marble);
         tileable.release(direction, marble);
@@ -254,7 +254,7 @@ public class FilterTrackTest {
     public void informDispose() {
         Tileable tileable = new HorizontalTrack();
         Direction direction = Direction.RIGHT;
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         track.ballDisposed(tileable, direction, marble);
     }
 

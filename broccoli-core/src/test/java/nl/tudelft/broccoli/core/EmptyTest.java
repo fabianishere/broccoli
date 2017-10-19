@@ -53,7 +53,7 @@ public class EmptyTest {
     @Before
     public void setUp() {
         empty = new Empty();
-        marble = Marble.of(MarbleType.GREEN);
+        marble = new Marble(MarbleType.GREEN);
     }
 
     /**

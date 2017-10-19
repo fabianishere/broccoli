@@ -57,7 +57,7 @@ public class VerticalTrackTest {
     @Before
     public void setUp() {
         track = new VerticalTrack();
-        marble = Marble.of(MarbleType.GREEN);
+        marble = new Marble(MarbleType.GREEN);
     }
 
     /**
@@ -192,7 +192,7 @@ public class VerticalTrackTest {
     @Test
     public void acceptTop() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         Direction direction = Direction.TOP;
         track.addListener(listener);
         track.accept(direction, marble);
@@ -205,7 +205,7 @@ public class VerticalTrackTest {
     @Test
     public void acceptBottom() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         Direction direction = Direction.BOTTOM;
         track.addListener(listener);
         track.accept(direction, marble);
@@ -219,7 +219,7 @@ public class VerticalTrackTest {
     @Test
     public void acceptLeftException() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         Direction direction = Direction.LEFT;
 
         track.addListener(listener);
@@ -234,7 +234,7 @@ public class VerticalTrackTest {
     @Test
     public void acceptRightException() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         Direction direction = Direction.RIGHT;
 
         track.addListener(listener);

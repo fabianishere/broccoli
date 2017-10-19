@@ -54,7 +54,7 @@ public class TileableTest {
         grid.place(1, 0, new HorizontalTrack());
         grid.place(0, 1, new HorizontalTrack());
         grid.place(1, 1, new Empty());
-        marble = Marble.of(MarbleType.GREEN);
+        marble = new Marble(MarbleType.GREEN);
     }
 
     @Test
@@ -125,7 +125,7 @@ public class TileableTest {
         Tile tile = grid.get(0, 0);
         Tileable tileable = tile.getTileable();
         tileable.addListener(listener);
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         tileable.release(Direction.RIGHT, marble);
         verify(listener, times(1)).ballReleased(tileable, Direction.RIGHT, marble);
     }
@@ -136,7 +136,7 @@ public class TileableTest {
         Tile tile = grid.get(0, 0);
         Tileable tileable = tile.getTileable();
         tileable.addListener(listener);
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         tileable.release(Direction.LEFT, marble);
         verify(listener, never()).ballReleased(tileable, Direction.LEFT, marble);
         tileable.removeListener(listener);
@@ -145,7 +145,7 @@ public class TileableTest {
     @Test
     public void unplacedRelease() {
         Track track = new HorizontalTrack();
-        assertThatThrownBy(() -> track.release(Direction.RIGHT, Marble.of(MarbleType.BLUE)))
+        assertThatThrownBy(() -> track.release(Direction.RIGHT, new Marble(MarbleType.BLUE)))
             .isInstanceOf(IllegalStateException.class);
     }
 
@@ -196,7 +196,7 @@ public class TileableTest {
         TileableListener listener = mock(TileableListener.class);
         Tileable tileable = new HorizontalTrack();
         Direction direction = Direction.RIGHT;
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         tileable.addListener(listener);
         tileable.informAcceptation(direction, marble);
         verify(listener, times(1)).ballAccepted(tileable, direction, marble);
@@ -207,7 +207,7 @@ public class TileableTest {
         TileableListener listener = mock(TileableListener.class);
         Tileable tileable = new HorizontalTrack();
         Direction direction = Direction.RIGHT;
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         tileable.addListener(listener);
         tileable.informRelease(direction, marble);
         verify(listener, times(1)).ballReleased(tileable, direction, marble);
@@ -218,7 +218,7 @@ public class TileableTest {
         TileableListener listener = mock(TileableListener.class);
         Tileable tileable = new HorizontalTrack();
         Direction direction = Direction.RIGHT;
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         tileable.addListener(listener);
         tileable.informDispose(direction, marble);
         verify(listener, times(1)).ballDisposed(tileable, direction, marble);
@@ -232,7 +232,7 @@ public class TileableTest {
         TileableListener listener = new TileableListener() {};
         Tileable tileable = new HorizontalTrack();
         Direction direction = Direction.RIGHT;
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         tileable.addListener(listener);
         tileable.informAcceptation(direction, marble);
         tileable.informRelease(direction, marble);

@@ -112,11 +112,11 @@ public class SpawningNexus extends Nexus {
         Marble marble;
 
         if (!initial.isEmpty()) {
-            marble = Marble.of(initial.poll());
+            marble = new Marble(initial.poll());
         } else if (random.nextDouble() < joker) {
-            marble = Marble.of(MarbleType.JOKER);
+            marble = new Marble(MarbleType.JOKER);
         } else {
-            marble = Marble.of(MARBLES[random.nextInt(MARBLES.length - 1)]);
+            marble = new Marble(MARBLES[random.nextInt(MARBLES.length - 1)]);
         }
 
         accept(direction, marble);

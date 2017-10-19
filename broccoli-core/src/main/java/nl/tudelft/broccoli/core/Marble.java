@@ -37,25 +37,15 @@ public final class Marble implements Entity {
     /**
      * The type of the ball.
      */
-    private MarbleType type;
+    private final MarbleType type;
 
     /**
      * Construct a {@link Marble} instance.
      *
      * @param type The type of the ball to create.
      */
-    private Marble(MarbleType type) {
+    public Marble(MarbleType type) {
         this.type = type;
-    }
-
-    /**
-     * Return a {@link Marble} instance with the given type.
-     *
-     * @param type The type of ball to get.
-     * @return An instance of {@link Marble} with the given type.
-     */
-    public static Marble of(MarbleType type) {
-        return new Marble(type);
     }
 
     /**
@@ -78,7 +68,8 @@ public final class Marble implements Entity {
      *         otherwise.
      */
     public boolean isCompatible(Marble other) {
-        return other != null && (type.equals(MarbleType.JOKER) || other.type.equals(MarbleType.JOKER)
+        return other != null && (type.equals(MarbleType.JOKER)
+            || other.type.equals(MarbleType.JOKER)
             || type.equals(other.type));
     }
 }

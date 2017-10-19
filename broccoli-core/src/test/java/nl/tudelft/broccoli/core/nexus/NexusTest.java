@@ -34,7 +34,7 @@ public class NexusTest {
     public void setUp() {
         context = new NexusContext();
         nexus = new Nexus(context);
-        marble = Marble.of(MarbleType.GREEN);
+        marble = new Marble(MarbleType.GREEN);
     }
 
     @Test

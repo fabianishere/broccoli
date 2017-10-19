@@ -38,7 +38,7 @@ public class MarbleTest {
      */
     @Test
     public void createPinkBall() {
-        Marble marble = Marble.of(MarbleType.PINK);
+        Marble marble = new Marble(MarbleType.PINK);
         assertThat(marble.getType()).isEqualTo(MarbleType.PINK);
     }
 
@@ -47,7 +47,7 @@ public class MarbleTest {
      */
     @Test
     public void createBlueBall() {
-        Marble marble = Marble.of(MarbleType.BLUE);
+        Marble marble = new Marble(MarbleType.BLUE);
         assertThat(marble.getType()).isEqualTo(MarbleType.BLUE);
     }
 
@@ -56,7 +56,7 @@ public class MarbleTest {
      */
     @Test
     public void createGreenBall() {
-        Marble marble = Marble.of(MarbleType.GREEN);
+        Marble marble = new Marble(MarbleType.GREEN);
         assertThat(marble.getType()).isEqualTo(MarbleType.GREEN);
     }
 
@@ -65,7 +65,7 @@ public class MarbleTest {
      */
     @Test
     public void createYellowBall() {
-        Marble marble = Marble.of(MarbleType.YELLOW);
+        Marble marble = new Marble(MarbleType.YELLOW);
         assertThat(marble.getType()).isEqualTo(MarbleType.YELLOW);
     }
 
@@ -74,7 +74,7 @@ public class MarbleTest {
      */
     @Test
     public void createJoker() {
-        Marble marble = Marble.of(MarbleType.JOKER);
+        Marble marble = new Marble(MarbleType.JOKER);
         assertThat(marble.getType()).isEqualTo(MarbleType.JOKER);
     }
 
@@ -83,7 +83,7 @@ public class MarbleTest {
      */
     @Test
     public void createBallNull() {
-        Marble marble = Marble.of(null);
+        Marble marble = new Marble((MarbleType) null);
         assertThat(marble.getType()).isEqualTo(null);
     }
 
@@ -92,8 +92,8 @@ public class MarbleTest {
      */
     @Test
     public void isCompatibleSameColour() {
-        Marble greenMarble1 = Marble.of(MarbleType.GREEN);
-        Marble greenMarble2 = Marble.of(MarbleType.GREEN);
+        Marble greenMarble1 = new Marble(MarbleType.GREEN);
+        Marble greenMarble2 = new Marble(MarbleType.GREEN);
         assertThat(greenMarble1.isCompatible(greenMarble2)).isTrue();
     }
 
@@ -102,8 +102,8 @@ public class MarbleTest {
      */
     @Test
     public void isIncompatibleDifferentColour() {
-        Marble green = Marble.of(MarbleType.GREEN);
-        Marble blue = Marble.of(MarbleType.BLUE);
+        Marble green = new Marble(MarbleType.GREEN);
+        Marble blue = new Marble(MarbleType.BLUE);
         assertThat(green.isCompatible(blue)).isFalse();
     }
 
@@ -112,8 +112,8 @@ public class MarbleTest {
      */
     @Test
     public void isCompatibleJokerFirst() {
-        Marble joker = Marble.of(MarbleType.JOKER);
-        Marble greenMarble = Marble.of(MarbleType.GREEN);
+        Marble joker = new Marble(MarbleType.JOKER);
+        Marble greenMarble = new Marble(MarbleType.GREEN);
         assertThat(joker.isCompatible(greenMarble)).isTrue();
     }
 
@@ -122,8 +122,8 @@ public class MarbleTest {
      */
     @Test
     public void isCompatibleJokerSecond() {
-        Marble joker = Marble.of(MarbleType.JOKER);
-        Marble greenMarble = Marble.of(MarbleType.GREEN);
+        Marble joker = new Marble(MarbleType.JOKER);
+        Marble greenMarble = new Marble(MarbleType.GREEN);
         assertThat(greenMarble.isCompatible(joker)).isTrue();
     }
 
@@ -132,8 +132,8 @@ public class MarbleTest {
      */
     @Test
     public void isCompatibleBothJokers() {
-        Marble joker1 = Marble.of(MarbleType.JOKER);
-        Marble joker2 = Marble.of(MarbleType.JOKER);
+        Marble joker1 = new Marble(MarbleType.JOKER);
+        Marble joker2 = new Marble(MarbleType.JOKER);
         assertThat(joker1.isCompatible(joker2)).isTrue();
     }
 
@@ -142,7 +142,7 @@ public class MarbleTest {
      */
     @Test
     public void isCompatibleNull() {
-        Marble joker = Marble.of(MarbleType.JOKER);
+        Marble joker = new Marble(MarbleType.JOKER);
         assertThat(joker.isCompatible(null)).isFalse();
     }
 }
