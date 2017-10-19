@@ -56,6 +56,19 @@ public class VerticalTrack extends Track {
     }
 
     /**
+     * Determine whether a certain {@link Marble.Type} is allowed to pass the middle
+     * of the {@link Track}.
+     *
+     * @param direction The {@link Direction} the {@link Marble} i coming from.
+     * @param marble The {@link Marble} that is passing by.
+     * @return <code>true</code> if allowed to pass the middle. <code>false</code> otherwise.
+     */
+    @Override
+    public boolean passesMidpoint(Direction direction, Marble marble) {
+        return true;
+    }
+
+    /**
      * Determine whether this tileable entity has a connection at the given direction with the
      * entity next to this entity in the given direction.
      *

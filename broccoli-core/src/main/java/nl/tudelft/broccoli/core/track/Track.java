@@ -25,12 +25,15 @@
 
 package nl.tudelft.broccoli.core.track;
 
+import nl.tudelft.broccoli.core.Marble;
+import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 
 /**
  * A track over which multiple balls can travel to one of the other tiles.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
+ * @author Christian Slothouber (f.c.slothouber@student.tudelft.nl)
  */
 public abstract class Track extends Tileable {
     /**
@@ -40,4 +43,14 @@ public abstract class Track extends Tileable {
      *         otherwise.
      */
     public abstract boolean isConnected();
+
+    /**
+     * Determine whether a certain {@link Marble.Type} is allowed to pass the middle
+     * of the {@link Track}.
+     *
+     * @param direction The {@link Direction} the {@link Marble} i coming from.
+     * @param marble The {@link Marble} that is passing by.
+     * @return <code>true</code> if allowed to pass the middle. <code>false</code> otherwise.
+     */
+    public abstract boolean passesMidpoint(Direction direction, Marble marble);
 }

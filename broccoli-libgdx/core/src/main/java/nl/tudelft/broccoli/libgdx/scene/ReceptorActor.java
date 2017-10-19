@@ -169,13 +169,11 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
                     Actions.run(receptor::unlock)
                 ));
 
-                for (Direction d : Direction.values()) {
-                    if (receptor.getSlot(d).isOccupied()) {
-                        Marble ball = receptor.getSlot(d).getMarble();
+                for (Direction direction : Direction.values()) {
+                    if (receptor.getSlot(direction).isOccupied()) {
+                        Marble ball = receptor.getSlot(direction).getMarble();
                         Actor actor = getContext().actor(ball);
-                        actor.addAction(Actions.sequence(
-                                Actions.rotateBy(90.f, 0.2f)
-                        ));
+                        actor.addAction(Actions.rotateBy(90.f, 0.2f));
                     }
                 }
                 return true;
@@ -308,10 +306,13 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 Direction out = slot.getDirection();
+                Vector2 pos = positions.get(out.rotate(-receptor.getRotation())).cpy();
+
                 if (receptor.isReleasable(out, marble)) {
                     actor.clearActions();
                     actor.removeListener(this);
                     actor.setDirection(out);
+                    actor.setPosition(pos.x, pos.y, Align.center);
                     slot.release();
                 } else {
                     CLANK.play();

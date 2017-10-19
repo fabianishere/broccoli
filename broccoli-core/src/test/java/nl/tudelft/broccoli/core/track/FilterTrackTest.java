@@ -134,7 +134,8 @@ public class FilterTrackTest {
      */
     @Test
     public void notAcceptsLeftBlue() {
-        assertThat(track.accepts(Direction.LEFT, new Marble(MarbleType.BLUE))).isFalse();
+        assertThat(track.accepts(Direction.LEFT, new Marble(MarbleType.BLUE))).isTrue();
+        assertThat(track.passesMidpoint(Direction.LEFT, new Marble(MarbleType.BLUE))).isFalse();
     }
 
     /**

@@ -35,6 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
+import nl.tudelft.broccoli.core.grid.Tile;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.grid.TileableListener;
 import nl.tudelft.broccoli.core.track.FilterTrack;
@@ -107,19 +108,19 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
         if (getTileable() instanceof FilterTrack) {
             FilterTrack track = (FilterTrack) getTileable();
             Image image = new Image(getContext().getTextureAtlas()
-                .findRegion("filter/" + track.getMarbleType().toString().toLowerCase()));
+                    .findRegion("filter/" + track.getMarbleType().toString().toLowerCase()));
 
             // We use a 3 pixel offset since the image is incorrectly aligned
             image.setPosition(
-                sprite.getWidth() / 2 + 3,
-                sprite.getHeight() / 2 - 3,
-                Align.center
+                    sprite.getWidth() / 2 + 3,
+                    sprite.getHeight() / 2 - 3,
+                    Align.center
             );
 
             return image;
         }
 
-        return null;
+        return new Image();
     }
 
     /**
@@ -142,17 +143,96 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
      */
     @Override
     public void ballAccepted(Tileable tileable, Direction direction, Marble marble) {
-        Track track = getTileable();
         MarbleActor actor = (MarbleActor) getContext().actor(marble);
+
+        // This objects needs to be unaltered for the animation. Therefore it is stored here and not
+        // retrieved from the actor.
         Vector2 origin = stageToLocalCoordinates(actor.localToStageCoordinates(
                 new Vector2(actor.getWidth() / 2.f, actor.getHeight() / 2.f)));
-        Vector2 target;
 
-        float width = getWidth();
-        float middleX = width / 2.f;
-        float height = getHeight();
-        float middleY = height / 2.f;
+        prepareActor(actor, direction, origin);
 
+        if (getTileable().passesMidpoint(direction, marble)) {
+            travelAnimation(tileable, actor, direction, origin);
+        } else {
+            bounceTravelAnimation(tileable, actor, direction, origin);
+        }
+
+        addActorBefore(modifier, actor);
+    }
+
+    /**
+     * This method will start the animation of an allowed {@link Marble} traveling over a
+     * {@link Track}.
+     *
+     * @param tileable The {@link Tileable} of the {@link Track}.
+     * @param actor The {@link MarbleActor} of the traveling {@link Marble}.
+     * @param direction The {@link Direction} in which the {@link Marble} is traveling.
+     * @param origin The place at which the marble started.
+     */
+    private void travelAnimation(Tileable tileable, MarbleActor actor, Direction direction,
+                                 Vector2 origin) {
+        Vector2 target = getTarget(direction);
+        Marble marble = actor.getMarble();
+
+        actor.addAction(Actions.sequence(
+                Actions.moveToAligned(target.x, target.y, Align.center, origin.dst(target)
+                        * TRAVEL_TIME),
+                Actions.run(() -> {
+                    Direction inverse = direction.inverse();
+                    if (!getTileable().isReleasable(inverse, marble)) {
+                        BOUNCE.play();
+                        ballAccepted(tileable, inverse, marble);
+                        return;
+                    }
+
+                    getTileable().release(inverse, marble);
+                }))
+        );
+    }
+
+    /**
+     * This method will start the animation of an {@link Marble} (that is not allowed to pass)
+     * traveling over a {@link Track}.
+     *
+     * @param tileable The {@link Tileable} of the {@link Track}.
+     * @param actor The {@link MarbleActor} of the traveling {@link Marble}.
+     * @param direction The {@link Direction} in which the {@link Marble} is traveling.
+     * @param origin The place at which the marble started.
+     */
+    private void bounceTravelAnimation(Tileable tileable, MarbleActor actor, Direction direction,
+                                       Vector2 origin) {
+        Vector2 center = getCenter();
+        Vector2 target = getTarget(direction.inverse());
+        Marble marble = actor.getMarble();
+
+        actor.addAction(Actions.sequence(
+                Actions.moveToAligned(center.x, center.y, Align.center, origin.dst(center)
+                    * TRAVEL_TIME),
+                Actions.run(BOUNCE::play),
+                Actions.moveToAligned(target.x, target.y, Align.center, center.dst(target)
+                    * TRAVEL_TIME),
+                Actions.run(() -> {
+                    if (!getTileable().isReleasable(direction, marble)) {
+                        BOUNCE.play();
+                        ballAccepted(tileable, direction, marble);
+                        return;
+                    }
+
+                    getTileable().release(direction, marble);
+                }))
+        );
+    }
+
+    /**
+     * Prepares the {@link MarbleActor} for being moved.
+     *
+     * @param actor The soon to be prepared {@link MarbleActor}.
+     * @param direction The {@link Direction} in which the {@link Marble} is traveling.
+     * @param origin The start point of the {@link Marble}.
+     */
+    private void prepareActor(MarbleActor actor, Direction direction, Vector2 origin) {
+        Vector2 center = getCenter();
         actor.setRotation(0.f);
         actor.setPosition(origin.x, origin.y);
         actor.setMoving(true);
@@ -160,39 +240,44 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
 
         switch (direction) {
             case TOP:
-                target = new Vector2(middleX, 0);
-                actor.setPosition(middleX, origin.y, Align.center);
-                break;
             case BOTTOM:
-                target = new Vector2(middleX, height);
-                actor.setPosition(middleX, origin.y, Align.center);
+                actor.setPosition(center.x, origin.y, Align.center);
                 break;
             case LEFT:
-                target = new Vector2(width, middleY);
-                actor.setPosition(origin.x, middleY, Align.center);
-                break;
             case RIGHT:
-                target = new Vector2(0, middleY);
-                actor.setPosition(origin.x, middleY, Align.center);
+                actor.setPosition(origin.x, center.y, Align.center);
                 break;
             default:
-                target = new Vector2(0, 0);
         }
+    }
 
-        actor.addAction(Actions.sequence(
-                Actions.moveToAligned(target.x, target.y, Align.center, origin.dst(target)
-                        * TRAVEL_TIME),
-                Actions.run(() -> {
-                    Direction inverse = direction.inverse();
-                    if (!track.isReleasable(inverse, marble)) {
-                        BOUNCE.play();
-                        ballAccepted(tileable, inverse, marble);
-                        return;
-                    }
+    /**
+     * Determines the position of the center of the current {@link Tile}.
+     *
+     * @return The local center position within this actor.
+     */
+    private Vector2 getCenter() {
+        return new Vector2(getWidth() / 2, getHeight() / 2);
+    }
 
-                    track.release(inverse, marble);
-                }))
-        );
-        addActor(actor);
+    /**
+     * Determines the target position the {@link Marble} has. It depends on you knowing if the
+     * {@link Marble} is actually allowed to reach this location.
+     *
+     * @param direction The {@link Direction} the {@link Marble} is coming from.
+     * @return The target position.
+     */
+    private Vector2 getTarget(Direction direction) {
+        Vector2 center = getCenter();
+        switch (direction) {
+            case TOP:
+                return new Vector2(center.x, 0);
+            case BOTTOM:
+                return new Vector2(center.x, getHeight());
+            case LEFT:
+                return new Vector2(getWidth(), center.y);
+            default:
+                return new Vector2(0, center.y);
+        }
     }
 }
