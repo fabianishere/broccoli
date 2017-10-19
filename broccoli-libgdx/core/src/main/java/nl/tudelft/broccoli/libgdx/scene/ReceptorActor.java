@@ -39,7 +39,6 @@ import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.receptor.ReceptorListener;
-import nl.tudelft.broccoli.core.receptor.Slot;
 import nl.tudelft.broccoli.libgdx.Context;
 
 import java.util.EnumMap;
@@ -189,7 +188,7 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
         positions.put(Direction.RIGHT, new Vector2(getWidth() - offset, middleY));
 
         for (Direction direction : Direction.values()) {
-            Slot slot = receptor.getSlot(direction);
+            Receptor.Slot slot = receptor.getSlot(direction);
 
             if (!slot.isOccupied()) {
                 continue;
@@ -290,7 +289,7 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
         MarbleActor actor = registry != null ? registry : new MarbleActor(marble, getContext());
 
         Receptor receptor = getTileable();
-        Slot slot = receptor.getSlot(direction);
+        Receptor.Slot slot = receptor.getSlot(direction);
 
         Vector2 target = positions.get(direction.rotate(-receptor.getRotation())).cpy();
         Vector2 origin = stageToLocalCoordinates(actor.localToStageCoordinates(

@@ -275,7 +275,7 @@ public class ReceptorTest {
      */
     @Test
     public void releaseUnoccupiedSlot() {
-        Slot slot = receptor.getSlot(Direction.LEFT);
+        Receptor.Slot slot = receptor.getSlot(Direction.LEFT);
         assertThatThrownBy(slot::release)
             .isInstanceOf(IllegalStateException.class)
             .hasMessage("The slot is not occupied");
@@ -286,7 +286,7 @@ public class ReceptorTest {
      */
     @Test
     public void releaseUnplacedSlot() {
-        Slot slot = receptor.getSlot(Direction.LEFT);
+        Receptor.Slot slot = receptor.getSlot(Direction.LEFT);
         receptor.accept(Direction.LEFT, new Marble(MarbleType.BLUE));
         assertThatThrownBy(slot::release)
             .isInstanceOf(IllegalStateException.class)
@@ -300,7 +300,8 @@ public class ReceptorTest {
     public void releaseLocked() {
         Grid grid = new Grid(null,1, 1);
         grid.place(0, 0, receptor);
-        Slot slot = receptor.getSlot(Direction.LEFT);
+
+        Receptor.Slot slot = receptor.getSlot(Direction.LEFT);
         receptor.accept(Direction.LEFT, new Marble(MarbleType.BLUE));
         receptor.lock();
         assertThatThrownBy(slot::release)
@@ -323,7 +324,7 @@ public class ReceptorTest {
         grid.place(1, 0, receptor);
 
         Marble marble = new Marble(MarbleType.BLUE);
-        Slot slot = receptor.getSlot(direction);
+        Receptor.Slot slot = receptor.getSlot(direction);
 
         receptor.accept(Direction.LEFT, marble);
 
@@ -347,7 +348,7 @@ public class ReceptorTest {
         grid.place(1, 0, receptor);
 
         Marble marble = new Marble(MarbleType.BLUE);
-        Slot slot = receptor.getSlot(direction);
+        Receptor.Slot slot = receptor.getSlot(direction);
 
         receptor.accept(Direction.LEFT, marble);
 
@@ -371,7 +372,7 @@ public class ReceptorTest {
         grid.place(1, 0, receptor);
 
         Marble marble = new Marble(MarbleType.BLUE);
-        Slot slot = receptor.getSlot(direction);
+        Receptor.Slot slot = receptor.getSlot(direction);
 
         receptor.accept(Direction.LEFT, marble);
 
@@ -404,14 +405,14 @@ public class ReceptorTest {
      */
     @Test
     public void mark() {
-        TileableListener tileableListener = mock(TileableListener.class);
         ReceptorListener listener = mock(ReceptorListener.class);
         ReceptorListener stub = new ReceptorListener() {};
+        TileableListener tileableListener = mock(TileableListener.class);
 
         receptor.addListener(listener);
         receptor.addListener(stub);
         receptor.addListener(tileableListener);
-
+      
         Progress progress = mock(Progress.class);
         GameSession session = mock(GameSession.class);
         when(session.getProgress()).thenReturn(progress);

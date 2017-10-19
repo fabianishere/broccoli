@@ -41,10 +41,10 @@ public class Receptor extends Tileable {
      * The slots of this receptor.
      */
     private Slot[] slots = {
-        new InternalSlot(Direction.TOP),
-        new InternalSlot(Direction.RIGHT),
-        new InternalSlot(Direction.BOTTOM),
-        new InternalSlot(Direction.LEFT),
+        new Slot(Direction.TOP),
+        new Slot(Direction.RIGHT),
+        new Slot(Direction.BOTTOM),
+        new Slot(Direction.LEFT),
     };
 
     /**
@@ -181,7 +181,7 @@ public class Receptor extends Tileable {
     /**
      * Internal {@link Slot} implementation of the {@link Receptor} class.
      */
-    private class InternalSlot implements Slot {
+    public class Slot {
         /**
          * The initial direction of this slot.
          */
@@ -193,11 +193,11 @@ public class Receptor extends Tileable {
         private Marble marble;
 
         /**
-         * Construct an {@link InternalSlot} instance.
+         * Construct an {@link Slot} instance.
          *
          * @param direction The initial direction of the slot.
          */
-        InternalSlot(Direction direction) {
+        Slot(Direction direction) {
             this.direction = direction;
         }
 
@@ -207,7 +207,6 @@ public class Receptor extends Tileable {
          * @return The marble that is stored in this slot or <code>null</code> if the slot is
          *         unoccupied.
          */
-        @Override
         public Marble getMarble() {
             return marble;
         }
@@ -217,7 +216,6 @@ public class Receptor extends Tileable {
          *
          * @return The receptor of this slot.
          */
-        @Override
         public Receptor getReceptor() {
             return Receptor.this;
         }
@@ -228,7 +226,6 @@ public class Receptor extends Tileable {
          * @param marble The marble to accept in this slot.
          * @throws IllegalStateException if the slot is already occupied.
          */
-        @Override
         public void accept(Marble marble) {
             if (isOccupied()) {
                 throw new IllegalStateException("The slot is already occupied");
@@ -252,7 +249,6 @@ public class Receptor extends Tileable {
          * @throws IllegalStateException if the slot is currently unoccupied or the port of this
          *                               slot is not connected to a rail.
          */
-        @Override
         public void release() {
             if (!isOccupied()) {
                 throw new IllegalStateException("The slot is not occupied");
@@ -278,7 +274,6 @@ public class Receptor extends Tileable {
          *
          * @throws IllegalStateException if the slot is currently unoccupied.
          */
-        @Override
         public void dispose() {
             informDispose(getDirection(), marble);
             marble = null;
@@ -291,6 +286,15 @@ public class Receptor extends Tileable {
          */
         public Direction getDirection() {
             return direction.rotate(rotation);
+        }
+
+        /**
+         * Determine whether the slot is occupied with a {@link Marble}.
+         *
+         * @return <code>true</code> if the slot is occupied with a ball, <code>false</code> otherwise.
+         */
+        public boolean isOccupied() {
+            return getMarble() != null;
         }
     }
 
