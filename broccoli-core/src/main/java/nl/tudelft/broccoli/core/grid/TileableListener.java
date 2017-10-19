@@ -28,7 +28,7 @@ package nl.tudelft.broccoli.core.grid;
 import nl.tudelft.broccoli.core.Marble;
 
 /**
- * A listener interfaces for events related to a {@link Tileable}.
+ * A listener interface for events related to a {@link Tileable}.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */

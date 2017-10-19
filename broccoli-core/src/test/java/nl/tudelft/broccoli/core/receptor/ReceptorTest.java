@@ -395,4 +395,25 @@ public class ReceptorTest {
         receptor.getSlot(direction).release();
         verify(listener, times(1)).ballReleased(receptor, direction, marble);
     }
+
+    /**
+     * Test if marking a receptor calls the event method.
+     */
+    @Test
+    public void mark() {
+        TileableListener tileableListener = mock(TileableListener.class);
+        ReceptorListener listener = mock(ReceptorListener.class);
+        ReceptorListener stub = new ReceptorListener() {};
+
+        Grid grid = new Grid(2, 1);
+        grid.place(0, 0, receptor);
+
+        receptor.addListener(listener);
+        receptor.addListener(stub);
+        receptor.addListener(tileableListener);
+        for (Direction direction : Direction.values()) {
+            receptor.accept(direction, Marble.of(Marble.Type.GREEN));
+        }
+        verify(listener, times(1)).receptorMarked(receptor);
+    }
 }

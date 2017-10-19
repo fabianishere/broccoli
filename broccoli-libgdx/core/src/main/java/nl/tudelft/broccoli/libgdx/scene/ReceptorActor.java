@@ -27,9 +27,7 @@ package nl.tudelft.broccoli.libgdx.scene;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -39,8 +37,8 @@ import com.badlogic.gdx.utils.Align;
 import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
-import nl.tudelft.broccoli.core.grid.TileableListener;
 import nl.tudelft.broccoli.core.receptor.Receptor;
+import nl.tudelft.broccoli.core.receptor.ReceptorListener;
 import nl.tudelft.broccoli.core.receptor.Slot;
 import nl.tudelft.broccoli.libgdx.Context;
 
@@ -51,11 +49,16 @@ import java.util.EnumMap;
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class ReceptorActor extends TileableActor<Receptor> implements TileableListener {
+public class ReceptorActor extends TileableActor<Receptor> implements ReceptorListener {
     /**
      * The travel time multiplier for travel speed over this track.
      */
     private static final float TRAVEL_TIME = 0.008f;
+
+    /**
+     * The duration of the explosion animation frame on the marking of a receptor.
+     */
+    private static final float EXPLOSION_TIME = 0.12f;
 
     /**
      * The turn sound of a receptor.
@@ -92,19 +95,24 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
     private final Sprite unmarked;
 
     /**
-     * The marked receptor tile sprites of this receptor.
+     * The marked receptor tile sprite of this receptor.
      */
-    private final Sprite[] markedTiles = new Sprite[15];
+    private final Sprite markedTile;
 
     /**
-     * The unmarked receptor tile sprites of this receptor.
+     * The unmarked receptor tile sprite of this receptor.
      */
-    private final Sprite[] unmarkedTiles = new Sprite[15];
+    private final Sprite unmarkedTile;
 
     /**
-     * The index of the tile.
+     * The explosion animation of the receptor.
      */
-    private int tileIndex;
+    private final Animation<TextureRegion> explosion;
+
+    /**
+     * The animation time.
+     */
+    private float animationTime = 0.f;
 
     /**
      * A map which maps the direction of slots to their positions on the receptor.
@@ -125,11 +133,7 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
         marked = atlas.createSprite("receptor/marked");
         unmarked = atlas.createSprite("receptor/unmarked");
 
-        for (int i = 1; i <= markedTiles.length; i++) {
-            markedTiles[i - 1] = atlas.createSprite("receptor/tile_marked", i);
-            unmarkedTiles[i - 1] = atlas.createSprite("receptor/tile_unmarked", i);
-        }
-
+        int tile = 0;
         // Generate the index of the adaptive tile.
         // We generate this index by creating a number between 1-15 representing the directions
         // at which the receptor is connected in binary in counterclockwise order starting from
@@ -137,9 +141,14 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
         // This is done by flipping the bits on the tile index on the places it is connected.
         for (int i = 0; i < 4; i++) {
             if (receptor.isConnected(Direction.from(4 - i))) {
-                tileIndex |= 1 << (3 - i);
+                tile |= 1 << (3 - i);
             }
         }
+
+        markedTile = atlas.createSprite("receptor/tile_marked", tile);
+        unmarkedTile = atlas.createSprite("receptor/tile_unmarked", tile);
+        explosion = new Animation<>(EXPLOSION_TIME, atlas.findRegions("explosion"),
+            Animation.PlayMode.REVERSED);
 
         receptor.addListener(this);
         setSize(unmarked.getWidth(), unmarked.getHeight());
@@ -199,7 +208,7 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
      */
     @Override
     public Sprite getTileSprite() {
-        return getTileable().isMarked() ? markedTiles[tileIndex - 1] : unmarkedTiles[tileIndex - 1];
+        return getTileable().isMarked() ? markedTile : unmarkedTile;
     }
 
     /**
@@ -219,10 +228,38 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        TextureRegion region = explosion.getKeyFrame(animationTime);
+        batch.draw(region, getX(), getY(), getOriginX(), getOriginY(), getWidth(),
+            getHeight(), getScaleX(), getScaleY(), getRotation());
+
         Sprite receptor = getReceptorSprite();
         receptor.setRotation(getRotation());
         receptor.draw(batch);
         super.draw(batch, parentAlpha);
+    }
+
+    /**
+     * Act on the scene updates.
+     *
+     * @param deltaTime The time delta.
+     */
+    @Override
+    public void act(float deltaTime) {
+        super.act(deltaTime);
+        if (getTileable().isMarked()) {
+            animationTime += deltaTime;
+        }
+    }
+
+    /**
+     * This method is invoked when a {@link Receptor} was marked.
+     *
+     * @param receptor The receptor that has been marked.
+     */
+    @Override
+    public void receptorMarked(Receptor receptor) {
+        animationTime = 0.f;
+        EXPLODE.play();
     }
 
     /**
@@ -238,10 +275,6 @@ public class ReceptorActor extends TileableActor<Receptor> implements TileableLi
 
         if (actor != null) {
             actor.remove();
-        }
-
-        if (getTileable().isMarked()) {
-            EXPLODE.play();
         }
     }
 

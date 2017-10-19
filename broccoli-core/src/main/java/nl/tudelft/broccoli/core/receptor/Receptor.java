@@ -28,6 +28,7 @@ package nl.tudelft.broccoli.core.receptor;
 import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
+import nl.tudelft.broccoli.core.grid.TileableListener;
 import nl.tudelft.broccoli.core.track.Track;
 
 /**
@@ -140,6 +141,8 @@ public class Receptor extends Tileable {
         for (Slot slot : slots) {
             slot.dispose();
         }
+
+        informMarked();
     }
 
     /**
@@ -342,5 +345,16 @@ public class Receptor extends Tileable {
     @Override
     public void accept(Direction direction, Marble marble) {
         getSlot(direction).accept(marble);
+    }
+
+    /**
+     * Inform the listeners of this {@link Receptor} that it has been marked.
+     */
+    private void informMarked() {
+        for (TileableListener listener : getListeners()) {
+            if (listener instanceof ReceptorListener) {
+                ((ReceptorListener) listener).receptorMarked(this);
+            }
+        }
     }
 }

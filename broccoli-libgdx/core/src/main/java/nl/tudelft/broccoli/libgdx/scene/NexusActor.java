@@ -131,6 +131,7 @@ public class NexusActor extends TileableActor<Nexus> implements TileableListener
                 move = Actions.sequence();
         }
 
+        actor.setDirection(direction.inverse());
         actor.addAction(Actions.sequence(
             move,
             Actions.run(() -> {
