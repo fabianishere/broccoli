@@ -5,7 +5,6 @@ import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
-import nl.tudelft.broccoli.core.grid.Tile;
 import nl.tudelft.broccoli.core.nexus.Nexus;
 import nl.tudelft.broccoli.core.nexus.NexusContext;
 import nl.tudelft.broccoli.core.nexus.SpawningNexus;
@@ -61,13 +60,19 @@ public class SimpleLevel implements Level {
         private final Grid grid;
 
         /**
+         * The progress of the game.
+         */
+        private final Progress progress;
+
+        /**
          * Construct a {@link SimpleGame} instance.
          *
          * @param config The game configuration to use.
          */
         public SimpleGame(Configuration config) {
             this.config = config;
-            this.grid = new Grid(config.get(Grid.WIDTH), config.get(Grid.HEIGHT));
+            this.grid = new Grid(this, config.get(Grid.WIDTH), config.get(Grid.HEIGHT));
+            this.progress = new Progress(grid);
 
             NexusContext context = new NexusContext();
             grid.place(0, 3, new Nexus(context));
@@ -116,28 +121,13 @@ public class SimpleLevel implements Level {
         }
 
         /**
-         * Determine whether the game has been won.
+         * Return the {@link Progress} of the player in the game.
          *
-         * @return <code>true</code> if all receptors have been marked, <code>false</code>
-         *         otherwise.
+         * @return The progress of the player in the game.
          */
         @Override
-        public boolean isWon() {
-            // TODO We don't want to check every tile on the grid
-            for (int j = 0; j < grid.getHeight(); j++) {
-                for (int i = 0; i < grid.getWidth(); i++) {
-                    Tile tile = grid.get(i, j);
-
-                    if (tile.getTileable() instanceof Receptor) {
-                        Receptor receptor = (Receptor) tile.getTileable();
-                        if (!receptor.isMarked()) {
-                            return false;
-                        }
-                    }
-                }
-            }
-
-            return true;
+        public Progress getProgress() {
+            return progress;
         }
 
         /**

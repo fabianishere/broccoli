@@ -69,6 +69,11 @@ public class Receptor extends Tileable {
     private boolean locked = false;
 
     /**
+     * The points multiplier when a receptor is marked.
+     */
+    private int multiplier = 100;
+
+    /**
      * Rotate the slots of the receptor clockwise by <code>n * 1/4 pi radians</code>.
      *
      * @param turns The amount of turns to make, where one turns equals <code>45 degrees</code> or
@@ -137,6 +142,9 @@ public class Receptor extends Tileable {
      */
     private void mark() {
         marked = true;
+
+        // Add the scored points to the progress of the game.
+        getTile().getGrid().getSession().getProgress().score(multiplier);
 
         for (Slot slot : slots) {
             slot.dispose();

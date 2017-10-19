@@ -27,10 +27,13 @@ package nl.tudelft.broccoli.core.grid;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
 
+import nl.tudelft.broccoli.core.level.GameSession;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import nl.tudelft.broccoli.core.track.VerticalTrack;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -38,11 +41,24 @@ import org.junit.Test;
  */
 public class GridTest {
     /**
+     * The game session the grid is part of.
+     */
+    private GameSession session;
+
+    /**
+     * Setup the test suite.
+     */
+    @Before
+    public void setUp() {
+        session = mock(GameSession.class);
+    }
+
+    /**
      * The constructor should throw an exception if given negative values.
      */
     @Test
     public void invalidWidthConstructorTest() {
-        assertThatThrownBy(() -> new Grid(-1,2))
+        assertThatThrownBy(() -> new Grid(session, -1, 2))
             .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -51,7 +67,7 @@ public class GridTest {
      */
     @Test
     public void invalidHeightConstructorTest() {
-        assertThatThrownBy(() -> new Grid(3,-1))
+        assertThatThrownBy(() -> new Grid(session, 3, -1))
             .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -60,7 +76,7 @@ public class GridTest {
      */
     @Test
     public void emptyConstructorTest() {
-        assertThatThrownBy(() -> new Grid(0,0))
+        assertThatThrownBy(() -> new Grid(session, 0, 0))
             .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -69,7 +85,7 @@ public class GridTest {
      */
     @Test
     public void gettersTest() {
-        Grid grid = new Grid(3,2);
+        Grid grid = new Grid(session, 3, 2);
         assertThat(grid.getWidth()).isEqualTo(3);
         assertThat(grid.getHeight()).isEqualTo(2);
     }
@@ -79,7 +95,7 @@ public class GridTest {
      */
     @Test
     public void onGridInPointsTest() {
-        Grid grid = new Grid(3,2);
+        Grid grid = new Grid(session, 3, 2);
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 2; y++) {
                 assertThat(grid.onGrid(x,y)).isTrue();
@@ -92,7 +108,7 @@ public class GridTest {
      */
     @Test
     public void onGridOutPointsTest() {
-        Grid grid = new Grid(3,2);
+        Grid grid = new Grid(session, 3, 2);
         int x = -1;
         int y = -1;
 
@@ -123,7 +139,7 @@ public class GridTest {
      */
     @Test
     public void placeGetTest() {
-        Grid grid = new Grid(3,1);
+        Grid grid = new Grid(session, 3, 1);
         Tileable[] tileTypes = { new Receptor(), new HorizontalTrack(), new VerticalTrack() };
         for (int x = 0; x < 3; x++) {
             grid.place(x,0, tileTypes[x]);
@@ -136,8 +152,17 @@ public class GridTest {
      */
     @Test
     public void placeInvalid() {
-        Grid grid = new Grid(3,1);
+        Grid grid = new Grid(session, 3, 1);
         assertThatThrownBy(() -> grid.place(-1, -1, null))
             .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    /**
+     * Test whether we can retrieve the {@link GameSession} from a {@link Grid}.
+     */
+    @Test
+    public void getSession() {
+        Grid grid = new Grid(session, 1, 1);
+        assertThat(grid.getSession()).isEqualTo(session);
     }
 }

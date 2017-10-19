@@ -48,7 +48,7 @@ public class TileTest {
      */
     @Before
     public void setUp() {
-        grid = new Grid(2, 2);
+        grid = new Grid(null, 2, 2);
         htrack = new HorizontalTrack();
         vtrack = new VerticalTrack();
         receptor = new Receptor();

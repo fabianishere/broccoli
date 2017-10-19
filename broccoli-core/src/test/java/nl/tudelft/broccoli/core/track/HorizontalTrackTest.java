@@ -63,7 +63,7 @@ public class HorizontalTrackTest {
      */
     @Test
     public void isNotConnected() {
-        Grid grid = new Grid(1, 1);
+        Grid grid = new Grid(null, 1, 1);
         grid.place(0, 0, track);
         assertThat(track.isConnected()).isFalse();
     }
@@ -73,7 +73,7 @@ public class HorizontalTrackTest {
      */
     @Test
     public void isNotConnectedLeft() {
-        Grid grid = new Grid(2, 1);
+        Grid grid = new Grid(null, 2, 1);
         grid.place(0, 0, new HorizontalTrack());
         grid.place(1, 0, track);
         assertThat(track.isConnected()).isFalse();
@@ -84,7 +84,7 @@ public class HorizontalTrackTest {
      */
     @Test
     public void isNotConnectedRight() {
-        Grid grid = new Grid(2, 1);
+        Grid grid = new Grid(null, 2, 1);
         grid.place(0, 0, track);
         grid.place(1, 0, new HorizontalTrack());
         assertThat(track.isConnected()).isFalse();
@@ -107,7 +107,7 @@ public class HorizontalTrackTest {
         HorizontalTrack hz1 = new HorizontalTrack();
         HorizontalTrack hz2 = new HorizontalTrack();
 
-        Grid grid = new Grid(3, 1);
+        Grid grid = new Grid(null, 3, 1);
         grid.place(0, 0, hz1);
         grid.place(1, 0, track);
         grid.place(2, 0, hz2);

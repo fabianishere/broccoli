@@ -65,7 +65,7 @@ public class VerticalTrackTest {
      */
     @Test
     public void isNotConnected() {
-        Grid grid = new Grid(1, 1);
+        Grid grid = new Grid(null, 1, 1);
         grid.place(0, 0, track);
         assertThat(track.isConnected()).isFalse();
     }
@@ -75,7 +75,7 @@ public class VerticalTrackTest {
      */
     @Test
     public void isNotConnectedBottom() {
-        Grid grid = new Grid(1, 2);
+        Grid grid = new Grid(null, 1, 2);
         grid.place(0, 0, new VerticalTrack());
         grid.place(0, 1, track);
         assertThat(track.isConnected()).isFalse();
@@ -86,7 +86,7 @@ public class VerticalTrackTest {
      */
     @Test
     public void isNotConnectedTop() {
-        Grid grid = new Grid(1, 2);
+        Grid grid = new Grid(null, 1, 2);
         grid.place(0, 0, track);
         grid.place(0, 1, new HorizontalTrack());
         assertThat(track.isConnected()).isFalse();
@@ -106,7 +106,7 @@ public class VerticalTrackTest {
     @Test
     public void isConnected() {
 
-        Grid grid = new Grid(1, 3);
+        Grid grid = new Grid(null, 1, 3);
         grid.place(0, 0, new VerticalTrack());
         grid.place(0, 1, track);
         grid.place(0, 2, new VerticalTrack());
@@ -125,6 +125,7 @@ public class VerticalTrackTest {
     /**
      * Test if a track allows a connection from the bottom.
      */
+    @Test
     public void allowsBottom() {
         assertThat(track.allowsConnection(Direction.BOTTOM)).isTrue();
     }

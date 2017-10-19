@@ -29,6 +29,7 @@ import nl.tudelft.broccoli.core.Entity;
 import nl.tudelft.broccoli.core.config.BoundedProperty;
 import nl.tudelft.broccoli.core.config.IntegerProperty;
 import nl.tudelft.broccoli.core.config.Property;
+import nl.tudelft.broccoli.core.level.GameSession;
 
 /**
  * A grid system on which the entities of the game are placed.
@@ -65,15 +66,22 @@ public class Grid implements Entity {
     private final int height;
 
     /**
+     * The {@link GameSession} the grid is part of.
+     */
+    private final GameSession session;
+
+    /**
      * Create a {@link Grid} instance of the given size.
      *
+     * @param session The game session to create the grid for.
      * @param width The width of the grid.
      * @param height The height of the grid.
      */
-    public Grid(int width, int height) {
+    public Grid(GameSession session, int width, int height) {
         if (width <= 0 || height <= 0) {
             throw new IllegalArgumentException("The given coordinates are not valid");
         }
+        this.session = session;
         this.width = width;
         this.height = height;
 
@@ -101,6 +109,15 @@ public class Grid implements Entity {
      */
     public int getHeight() {
         return height;
+    }
+
+    /**
+     * Return the {@link GameSession} this {@link Grid} is part of.
+     *
+     * @return The game session of this grid.
+     */
+    public GameSession getSession() {
+        return session;
     }
 
     /**

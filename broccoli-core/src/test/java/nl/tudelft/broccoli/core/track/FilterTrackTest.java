@@ -72,7 +72,7 @@ public class FilterTrackTest {
      */
     @Test
     public void isNotConnected() {
-        Grid grid = new Grid(1, 1);
+        Grid grid = new Grid(null, 1, 1);
         grid.place(0, 0, track);
 
         assertThat(track.isConnected()).isFalse();
@@ -83,7 +83,7 @@ public class FilterTrackTest {
      */
     @Test
     public void isConnected() {
-        Grid grid = new Grid(3, 1);
+        Grid grid = new Grid(null, 3, 1);
         grid.place(1, 0, track);
 
         assertThat(track.isConnected()).isTrue();
@@ -237,7 +237,7 @@ public class FilterTrackTest {
 
     @Test
     public void informRelease() {
-        Grid grid = new Grid(2, 1);
+        Grid grid = new Grid(null, 2, 1);
         TileableListener listener = mock(TileableListener.class);
         Track tileable = new HorizontalTrack();
         grid.place(0, 0, tileable);

@@ -35,6 +35,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import nl.tudelft.broccoli.core.config.*;
 import nl.tudelft.broccoli.core.level.GameSession;
+import nl.tudelft.broccoli.core.level.Progress;
 import nl.tudelft.broccoli.core.level.SimpleLevel;
 import nl.tudelft.broccoli.libgdx.scene.GridActor;
 
@@ -93,6 +94,11 @@ public class Broccoli extends Game {
     private boolean paused = false;
 
     /**
+     * Game progress.
+     */
+    private Progress progress;
+
+    /**
      * Construct a {@link Broccoli} instance.
      *
      * @param config The game configuration to use.
@@ -109,10 +115,12 @@ public class Broccoli extends Game {
         stage = new Stage(new ScreenViewport());
         session = new SimpleLevel().create(config);
         context = new Context(config, new TextureAtlas(Gdx.files.classpath("atlas/sprites.atlas")));
+        progress = new Progress(session.getGrid());
 
         GridActor grid = new GridActor(session.getGrid(), context);
         grid.setFillParent(true);
         stage.addActor(grid);
+
 
         Gdx.input.setInputProcessor(stage);
 
@@ -141,9 +149,10 @@ public class Broccoli extends Game {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Check if the game has been won
-        if (session.isWon()) {
+        if (progress.isWon()) {
             // TODO Show message on game screen instead and allow user to start a new game
-            JOptionPane.showMessageDialog(new JFrame(), "Congratulations! You won the game",
+            JOptionPane.showMessageDialog(new JFrame(), "Congratulations! You won the game "
+                    +  "and earned " + session.getProgress().getScore() + " points.",
                 "Winner!", JOptionPane.INFORMATION_MESSAGE);
             Gdx.app.exit();
             return;

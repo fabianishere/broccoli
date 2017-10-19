@@ -35,6 +35,8 @@ import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.grid.TileableListener;
+import nl.tudelft.broccoli.core.level.GameSession;
+import nl.tudelft.broccoli.core.level.Progress;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import org.junit.Before;
 import org.junit.Test;
@@ -211,7 +213,7 @@ public class ReceptorTest {
     @Test
     public void lockedReceptorIsNotReleasable() {
         receptor.lock();
-        Grid grid = new Grid(2, 1);
+        Grid grid = new Grid(null,2, 1);
         grid.place(0, 0, new HorizontalTrack());
         grid.place(1, 0, receptor);
         assertThat(receptor.isReleasable(Direction.LEFT, marble)).isFalse();
@@ -222,7 +224,7 @@ public class ReceptorTest {
      */
     @Test
     public void unlockedReceptorIsNotReleasable() {
-        Grid grid = new Grid(1, 1);
+        Grid grid = new Grid(null,1, 1);
         grid.place(0, 0, receptor);
         assertThat(receptor.isReleasable(Direction.LEFT, marble)).isFalse();
     }
@@ -232,7 +234,7 @@ public class ReceptorTest {
      */
     @Test
     public void isReleasable() {
-        Grid grid = new Grid(2, 1);
+        Grid grid = new Grid(null,2, 1);
         grid.place(0, 0, new HorizontalTrack());
         grid.place(1, 0, receptor);
         assertThat(receptor.isReleasable(Direction.LEFT, marble)).isTrue();
@@ -296,7 +298,7 @@ public class ReceptorTest {
      */
     @Test
     public void releaseLocked() {
-        Grid grid = new Grid(1, 1);
+        Grid grid = new Grid(null,1, 1);
         grid.place(0, 0, receptor);
         Slot slot = receptor.getSlot(Direction.LEFT);
         receptor.accept(Direction.LEFT, new Marble(MarbleType.BLUE));
@@ -316,7 +318,7 @@ public class ReceptorTest {
         when(tileable.allowsConnection(direction.inverse())).thenReturn(false);
         when(tileable.accepts(direction.inverse(), marble)).thenReturn(true);
 
-        Grid grid = new Grid(2, 1);
+        Grid grid = new Grid(null,2, 1);
         grid.place(0, 0, tileable);
         grid.place(1, 0, receptor);
 
@@ -340,7 +342,7 @@ public class ReceptorTest {
         when(tileable.allowsConnection(direction.inverse())).thenReturn(true);
         when(tileable.accepts(direction.inverse(), marble)).thenReturn(false);
 
-        Grid grid = new Grid(2, 1);
+        Grid grid = new Grid(null,2, 1);
         grid.place(0, 0, tileable);
         grid.place(1, 0, receptor);
 
@@ -364,7 +366,7 @@ public class ReceptorTest {
         when(tileable.allowsConnection(direction.inverse())).thenReturn(false);
         when(tileable.accepts(direction.inverse(), marble)).thenReturn(false);
 
-        Grid grid = new Grid(2, 1);
+        Grid grid = new Grid(null,2, 1);
         grid.place(0, 0, tileable);
         grid.place(1, 0, receptor);
 
@@ -384,7 +386,7 @@ public class ReceptorTest {
     @Test
     public void release() {
         TileableListener listener = mock(TileableListener.class);
-        Grid grid = new Grid(2, 1);
+        Grid grid = new Grid(null,2, 1);
         grid.place(0, 0, new HorizontalTrack());
         grid.place(1, 0, receptor);
 
@@ -406,15 +408,22 @@ public class ReceptorTest {
         ReceptorListener listener = mock(ReceptorListener.class);
         ReceptorListener stub = new ReceptorListener() {};
 
-        Grid grid = new Grid(2, 1);
-        grid.place(0, 0, receptor);
-
         receptor.addListener(listener);
         receptor.addListener(stub);
         receptor.addListener(tileableListener);
+
+        Progress progress = mock(Progress.class);
+        GameSession session = mock(GameSession.class);
+        when(session.getProgress()).thenReturn(progress);
+
+        Grid grid = new Grid(session, 2, 1);
+        grid.place(0, 0, receptor);
+
         for (Direction direction : Direction.values()) {
             receptor.accept(direction, new Marble(MarbleType.GREEN));
         }
+
         verify(listener, times(1)).receptorMarked(receptor);
+        verify(progress, times(1)).score(anyInt());
     }
 }

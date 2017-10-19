@@ -49,7 +49,7 @@ public class TileableTest {
      */
     @Before
     public void setUp() {
-        grid = new Grid(2, 2);
+        grid = new Grid(null, 2, 2);
         grid.place(0,0, new HorizontalTrack());
         grid.place(1, 0, new HorizontalTrack());
         grid.place(0, 1, new HorizontalTrack());
