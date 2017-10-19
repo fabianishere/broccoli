@@ -31,6 +31,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import nl.tudelft.broccoli.core.Marble;
+import nl.tudelft.broccoli.core.MarbleType;
 import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.config.Property;
 import nl.tudelft.broccoli.core.grid.Direction;
@@ -99,17 +100,17 @@ public class SimpleLevelTest {
 
         GameSession session = simpleLevel.create(config);
         SpawningNexus nexus = (SpawningNexus) session.getGrid().get(3, 3).getTileable();
-        assertThat(nexus.spawn().getType()).isEqualTo(Marble.Type.GREEN);
+        assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.GREEN);
         nexus.getContext().setOccupied(false);
-        assertThat(nexus.spawn().getType()).isEqualTo(Marble.Type.BLUE);
+        assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.BLUE);
         nexus.getContext().setOccupied(false);
-        assertThat(nexus.spawn().getType()).isEqualTo(Marble.Type.PINK);
+        assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.PINK);
         nexus.getContext().setOccupied(false);
-        assertThat(nexus.spawn().getType()).isEqualTo(Marble.Type.JOKER);
+        assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.JOKER);
         nexus.getContext().setOccupied(false);
-        assertThat(nexus.spawn().getType()).isEqualTo(Marble.Type.YELLOW);
+        assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.YELLOW);
         nexus.getContext().setOccupied(false);
-        assertThat(nexus.spawn().getType()).isEqualTo(Marble.Type.BLUE);
+        assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.BLUE);
     }
 
     /**
@@ -148,7 +149,7 @@ public class SimpleLevelTest {
                 if (tile.getTileable() instanceof Receptor) {
                     Receptor receptor = (Receptor) tile.getTileable();
                     for (Direction direction : Direction.values()) {
-                        receptor.accept(direction, Marble.of(Marble.Type.BLUE));
+                        receptor.accept(direction, Marble.of(MarbleType.BLUE));
                     }
                 }
             }

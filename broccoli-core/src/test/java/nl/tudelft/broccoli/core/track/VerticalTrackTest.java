@@ -30,6 +30,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 import nl.tudelft.broccoli.core.Marble;
+import nl.tudelft.broccoli.core.MarbleType;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.grid.TileableListener;
@@ -56,7 +57,7 @@ public class VerticalTrackTest {
     @Before
     public void setUp() {
         track = new VerticalTrack();
-        marble = Marble.of(Marble.Type.GREEN);
+        marble = Marble.of(MarbleType.GREEN);
     }
 
     /**
@@ -191,7 +192,7 @@ public class VerticalTrackTest {
     @Test
     public void acceptTop() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(Marble.Type.BLUE);
+        Marble marble = Marble.of(MarbleType.BLUE);
         Direction direction = Direction.TOP;
         track.addListener(listener);
         track.accept(direction, marble);
@@ -204,7 +205,7 @@ public class VerticalTrackTest {
     @Test
     public void acceptBottom() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(Marble.Type.BLUE);
+        Marble marble = Marble.of(MarbleType.BLUE);
         Direction direction = Direction.BOTTOM;
         track.addListener(listener);
         track.accept(direction, marble);
@@ -218,7 +219,7 @@ public class VerticalTrackTest {
     @Test
     public void acceptLeftException() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(Marble.Type.BLUE);
+        Marble marble = Marble.of(MarbleType.BLUE);
         Direction direction = Direction.LEFT;
 
         track.addListener(listener);
@@ -233,7 +234,7 @@ public class VerticalTrackTest {
     @Test
     public void acceptRightException() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(Marble.Type.BLUE);
+        Marble marble = Marble.of(MarbleType.BLUE);
         Direction direction = Direction.RIGHT;
 
         track.addListener(listener);

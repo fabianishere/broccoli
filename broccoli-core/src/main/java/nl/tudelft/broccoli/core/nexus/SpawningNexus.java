@@ -26,6 +26,7 @@
 package nl.tudelft.broccoli.core.nexus;
 
 import nl.tudelft.broccoli.core.Marble;
+import nl.tudelft.broccoli.core.MarbleType;
 import nl.tudelft.broccoli.core.config.DoubleProperty;
 import nl.tudelft.broccoli.core.config.ListProperty;
 import nl.tudelft.broccoli.core.config.Property;
@@ -57,7 +58,7 @@ public class SpawningNexus extends Nexus {
     /**
      * The possible type of marbles.
      */
-    private static final Marble.Type[] MARBLES = Marble.Type.values();
+    private static final MarbleType[] MARBLES = MarbleType.values();
 
     /**
      * The {@link Random} instance used for determining the color of the spawned ball.
@@ -77,7 +78,7 @@ public class SpawningNexus extends Nexus {
     /**
      * The initial sequence of balls to spawn.
      */
-    private final Queue<Marble.Type> initial;
+    private final Queue<MarbleType> initial;
 
     /**
      * Construct a {@link SpawningNexus} instance.
@@ -89,7 +90,7 @@ public class SpawningNexus extends Nexus {
      * @param initial The initial sequence of balls to spawn.
      */
     public SpawningNexus(NexusContext context, Random random, Direction direction, double joker,
-            Queue<Marble.Type> initial) {
+            Queue<MarbleType> initial) {
         super(context);
         this.random = random;
         this.direction = direction;
@@ -113,7 +114,7 @@ public class SpawningNexus extends Nexus {
         if (!initial.isEmpty()) {
             marble = Marble.of(initial.poll());
         } else if (random.nextDouble() < joker) {
-            marble = Marble.of(Marble.Type.JOKER);
+            marble = Marble.of(MarbleType.JOKER);
         } else {
             marble = Marble.of(MARBLES[random.nextInt(MARBLES.length - 1)]);
         }

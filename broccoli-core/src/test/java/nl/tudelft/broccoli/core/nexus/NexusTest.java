@@ -3,6 +3,7 @@ package nl.tudelft.broccoli.core.nexus;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import nl.tudelft.broccoli.core.Marble;
+import nl.tudelft.broccoli.core.MarbleType;
 import nl.tudelft.broccoli.core.grid.Direction;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class NexusTest {
     public void setUp() {
         context = new NexusContext();
         nexus = new Nexus(context);
-        marble = Marble.of(Marble.Type.GREEN);
+        marble = Marble.of(MarbleType.GREEN);
     }
 
     @Test

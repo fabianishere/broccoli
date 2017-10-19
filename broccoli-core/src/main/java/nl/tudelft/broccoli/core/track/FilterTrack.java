@@ -26,6 +26,7 @@
 package nl.tudelft.broccoli.core.track;
 
 import nl.tudelft.broccoli.core.Marble;
+import nl.tudelft.broccoli.core.MarbleType;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tile;
 import nl.tudelft.broccoli.core.grid.Tileable;
@@ -39,9 +40,9 @@ import nl.tudelft.broccoli.core.grid.TileableListener;
 public class FilterTrack extends Track implements TileableListener {
 
     /**
-     * The only {@link Marble.Type} that is able to pass.
+     * The only {@link MarbleType} that is able to pass.
      */
-    private Marble.Type marbleType;
+    private MarbleType marbleType;
 
     /**
      * The {@link Track} that is transformed to be a filtering track.
@@ -52,9 +53,9 @@ public class FilterTrack extends Track implements TileableListener {
      * Constructs the {@link FilterTrack}.
      *
      * @param track The {@link Track} that is transformed to be a filtering track.
-     * @param marbleType The only {@link Marble.Type} that is able to pass.
+     * @param marbleType The only {@link MarbleType} that is able to pass.
      */
-    public FilterTrack(Track track, Marble.Type marbleType) {
+    public FilterTrack(Track track, MarbleType marbleType) {
         this.track = track;
         this.track.addListener(this);
         this.marbleType = marbleType;
@@ -70,11 +71,11 @@ public class FilterTrack extends Track implements TileableListener {
     }
 
     /**
-     * Return the {@link Marble.Type} that is able to pass.
+     * Return the {@link MarbleType} that is able to pass.
      *
-     * @return The {@link Marble.Type} that is able to pass
+     * @return The {@link MarbleType} that is able to pass
      */
-    public Marble.Type getMarbleType() {
+    public MarbleType getMarbleType() {
         return marbleType;
     }
 
@@ -131,12 +132,12 @@ public class FilterTrack extends Track implements TileableListener {
     }
 
     /**
-     * Checks if a certain {@link Marble.Type} is allowed to enter the {@link Track}.
+     * Checks if a certain {@link MarbleType} is allowed to enter the {@link Track}.
      *
-     * @param marbleType The {@link Marble.Type} that is being checked for passage.
+     * @param marbleType The {@link MarbleType} that is being checked for passage.
      * @return <code>true</code> if allowed, <code>false</code> otherwise.
      */
-    private boolean acceptsMarbleType(Marble.Type marbleType) {
+    private boolean acceptsMarbleType(MarbleType marbleType) {
         return this.marbleType.equals(marbleType);
     }
 

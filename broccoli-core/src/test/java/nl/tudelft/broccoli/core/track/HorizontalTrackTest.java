@@ -30,6 +30,7 @@ import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 import nl.tudelft.broccoli.core.Marble;
+import nl.tudelft.broccoli.core.MarbleType;
 import nl.tudelft.broccoli.core.grid.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,7 +55,7 @@ public class HorizontalTrackTest {
     @Before
     public void setUp() {
         track = new HorizontalTrack();
-        marble = Marble.of(Marble.Type.GREEN);
+        marble = Marble.of(MarbleType.GREEN);
     }
 
     /**
@@ -194,7 +195,7 @@ public class HorizontalTrackTest {
     @Test
     public void acceptLeft() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(Marble.Type.BLUE);
+        Marble marble = Marble.of(MarbleType.BLUE);
         Direction direction = Direction.LEFT;
         track.addListener(listener);
         track.accept(direction, marble);
@@ -207,7 +208,7 @@ public class HorizontalTrackTest {
     @Test
     public void acceptRight() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(Marble.Type.BLUE);
+        Marble marble = Marble.of(MarbleType.BLUE);
         Direction direction = Direction.RIGHT;
         track.addListener(listener);
         track.accept(direction, marble);
@@ -221,7 +222,7 @@ public class HorizontalTrackTest {
     @Test
     public void acceptTopException() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(Marble.Type.BLUE);
+        Marble marble = Marble.of(MarbleType.BLUE);
         Direction direction = Direction.TOP;
 
         track.addListener(listener);
@@ -236,7 +237,7 @@ public class HorizontalTrackTest {
     @Test
     public void acceptBottomException() {
         TileableListener listener = mock(TileableListener.class);
-        Marble marble = Marble.of(Marble.Type.BLUE);
+        Marble marble = Marble.of(MarbleType.BLUE);
         Direction direction = Direction.BOTTOM;
 
         track.addListener(listener);

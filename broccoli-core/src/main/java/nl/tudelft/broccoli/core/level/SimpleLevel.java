@@ -1,6 +1,6 @@
 package nl.tudelft.broccoli.core.level;
 
-import nl.tudelft.broccoli.core.Marble;
+import nl.tudelft.broccoli.core.MarbleType;
 import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.grid.Direction;
@@ -76,12 +76,12 @@ public class SimpleLevel implements Level {
 
             // Read the initial sequence of balls from the configuration
             List<String> initialStrings = config.get(SpawningNexus.INITIAL_SEQUENCE);
-            Queue<Marble.Type> initial = new ArrayDeque<>(initialStrings.stream()
+            Queue<MarbleType> initial = new ArrayDeque<>(initialStrings.stream()
                 .map(str -> {
                     try {
-                        return Marble.Type.valueOf(str);
+                        return MarbleType.valueOf(str);
                     } catch (IllegalArgumentException e) {
-                        return Marble.Type.BLUE;
+                        return MarbleType.BLUE;
                     }
                 }).collect(Collectors.toList())
             );
@@ -100,7 +100,7 @@ public class SimpleLevel implements Level {
             grid.place(2, 1, new VerticalTrack());
 
             grid.place(0, 0, new Receptor());
-            grid.place(1, 0, new FilterTrack(new HorizontalTrack(), Marble.Type.GREEN));
+            grid.place(1, 0, new FilterTrack(new HorizontalTrack(), MarbleType.GREEN));
 
             grid.place(2, 0, new Receptor());
         }

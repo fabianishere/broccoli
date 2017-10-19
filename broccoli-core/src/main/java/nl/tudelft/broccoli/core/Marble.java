@@ -37,25 +37,14 @@ public final class Marble implements Entity {
     /**
      * The type of the ball.
      */
-    private Type type;
-
-    /**
-     * This enumeration describes the ball types available.
-     */
-    public enum Type {
-        PINK,
-        GREEN,
-        BLUE,
-        YELLOW,
-        JOKER, // R3.3
-    }
+    private MarbleType type;
 
     /**
      * Construct a {@link Marble} instance.
      *
      * @param type The type of the ball to create.
      */
-    private Marble(Type type) {
+    private Marble(MarbleType type) {
         this.type = type;
     }
 
@@ -65,7 +54,7 @@ public final class Marble implements Entity {
      * @param type The type of ball to get.
      * @return An instance of {@link Marble} with the given type.
      */
-    public static Marble of(Type type) {
+    public static Marble of(MarbleType type) {
         return new Marble(type);
     }
 
@@ -74,7 +63,7 @@ public final class Marble implements Entity {
      *
      * @return The type of the ball.
      */
-    public Type getType() {
+    public MarbleType getType() {
         return type;
     }
 
@@ -89,7 +78,7 @@ public final class Marble implements Entity {
      *         otherwise.
      */
     public boolean isCompatible(Marble other) {
-        return other != null && (type.equals(Type.JOKER) || other.type.equals(Type.JOKER)
+        return other != null && (type.equals(MarbleType.JOKER) || other.type.equals(MarbleType.JOKER)
             || type.equals(other.type));
     }
 }

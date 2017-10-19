@@ -38,8 +38,8 @@ public class MarbleTest {
      */
     @Test
     public void createPinkBall() {
-        Marble marble = Marble.of(Marble.Type.PINK);
-        assertThat(marble.getType()).isEqualTo(Marble.Type.PINK);
+        Marble marble = Marble.of(MarbleType.PINK);
+        assertThat(marble.getType()).isEqualTo(MarbleType.PINK);
     }
 
     /**
@@ -47,8 +47,8 @@ public class MarbleTest {
      */
     @Test
     public void createBlueBall() {
-        Marble marble = Marble.of(Marble.Type.BLUE);
-        assertThat(marble.getType()).isEqualTo(Marble.Type.BLUE);
+        Marble marble = Marble.of(MarbleType.BLUE);
+        assertThat(marble.getType()).isEqualTo(MarbleType.BLUE);
     }
 
     /**
@@ -56,8 +56,8 @@ public class MarbleTest {
      */
     @Test
     public void createGreenBall() {
-        Marble marble = Marble.of(Marble.Type.GREEN);
-        assertThat(marble.getType()).isEqualTo(Marble.Type.GREEN);
+        Marble marble = Marble.of(MarbleType.GREEN);
+        assertThat(marble.getType()).isEqualTo(MarbleType.GREEN);
     }
 
     /**
@@ -65,8 +65,8 @@ public class MarbleTest {
      */
     @Test
     public void createYellowBall() {
-        Marble marble = Marble.of(Marble.Type.YELLOW);
-        assertThat(marble.getType()).isEqualTo(Marble.Type.YELLOW);
+        Marble marble = Marble.of(MarbleType.YELLOW);
+        assertThat(marble.getType()).isEqualTo(MarbleType.YELLOW);
     }
 
     /**
@@ -74,8 +74,8 @@ public class MarbleTest {
      */
     @Test
     public void createJoker() {
-        Marble marble = Marble.of(Marble.Type.JOKER);
-        assertThat(marble.getType()).isEqualTo(Marble.Type.JOKER);
+        Marble marble = Marble.of(MarbleType.JOKER);
+        assertThat(marble.getType()).isEqualTo(MarbleType.JOKER);
     }
 
     /**
@@ -92,8 +92,8 @@ public class MarbleTest {
      */
     @Test
     public void isCompatibleSameColour() {
-        Marble greenMarble1 = Marble.of(Marble.Type.GREEN);
-        Marble greenMarble2 = Marble.of(Marble.Type.GREEN);
+        Marble greenMarble1 = Marble.of(MarbleType.GREEN);
+        Marble greenMarble2 = Marble.of(MarbleType.GREEN);
         assertThat(greenMarble1.isCompatible(greenMarble2)).isTrue();
     }
 
@@ -102,8 +102,8 @@ public class MarbleTest {
      */
     @Test
     public void isIncompatibleDifferentColour() {
-        Marble green = Marble.of(Marble.Type.GREEN);
-        Marble blue = Marble.of(Marble.Type.BLUE);
+        Marble green = Marble.of(MarbleType.GREEN);
+        Marble blue = Marble.of(MarbleType.BLUE);
         assertThat(green.isCompatible(blue)).isFalse();
     }
 
@@ -112,8 +112,8 @@ public class MarbleTest {
      */
     @Test
     public void isCompatibleJokerFirst() {
-        Marble joker = Marble.of(Marble.Type.JOKER);
-        Marble greenMarble = Marble.of(Marble.Type.GREEN);
+        Marble joker = Marble.of(MarbleType.JOKER);
+        Marble greenMarble = Marble.of(MarbleType.GREEN);
         assertThat(joker.isCompatible(greenMarble)).isTrue();
     }
 
@@ -122,8 +122,8 @@ public class MarbleTest {
      */
     @Test
     public void isCompatibleJokerSecond() {
-        Marble joker = Marble.of(Marble.Type.JOKER);
-        Marble greenMarble = Marble.of(Marble.Type.GREEN);
+        Marble joker = Marble.of(MarbleType.JOKER);
+        Marble greenMarble = Marble.of(MarbleType.GREEN);
         assertThat(greenMarble.isCompatible(joker)).isTrue();
     }
 
@@ -132,8 +132,8 @@ public class MarbleTest {
      */
     @Test
     public void isCompatibleBothJokers() {
-        Marble joker1 = Marble.of(Marble.Type.JOKER);
-        Marble joker2 = Marble.of(Marble.Type.JOKER);
+        Marble joker1 = Marble.of(MarbleType.JOKER);
+        Marble joker2 = Marble.of(MarbleType.JOKER);
         assertThat(joker1.isCompatible(joker2)).isTrue();
     }
 
@@ -142,7 +142,7 @@ public class MarbleTest {
      */
     @Test
     public void isCompatibleNull() {
-        Marble joker = Marble.of(Marble.Type.JOKER);
+        Marble joker = Marble.of(MarbleType.JOKER);
         assertThat(joker.isCompatible(null)).isFalse();
     }
 }

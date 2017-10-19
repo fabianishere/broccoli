@@ -30,6 +30,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 import nl.tudelft.broccoli.core.Marble;
+import nl.tudelft.broccoli.core.MarbleType;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.grid.Tileable;
@@ -58,7 +59,7 @@ public class ReceptorTest {
     @Before
     public void setUp() {
         receptor = new Receptor();
-        marble = Marble.of(Marble.Type.GREEN);
+        marble = Marble.of(MarbleType.GREEN);
     }
 
     /**
@@ -143,7 +144,7 @@ public class ReceptorTest {
      */
     @Test
     public void acceptBall() {
-        Marble marble = Marble.of(Marble.Type.BLUE);
+        Marble marble = Marble.of(MarbleType.BLUE);
         receptor.accept(Direction.TOP, marble);
         assertThat(receptor.getSlot(Direction.TOP).getMarble()).isEqualTo(marble);
     }
@@ -153,7 +154,7 @@ public class ReceptorTest {
      */
     @Test
     public void notAcceptWhenSlotOccupied() {
-        receptor.accept(Direction.TOP, Marble.of(Marble.Type.BLUE));
+        receptor.accept(Direction.TOP, Marble.of(MarbleType.BLUE));
         assertThat(receptor.accepts(Direction.TOP, marble)).isFalse();
     }
 
@@ -242,8 +243,8 @@ public class ReceptorTest {
      */
     @Test
     public void acceptWhenSlotOccupied() {
-        receptor.accept(Direction.TOP, Marble.of(Marble.Type.BLUE));
-        assertThatThrownBy(() -> receptor.accept(Direction.TOP, Marble.of(Marble.Type.BLUE)))
+        receptor.accept(Direction.TOP, Marble.of(MarbleType.BLUE));
+        assertThatThrownBy(() -> receptor.accept(Direction.TOP, Marble.of(MarbleType.BLUE)))
             .isInstanceOf(IllegalStateException.class)
             .hasMessage("The slot is already occupied");
     }
@@ -254,7 +255,7 @@ public class ReceptorTest {
     @Test
     public void acceptWhenLocked() {
         receptor.lock();
-        assertThatThrownBy(() -> receptor.accept(Direction.TOP, Marble.of(Marble.Type.BLUE)))
+        assertThatThrownBy(() -> receptor.accept(Direction.TOP, Marble.of(MarbleType.BLUE)))
             .isInstanceOf(IllegalStateException.class)
             .hasMessage("The receptor is locked");
     }
@@ -284,7 +285,7 @@ public class ReceptorTest {
     @Test
     public void releaseUnplacedSlot() {
         Slot slot = receptor.getSlot(Direction.LEFT);
-        receptor.accept(Direction.LEFT, Marble.of(Marble.Type.BLUE));
+        receptor.accept(Direction.LEFT, Marble.of(MarbleType.BLUE));
         assertThatThrownBy(slot::release)
             .isInstanceOf(IllegalStateException.class)
             .hasMessage("The receptor is not placed on a grid");
@@ -298,7 +299,7 @@ public class ReceptorTest {
         Grid grid = new Grid(1, 1);
         grid.place(0, 0, receptor);
         Slot slot = receptor.getSlot(Direction.LEFT);
-        receptor.accept(Direction.LEFT, Marble.of(Marble.Type.BLUE));
+        receptor.accept(Direction.LEFT, Marble.of(MarbleType.BLUE));
         receptor.lock();
         assertThatThrownBy(slot::release)
             .isInstanceOf(IllegalStateException.class)
@@ -319,7 +320,7 @@ public class ReceptorTest {
         grid.place(0, 0, tileable);
         grid.place(1, 0, receptor);
 
-        Marble marble = Marble.of(Marble.Type.BLUE);
+        Marble marble = Marble.of(MarbleType.BLUE);
         Slot slot = receptor.getSlot(direction);
 
         receptor.accept(Direction.LEFT, marble);
@@ -343,7 +344,7 @@ public class ReceptorTest {
         grid.place(0, 0, tileable);
         grid.place(1, 0, receptor);
 
-        Marble marble = Marble.of(Marble.Type.BLUE);
+        Marble marble = Marble.of(MarbleType.BLUE);
         Slot slot = receptor.getSlot(direction);
 
         receptor.accept(Direction.LEFT, marble);
@@ -367,7 +368,7 @@ public class ReceptorTest {
         grid.place(0, 0, tileable);
         grid.place(1, 0, receptor);
 
-        Marble marble = Marble.of(Marble.Type.BLUE);
+        Marble marble = Marble.of(MarbleType.BLUE);
         Slot slot = receptor.getSlot(direction);
 
         receptor.accept(Direction.LEFT, marble);
@@ -387,7 +388,7 @@ public class ReceptorTest {
         grid.place(0, 0, new HorizontalTrack());
         grid.place(1, 0, receptor);
 
-        Marble marble = Marble.of(Marble.Type.BLUE);
+        Marble marble = Marble.of(MarbleType.BLUE);
         Direction direction = Direction.LEFT;
 
         receptor.addListener(listener);
