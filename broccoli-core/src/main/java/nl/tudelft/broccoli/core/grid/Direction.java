@@ -63,7 +63,18 @@ public enum Direction {
     }
 
     /**
-     * Return a {@link Direction} given an clockwise index.
+     * Return a {@link Direction} given an clockwise index starting at {@link Direction#TOP},
+     * wrapping around on index overflow and underflow.
+     *
+     * <p>This means that the method will produce the following values for the given input:
+     * <ul>
+     *     <li>from(0) = Direction.TOP</li>
+     *     <li>from(1) = Direction.RIGHT</li>
+     *     <li>from(2) = Direction.BOTTOM</li>
+     *     <li>from(3) = Direction.LEFT</li>
+     *     <li>from(4) = Direction.TOP</li>
+     *     <li>from(-1) = Direction.LEFT</li>
+     * </ul>
      *
      * @param index The index of the direction to get.
      * @return The resulting direction.
