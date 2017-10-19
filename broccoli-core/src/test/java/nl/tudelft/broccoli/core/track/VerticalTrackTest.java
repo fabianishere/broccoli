@@ -186,6 +186,38 @@ public class VerticalTrackTest {
     }
 
     /**
+     * Test if a track allows passage of a ball from the left on the midpoint.
+     */
+    @Test
+    public void passesMidpointLeft() {
+        assertThat(track.passesMidpoint(Direction.LEFT, marble)).isTrue();
+    }
+
+    /**
+     * Test if a track allows passage of a ball from the right on the midpoint.
+     */
+    @Test
+    public void passesMidpointRight() {
+        assertThat(track.passesMidpoint(Direction.RIGHT, marble)).isTrue();
+    }
+
+    /**
+     * Test if a track allows passage of a ball from the top on the midpoint.
+     */
+    @Test
+    public void passesMidpointTop() {
+        assertThat(track.passesMidpoint(Direction.TOP, marble)).isTrue();
+    }
+
+    /**
+     * Test if a track allows passage of a ball from the bottom on the midpoint.
+     */
+    @Test
+    public void passesMidpointBottom() {
+        assertThat(track.passesMidpoint(Direction.BOTTOM, marble)).isTrue();
+    }
+
+    /**
      * Test if giving a ball from the top is successful.
      */
     @Test
