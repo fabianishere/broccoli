@@ -25,6 +25,13 @@
 
 package nl.tudelft.broccoli.core.nexus;
 
+import nl.tudelft.broccoli.core.Marble;
+import nl.tudelft.broccoli.core.MarbleType;
+
+import java.util.Arrays;
+import java.util.Queue;
+import java.util.Random;
+
 /**
  * A context for {@link Nexus} instances to check the state of other parts.
  *
@@ -33,9 +40,93 @@ package nl.tudelft.broccoli.core.nexus;
  */
 public class NexusContext {
     /**
+     * The possible type of marbles.
+     */
+    private static final MarbleType[] MARBLES = MarbleType.values();
+
+    /**
      * A flag to indicate the nexus is currently occupied by a ball.
      */
     private boolean occupied;
+
+    /**
+     * The remaining sequence of balls to spawn.
+     */
+    private final Queue<MarbleType> queue;
+
+    /**
+     * The {@link Random} instance used for determining the color of the spawned ball.
+     */
+    private final Random random;
+
+    /**
+     * The probability of a joker occurring.
+     */
+    private final double joker;
+
+    /**
+     * Construct a {@link NexusContext} instance.
+     *
+     * @param queue The queue of balls to spawn.
+     * @param random The random number generator to use for selecting the colors.
+     * @param joker The probability that a joker is generated.
+     */
+    public NexusContext(Queue<MarbleType> queue, Random random, double joker) {
+        this.queue = queue;
+        this.random = random;
+        this.joker = joker;
+
+        // Generate the first ball to be spawned if the queue is empty initially.
+        if (queue.isEmpty()) {
+            queue.add(generate());
+        }
+    }
+
+    /**
+     * Peek into the queue of marbles to be spawned, without removing the element from the queue.
+     *
+     * @return The type of the marble to spawn next.
+     */
+    public MarbleType peek() {
+        return queue.peek();
+    }
+
+    /**
+     * Poll into the queue of marbles to be spawned, removing the element from the queue.
+     *
+     * @return The type of the marble to spawn next.
+     */
+    public MarbleType poll() {
+        MarbleType type = queue.poll();
+
+        if (queue.isEmpty()) {
+            queue.add(generate());
+        }
+
+        return type;
+    }
+
+    /**
+     * Add the given {@link MarbleType}s to the queue of marbles to be spawned.
+     *
+     * @param types The marble types to add.
+     */
+    public void add(MarbleType ...types) {
+        queue.addAll(Arrays.asList(types));
+    }
+
+    /**
+     * Generate a random {@link Marble} to be spawned by this {@link SpawningNexus}.
+     *
+     * @return The marble to be spawned.
+     */
+    private MarbleType generate() {
+        if (random.nextDouble() < joker) {
+            return MarbleType.JOKER;
+        }
+
+        return MARBLES[random.nextInt(MARBLES.length - 1)];
+    }
 
     /**
      * Determine whether a part of the nexus is occupied by a ball.

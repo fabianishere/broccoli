@@ -1,6 +1,7 @@
 package nl.tudelft.broccoli.core.nexus;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.MarbleType;
@@ -32,7 +33,7 @@ public class NexusTest {
      */
     @Before
     public void setUp() {
-        context = new NexusContext();
+        context = mock(NexusContext.class);
         nexus = new Nexus(context);
         marble = new Marble(MarbleType.GREEN);
     }

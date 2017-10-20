@@ -26,15 +26,12 @@
 package nl.tudelft.broccoli.core.nexus;
 
 import nl.tudelft.broccoli.core.Marble;
-import nl.tudelft.broccoli.core.MarbleType;
 import nl.tudelft.broccoli.core.config.DoubleProperty;
 import nl.tudelft.broccoli.core.config.ListProperty;
 import nl.tudelft.broccoli.core.config.Property;
 import nl.tudelft.broccoli.core.grid.Direction;
 
 import java.util.List;
-import java.util.Queue;
-import java.util.Random;
 
 /**
  * A part of the nexus which spawns new balls.
@@ -56,46 +53,19 @@ public class SpawningNexus extends Nexus {
         new ListProperty<>(String.class,"nexus.initial");
 
     /**
-     * The possible type of marbles.
-     */
-    private static final MarbleType[] MARBLES = MarbleType.values();
-
-    /**
-     * The {@link Random} instance used for determining the color of the spawned ball.
-     */
-    private final Random random;
-
-    /**
      * The direction from which new balls will be spawned.
      */
     private final Direction direction;
 
     /**
-     * The probability of a joker occurring.
-     */
-    private final double joker;
-
-    /**
-     * The initial sequence of balls to spawn.
-     */
-    private final Queue<MarbleType> initial;
-
-    /**
      * Construct a {@link SpawningNexus} instance.
      *
      * @param context The nexus context instance to use.
-     * @param random The random number generator to use for selecting the colors.
      * @param direction The direction from which the balls will be spawned.
-     * @param joker The probability of a joker occurring.
-     * @param initial The initial sequence of balls to spawn.
      */
-    public SpawningNexus(NexusContext context, Random random, Direction direction, double joker,
-            Queue<MarbleType> initial) {
+    public SpawningNexus(NexusContext context, Direction direction) {
         super(context);
-        this.random = random;
         this.direction = direction;
-        this.joker = joker;
-        this.initial = initial;
     }
 
     /**
@@ -109,29 +79,13 @@ public class SpawningNexus extends Nexus {
             throw new IllegalStateException("The nexus is already occupied by a marble");
         }
 
-        Marble marble;
 
-        if (!initial.isEmpty()) {
-            marble = new Marble(initial.poll());
-        } else if (random.nextDouble() < joker) {
-            marble = new Marble(MarbleType.JOKER);
-        } else {
-            marble = new Marble(MARBLES[random.nextInt(MARBLES.length - 1)]);
-        }
-
+        Marble marble = new Marble(getContext().poll());
         accept(direction, marble);
         getContext().setOccupied(true);
         return marble;
     }
 
-    /**
-     * Return the {@link Random} instance used for selecting the color of a new {@link Marble}.
-     *
-     * @return The random instance to generate the ball color.
-     */
-    public Random getRandom() {
-        return random;
-    }
 
     /**
      * Return the {@link Direction} from which the balls are spawned.

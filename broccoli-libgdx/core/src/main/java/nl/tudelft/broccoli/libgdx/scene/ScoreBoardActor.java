@@ -60,7 +60,7 @@ public class ScoreBoardActor extends Actor {
      * @param progress The {@link Progress} of the current {@link GameSession}.
      */
     public ScoreBoardActor(Progress progress) {
-        label = new Label(new String(), new LabelStyle(generateFont(), Color.WHITE));
+        label = new Label("", new LabelStyle(generateFont(), Color.WHITE));
         label.setAlignment(Align.bottomLeft);
         this.progress = progress;
     }
@@ -71,12 +71,14 @@ public class ScoreBoardActor extends Actor {
      * @return The generated {@link BitmapFont}.
      */
     private BitmapFont generateFont() {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/placeholder.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 30;
         parameter.spaceX = 3;
         parameter.spaceY = 3;
+
+        FreeTypeFontGenerator generator =
+            new FreeTypeFontGenerator(Gdx.files.internal("fonts/placeholder.ttf"));
 
         BitmapFont font = generator.generateFont(parameter);
         generator.dispose();

@@ -29,6 +29,7 @@ import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.grid.TileableListener;
+import nl.tudelft.broccoli.core.powerup.PowerUp;
 import nl.tudelft.broccoli.core.track.Track;
 
 /**
@@ -67,6 +68,11 @@ public class Receptor extends Tileable {
      * A flag to mark the receptor locked, so that it does not accept balls anymore.
      */
     private boolean locked = false;
+
+    /**
+     * The {@link PowerUp} given to the receptor.
+     */
+    private PowerUp powerUp;
 
     /**
      * The points multiplier when a receptor is marked.
@@ -146,11 +152,18 @@ public class Receptor extends Tileable {
         // Add the scored points to the progress of the game.
         getTile().getGrid().getSession().getProgress().score(multiplier);
 
+
         for (Slot slot : slots) {
             slot.dispose();
         }
 
         informMarked();
+
+        // Activate power up (R3.17)
+        if (powerUp != null) {
+            powerUp.activate(this);
+            setPowerUp(null);
+        }
     }
 
     /**
@@ -176,6 +189,26 @@ public class Receptor extends Tileable {
      */
     public void unlock() {
         this.locked = false;
+    }
+
+    /**
+     * Return the {@link PowerUp} given to the {@link Receptor}.
+     *
+     * @return The power up of the receptor or <code>null</code> if it does not have a power up.
+     */
+    public PowerUp getPowerUp() {
+        return powerUp;
+    }
+
+    /**
+     * Give a {@link PowerUp} to this {@link Receptor}.
+     *
+     * @param powerUp The power-up to give to the receptor or <code>null</code> to remove the
+     *                power-up.
+     */
+    public void setPowerUp(PowerUp powerUp) {
+        this.powerUp = powerUp;
+        informAssigned();
     }
 
     /**
@@ -291,8 +324,8 @@ public class Receptor extends Tileable {
         /**
          * Determine whether the slot is occupied with a {@link Marble}.
          *
-         * @return <code>true</code> if the slot is occupied with a ball,
-         *         <code>false</code> otherwise.
+         * @return <code>true</code> if the slot is occupied with a ball, <code>false</code>
+         *         otherwise.
          */
         public boolean isOccupied() {
             return getMarble() != null;
@@ -367,6 +400,17 @@ public class Receptor extends Tileable {
         for (TileableListener listener : getListeners()) {
             if (listener instanceof ReceptorListener) {
                 ((ReceptorListener) listener).receptorMarked(this);
+            }
+        }
+    }
+
+    /**
+     * Inform the listeners of this {@link Receptor} that it has been assigned a {@link PowerUp}.
+     */
+    private void informAssigned() {
+        for (TileableListener listener : getListeners()) {
+            if (listener instanceof ReceptorListener) {
+                ((ReceptorListener) listener).receptorAssigned(this);
             }
         }
     }

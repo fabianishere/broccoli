@@ -11,6 +11,7 @@ import nl.tudelft.broccoli.core.grid.Direction;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.Random;
 
@@ -39,11 +40,6 @@ public class SpawningNexusTest {
     private Random random;
 
     /**
-     * The probability of the joker occurring.
-     */
-    private double jokerProbability;
-
-    /**
      * The queue of initial balls.
      */
     private Queue<MarbleType> initial;
@@ -54,15 +50,13 @@ public class SpawningNexusTest {
     @Before
     @SuppressWarnings("unchecked")
     public void setUp() {
-        context = new NexusContext();
         direction = Direction.RIGHT;
         random = mock(Random.class);
-        jokerProbability = 0.5;
-        initial = (Queue<MarbleType>) mock(Queue.class);
-        nexus = new SpawningNexus(context, random, direction, jokerProbability, initial);
 
-        when(initial.isEmpty()).thenReturn(true);
-        when(initial.poll()).thenReturn(null);
+        initial = new ArrayDeque<>();
+        initial.add(MarbleType.BLUE);
+        context = new NexusContext(initial, random, 0.5);
+        nexus = new SpawningNexus(context, direction);
     }
 
     /**
@@ -79,9 +73,16 @@ public class SpawningNexusTest {
      */
     @Test
     public void spawnInitialSequence() {
-        when(initial.isEmpty()).thenReturn(false);
-        when(initial.poll()).thenReturn(MarbleType.JOKER);
-        assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.JOKER);
+        assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.BLUE);
+    }
+
+    /**
+     * Test if we can peek into the initial sequence.
+     */
+    @Test
+    public void peekInitialSequence() {
+        assertThat(context.peek()).isEqualTo(MarbleType.BLUE);
+        assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.BLUE);
     }
 
     /**
@@ -90,6 +91,7 @@ public class SpawningNexusTest {
     @Test
     public void spawnJoker() {
         when(random.nextDouble()).thenReturn(0.4);
+        context.poll();
         assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.JOKER);
     }
 
@@ -100,6 +102,7 @@ public class SpawningNexusTest {
     public void spawnPink() {
         when(random.nextInt(anyInt())).thenReturn(0);
         when(random.nextDouble()).thenReturn(0.6);
+        context.poll();
         assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.PINK);
     }
 
@@ -110,6 +113,7 @@ public class SpawningNexusTest {
     public void spawnGreen() {
         when(random.nextDouble()).thenReturn(0.6);
         when(random.nextInt(anyInt())).thenReturn(1);
+        context.poll();
         assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.GREEN);
     }
 
@@ -120,6 +124,7 @@ public class SpawningNexusTest {
     public void spawnBlue() {
         when(random.nextDouble()).thenReturn(0.6);
         when(random.nextInt(anyInt())).thenReturn(2);
+        context.poll();
         assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.BLUE);
     }
 
@@ -130,15 +135,8 @@ public class SpawningNexusTest {
     public void spawnYellow() {
         when(random.nextDouble()).thenReturn(0.6);
         when(random.nextInt(anyInt())).thenReturn(3);
+        context.poll();
         assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.YELLOW);
-    }
-
-    /**
-     * Test if the class correctly returns the random instance.
-     */
-    @Test
-    public void getRandom() {
-        assertThat(nexus.getRandom()).isEqualTo(random);
     }
 
     /**

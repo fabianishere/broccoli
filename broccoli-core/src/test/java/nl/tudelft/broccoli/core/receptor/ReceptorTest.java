@@ -412,7 +412,7 @@ public class ReceptorTest {
         receptor.addListener(listener);
         receptor.addListener(stub);
         receptor.addListener(tileableListener);
-      
+
         Progress progress = mock(Progress.class);
         GameSession session = mock(GameSession.class);
         when(session.getProgress()).thenReturn(progress);
@@ -426,5 +426,22 @@ public class ReceptorTest {
 
         verify(listener, times(1)).receptorMarked(receptor);
         verify(progress, times(1)).score(anyInt());
+    }
+
+    /**
+     * Test if marking a receptor calls the event method.
+     */
+    @Test
+    public void assigned() {
+        ReceptorListener listener = mock(ReceptorListener.class);
+        ReceptorListener stub = new ReceptorListener() {};
+        TileableListener tileableListener = mock(TileableListener.class);
+
+        receptor.addListener(listener);
+        receptor.addListener(stub);
+        receptor.addListener(tileableListener);
+        receptor.setPowerUp(null);
+
+        verify(listener, times(1)).receptorAssigned(receptor);
     }
 }

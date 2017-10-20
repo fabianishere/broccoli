@@ -1,6 +1,5 @@
 package nl.tudelft.broccoli.core;
 
-
 import nl.tudelft.broccoli.core.config.IntegerProperty;
 import nl.tudelft.broccoli.core.config.Property;
 

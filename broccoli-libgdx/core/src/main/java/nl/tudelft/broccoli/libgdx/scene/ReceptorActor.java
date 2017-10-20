@@ -27,16 +27,22 @@ package nl.tudelft.broccoli.libgdx.scene;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
+import nl.tudelft.broccoli.core.powerup.PowerUp;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.receptor.ReceptorListener;
 import nl.tudelft.broccoli.libgdx.Context;
@@ -84,14 +90,9 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
         Gdx.audio.newSound(Gdx.files.classpath("sound/sfx/clank.wav"));
 
     /**
-     * The marked receptor sprite of this receptor.
+     * The receptor image of this receptor.
      */
-    private final Sprite marked;
-
-    /**
-     * The unmarked receptor sprite of this receptor.
-     */
-    private final Sprite unmarked;
+    private final Image image;
 
     /**
      * The marked receptor tile sprite of this receptor.
@@ -129,8 +130,8 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
 
         // Initialise sprites of the receptor.
         TextureAtlas atlas = context.getTextureAtlas();
-        marked = atlas.createSprite("receptor/marked");
-        unmarked = atlas.createSprite("receptor/unmarked");
+        image = new Image(atlas.findRegion("receptor/unmarked"));
+        addActor(image);
 
         int tile = 0;
         // Generate the index of the adaptive tile.
@@ -150,7 +151,7 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
             Animation.PlayMode.REVERSED);
 
         receptor.addListener(this);
-        setSize(unmarked.getWidth(), unmarked.getHeight());
+        setSize(image.getWidth(), image.getHeight());
         setOrigin(Align.center);
         addListener(new InputListener() {
             @Override
@@ -209,15 +210,6 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
     }
 
     /**
-     * Return the receptor {@link Sprite} for the receptor's current state.
-     *
-     * @return The receptor sprite.
-     */
-    public Sprite getReceptorSprite() {
-        return getTileable().isMarked() ? marked : unmarked;
-    }
-
-    /**
      * This method is invoked when the actor should draw itself.
      *
      * @param batch The batch to use.
@@ -228,10 +220,6 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
         TextureRegion region = explosion.getKeyFrame(animationTime);
         batch.draw(region, getX(), getY(), getOriginX(), getOriginY(), getWidth(),
             getHeight(), getScaleX(), getScaleY(), getRotation());
-
-        Sprite receptor = getReceptorSprite();
-        receptor.setRotation(getRotation());
-        receptor.draw(batch);
         super.draw(batch, parentAlpha);
     }
 
@@ -243,7 +231,7 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
     @Override
     public void act(float deltaTime) {
         super.act(deltaTime);
-        if (getTileable().isMarked()) {
+        if (getTileable().isMarked() || getTileable().getPowerUp() != null) {
             animationTime += deltaTime;
         }
     }
@@ -257,6 +245,34 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
     public void receptorMarked(Receptor receptor) {
         animationTime = 0.f;
         EXPLODE.play();
+
+        // Draw a marked receptor
+        image.setDrawable(new TextureRegionDrawable(getContext().getTextureAtlas()
+            .findRegion("receptor/marked")));
+    }
+
+    /**
+     * This method is invoked when a {@link Receptor} has been assigned a {@link PowerUp} it can
+     * activate.
+     *
+     * @param receptor The receptor to which the {@link PowerUp} is assigned.
+     */
+    @Override
+    public void receptorAssigned(Receptor receptor) {
+        if (receptor.getPowerUp() != null) {
+            animationTime = 0.f;
+            EXPLODE.play();
+
+            Action action = Actions.forever(Actions.sequence(
+                Actions.color(Color.RED, 0.5f, Interpolation.fade),
+                Actions.color(Color.WHITE, 0.5f, Interpolation.fade)
+            ));
+            image.addAction(action);
+            return;
+        }
+
+        image.setColor(Color.WHITE);
+        image.clearActions();
     }
 
     /**

@@ -32,14 +32,22 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import nl.tudelft.broccoli.core.config.*;
+import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.level.Difficulty;
 import nl.tudelft.broccoli.core.level.GameSession;
 import nl.tudelft.broccoli.core.level.LevelFactory;
 import nl.tudelft.broccoli.core.level.Progress;
+import nl.tudelft.broccoli.core.powerup.PowerUp;
+import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.libgdx.scene.GridActor;
 import nl.tudelft.broccoli.libgdx.scene.ScoreBoardActor;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import javax.swing.*;
 
@@ -128,7 +136,63 @@ public class Broccoli extends Game {
         Gdx.graphics.setWindowedMode(config.get(WINDOW_WIDTH), config.get(WINDOW_HEIGHT));
         Gdx.graphics.setTitle(config.get(WINDOW_TITLE));
 
+        initMusic();
+        initPowerUps();
+    }
+
+    /**
+     * Initialise the background music.
+     */
+    private void initMusic() {
         new BackgroundMusic("sound/music/placeholder.mp3");
+    }
+
+    /**
+     * Initialise the {@link PowerUp} assignment in the game.
+     */
+    private void initPowerUps() {
+        final List<Receptor> receptors = new ArrayList<>();
+        for (int i = 0; i < session.getGrid().getWidth(); i++) {
+            for (int j = 0; j < session.getGrid().getHeight(); j++) {
+                Tileable t = session.getGrid().get(i, j).getTileable();
+                if (t instanceof Receptor) {
+                    receptors.add((Receptor) t);
+                }
+            }
+        }
+
+        int n = receptors.size();
+        int stdev = 10;
+        int mu = 30;
+        int duration = 20;
+
+        final Random random = new Random();
+        final Runnable assign = new Runnable() {
+            @Override
+            public void run() {
+                // Create the power-up to assign
+                PowerUp powerUp = session.getPowerUpFactory().create();
+
+                // Find receptor to assign to
+                Receptor receptor = receptors.get(random.nextInt(n));
+                receptor.setPowerUp(powerUp);
+
+                // Schedule de-assignment of power-up
+                stage.addAction(Actions.delay(duration, Actions.run(() -> {
+                    if (receptor.getPowerUp() != null && receptor.getPowerUp().equals(powerUp)) {
+                        receptor.setPowerUp(null);
+                    }
+                })));
+
+                // Schedule next assignment of power-up
+                int next = (int) random.nextGaussian() * stdev + mu;
+                stage.addAction(Actions.delay(next, Actions.run(this)));
+            }
+        };
+
+        int next = (int) random.nextGaussian() * stdev + mu;
+        System.out.println(next);
+        stage.addAction(Actions.delay(next, Actions.run(assign)));
     }
 
     /**
@@ -151,7 +215,6 @@ public class Broccoli extends Game {
 
         // Check if the game has been won
         if (progress.isWon()) {
-            // TODO Show message on game screen instead and allow user to start a new game
             JOptionPane.showMessageDialog(new JFrame(), "Congratulations! You won the game "
                     +  "and earned " + session.getProgress().getScore() + " points.",
                 "Winner!", JOptionPane.INFORMATION_MESSAGE);
@@ -172,8 +235,6 @@ public class Broccoli extends Game {
             Gdx.input.setInputProcessor(paused ? null : stage);
         }
     }
-
-
 
     /**
      * This method is invoked to dispose resources allocated by the game.

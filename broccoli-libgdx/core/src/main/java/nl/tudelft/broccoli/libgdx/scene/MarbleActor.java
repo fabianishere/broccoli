@@ -25,6 +25,7 @@
 
 package nl.tudelft.broccoli.libgdx.scene;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -122,7 +123,9 @@ public class MarbleActor extends Actor {
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        Color color = getColor();
         TextureRegion region = getAnimation().getKeyFrame(animationTime);
+        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
         batch.draw(region, getX(), getY(), getOriginX(), getOriginY(), getWidth(),
             getHeight(), getScaleX(), getScaleY(), getRotation());
         super.draw(batch, parentAlpha);

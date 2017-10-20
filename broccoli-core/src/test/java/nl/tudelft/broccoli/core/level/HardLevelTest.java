@@ -2,7 +2,6 @@ package nl.tudelft.broccoli.core.level;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import nl.tudelft.broccoli.core.level.*;
 import org.junit.Test;
 
 /**

@@ -6,16 +6,9 @@ import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.nexus.Nexus;
-import nl.tudelft.broccoli.core.nexus.NexusContext;
 import nl.tudelft.broccoli.core.nexus.SpawningNexus;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.*;
-
-import java.util.ArrayDeque;
-import java.util.List;
-import java.util.Queue;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * A very basic, static {@link Level} used for testing purposes.
@@ -59,6 +52,7 @@ class EasyLevel implements Level {
      * A very basic, static {@link GameSession} created by {@link EasyLevel} instances.
      */
     private class EasyGame extends AbstractGameSession {
+
         /**
          * Construct a {@link EasyGame} instance.
          *
@@ -68,25 +62,10 @@ class EasyLevel implements Level {
             super(config);
             Grid grid = getGrid();
 
-            NexusContext context = new NexusContext();
-            grid.place(0, 3, new Nexus(context));
-            grid.place(1, 3, new Nexus(context));
-            grid.place(2, 3, new Nexus(context));
-
-            // Read the initial sequence of balls from the configuration
-            List<String> initialStrings = config.get(SpawningNexus.INITIAL_SEQUENCE);
-            Queue<MarbleType> initial = new ArrayDeque<>(initialStrings.stream()
-                .map(str -> {
-                    try {
-                        return MarbleType.valueOf(str);
-                    } catch (IllegalArgumentException e) {
-                        return MarbleType.BLUE;
-                    }
-                }).collect(Collectors.toList())
-            );
-
-            grid.place(3, 3, new SpawningNexus(context, new Random(), Direction.RIGHT,
-                config.get(SpawningNexus.JOKER_PROBABILITY), initial));
+            grid.place(0, 3, new Nexus(getNexusContext()));
+            grid.place(1, 3, new Nexus(getNexusContext()));
+            grid.place(2, 3, new Nexus(getNexusContext()));
+            grid.place(3, 3, new SpawningNexus(getNexusContext(), Direction.RIGHT));
 
             TimerTile timer = new TimerTile(config.get(TimerTile.MAX_TIME));
             grid.place(3, 2, timer);
@@ -103,7 +82,6 @@ class EasyLevel implements Level {
 
             grid.place(2, 0, new Receptor());
         }
-
 
         /**
          * Return the {@link Level} this game represents.

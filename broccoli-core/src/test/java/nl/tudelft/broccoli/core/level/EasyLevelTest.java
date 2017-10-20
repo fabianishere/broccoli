@@ -2,10 +2,6 @@ package nl.tudelft.broccoli.core.level;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import nl.tudelft.broccoli.core.level.Difficulty;
-import nl.tudelft.broccoli.core.level.EasyLevel;
-import nl.tudelft.broccoli.core.level.Level;
-import nl.tudelft.broccoli.core.level.LevelTest;
 import org.junit.Test;
 
 /**

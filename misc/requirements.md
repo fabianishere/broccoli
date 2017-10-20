@@ -67,7 +67,14 @@ with that arrow
 13. The game shall have a different background for each level
 14. The game shall have a splash screen
 15. The game shall have an option to play multiple levels
-
+16. At some point in the game a visual indicator will indicate that some disc may give a power-up
+17. This power-up is obtained by clearing the disc
+18. This "power-up" state of the disc is timed, so the player must hurry to obtain the power-up, otherwise it will go away
+19. A single disc may not have more than one power-up active
+20. The power-up effects that can be obtained include:
+    - More points than usual for the disc
+    - Clear another random disc on the field
+    - Temporarily make only one colour ball appear
 
 ## 4. <a id="would-have"></a> Would/Won't Have
 

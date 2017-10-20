@@ -26,6 +26,10 @@
 package nl.tudelft.broccoli.core.level;
 
 import nl.tudelft.broccoli.core.grid.Grid;
+import nl.tudelft.broccoli.core.nexus.NexusContext;
+import nl.tudelft.broccoli.core.powerup.PowerUp;
+import nl.tudelft.broccoli.core.powerup.PowerUpFactory;
+import nl.tudelft.broccoli.core.receptor.Receptor;
 
 /**
  * A single playing session of a Gudeballs game.
@@ -55,4 +59,18 @@ public interface GameSession {
     */
     Level getLevel();
 
+    /**
+     * Return the {@link NexusContext} of the game session.
+     *
+     * @return The context of the nexus instances.
+     */
+    NexusContext getNexusContext();
+
+    /**
+     * Return the {@link PowerUpFactory} used by this {@link GameSession} to create new
+     * {@link PowerUp}s to be assigned to {@link Receptor}s.
+     *
+     * @return The power-up factory of the game session.
+     */
+    PowerUpFactory getPowerUpFactory();
 }
