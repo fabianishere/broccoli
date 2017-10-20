@@ -25,38 +25,34 @@
 
 package nl.tudelft.broccoli.core.level;
 
-import nl.tudelft.broccoli.core.config.Configuration;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import nl.tudelft.broccoli.core.level.Difficulty;
+import nl.tudelft.broccoli.core.level.Level;
+import nl.tudelft.broccoli.core.level.LevelTest;
+import nl.tudelft.broccoli.core.level.MediumLevel;
+import org.junit.Test;
 
 /**
- * Implementors of the {@link Level} interface provide a factory interface to create a specific
- * configuration of a {@link GameSession} representing an in-game level.
- *
- * <p>A {@link Level} is the abstract configuration of a game and its board, while a
- * {@link GameSession} represents a playing session using the configuration provided by the level.
- * </p>
- *
- * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
+ * Testing class that tests the {@link MediumLevel} class.
  */
-public interface Level {
+public class MediumLevelTest extends LevelTest {
     /**
-     * Create a new {@link GameSession} with this {@link Level}'s configuration.
+     * Return the {@link Level} instance to test.
      *
-     * @param config The game configuration to use.
-     * @return A {@link GameSession} for this {@link Level}.
+     * @return The level to test.
      */
-    GameSession create(Configuration config);
+    @Override
+    public Level createLevel() {
+        return new MediumLevel();
+    }
 
     /**
-     * Return the name of this level.
-     *
-     * @return A string representing the name of this level.
+     * Test the difficulty of the level.
      */
-    String getName();
-
-    /**
-     * Return the difficulty of this level.
-     *
-     * @return The difficulty of this level.
-     */
-    Difficulty getDifficulty();
+    @Test
+    public void getDifficulty() {
+        assertThat(level.getDifficulty()).isEqualTo(Difficulty.MEDIUM);
+    }
 }
+

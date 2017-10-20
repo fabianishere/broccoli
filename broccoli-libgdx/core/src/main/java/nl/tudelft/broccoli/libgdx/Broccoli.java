@@ -34,9 +34,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import nl.tudelft.broccoli.core.config.*;
+import nl.tudelft.broccoli.core.level.Difficulty;
 import nl.tudelft.broccoli.core.level.GameSession;
+import nl.tudelft.broccoli.core.level.LevelFactory;
 import nl.tudelft.broccoli.core.level.Progress;
-import nl.tudelft.broccoli.core.level.SimpleLevel;
 import nl.tudelft.broccoli.libgdx.scene.GridActor;
 
 import javax.swing.*;
@@ -48,8 +49,6 @@ import javax.swing.*;
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public class Broccoli extends Game {
-
-
     /**
      * The width of the window.
      */
@@ -113,7 +112,7 @@ public class Broccoli extends Game {
     @Override
     public void create() {
         stage = new Stage(new ScreenViewport());
-        session = new SimpleLevel().create(config);
+        session = new LevelFactory().create(Difficulty.EASY).create(config);
         context = new Context(config, new TextureAtlas(Gdx.files.classpath("atlas/sprites.atlas")));
         progress = new Progress(session.getGrid());
 

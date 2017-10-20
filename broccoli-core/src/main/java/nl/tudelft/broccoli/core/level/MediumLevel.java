@@ -9,7 +9,8 @@ import nl.tudelft.broccoli.core.nexus.Nexus;
 import nl.tudelft.broccoli.core.nexus.NexusContext;
 import nl.tudelft.broccoli.core.nexus.SpawningNexus;
 import nl.tudelft.broccoli.core.receptor.Receptor;
-import nl.tudelft.broccoli.core.track.*;
+import nl.tudelft.broccoli.core.track.HorizontalTrack;
+import nl.tudelft.broccoli.core.track.VerticalTrack;
 
 import java.util.ArrayDeque;
 import java.util.List;
@@ -22,8 +23,9 @@ import java.util.stream.Collectors;
  *
  * @author Christian Slothouber (f.c.slothouber@student.tudelft.nl)
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
+ * @author Earth Grob (w.lauwapong@student.tudelft.nl)
  */
-public class SimpleLevel implements Level {
+class MediumLevel implements Level {
     /**
      * Create a new {@link GameSession} with this {@link Level}'s configuration.
      *
@@ -32,7 +34,7 @@ public class SimpleLevel implements Level {
      */
     @Override
     public GameSession create(Configuration config) {
-        return new SimpleGame(config);
+        return new MediumGame(config);
     }
 
     /**
@@ -46,33 +48,27 @@ public class SimpleLevel implements Level {
     }
 
     /**
-     * A very basic, static {@link GameSession} created by {@link SimpleLevel} instances.
+     * Return the difficulty of this level.
+     *
+     * @return The difficulty of this level.
      */
-    private class SimpleGame implements GameSession {
-        /**
-         * The game configuration.
-         */
-        private final Configuration config;
+    @Override
+    public Difficulty getDifficulty() {
+        return Difficulty.MEDIUM;
+    }
 
+    /**
+     * A very basic, static {@link GameSession} created by {@link EasyLevel} instances.
+     */
+    private class MediumGame extends AbstractGameSession {
         /**
-         * The grid of this game.
-         */
-        private final Grid grid;
-
-        /**
-         * The progress of the game.
-         */
-        private final Progress progress;
-
-        /**
-         * Construct a {@link SimpleGame} instance.
+         * Construct a {@link MediumGame} instance.
          *
          * @param config The game configuration to use.
          */
-        public SimpleGame(Configuration config) {
-            this.config = config;
-            this.grid = new Grid(this, config.get(Grid.WIDTH), config.get(Grid.HEIGHT));
-            this.progress = new Progress(grid);
+        public MediumGame(Configuration config) {
+            super(config);
+            Grid grid = getGrid();
 
             NexusContext context = new NexusContext();
             grid.place(0, 3, new Nexus(context));
@@ -82,52 +78,29 @@ public class SimpleLevel implements Level {
             // Read the initial sequence of balls from the configuration
             List<String> initialStrings = config.get(SpawningNexus.INITIAL_SEQUENCE);
             Queue<MarbleType> initial = new ArrayDeque<>(initialStrings.stream()
-                .map(str -> {
-                    try {
-                        return MarbleType.valueOf(str);
-                    } catch (IllegalArgumentException e) {
-                        return MarbleType.BLUE;
-                    }
-                }).collect(Collectors.toList())
+                    .map(str -> {
+                        try {
+                            return MarbleType.valueOf(str);
+                        } catch (IllegalArgumentException e) {
+                            return MarbleType.BLUE;
+                        }
+                    }).collect(Collectors.toList())
             );
 
             grid.place(3, 3, new SpawningNexus(context, new Random(), Direction.RIGHT,
-                config.get(SpawningNexus.JOKER_PROBABILITY), initial));
+                    config.get(SpawningNexus.JOKER_PROBABILITY), initial));
 
             TimerTile timer = new TimerTile(config.get(TimerTile.MAX_TIME));
             grid.place(3, 2, timer);
 
             grid.place(0, 2, new Receptor());
-            grid.place(0, 1, new VerticalTrack());
 
             grid.place(1, 2, new HorizontalTrack());
             grid.place(2, 2, new Receptor());
             grid.place(2, 1, new VerticalTrack());
 
-            grid.place(0, 0, new Receptor());
-            grid.place(1, 0, new FilterTrack(new HorizontalTrack(), MarbleType.GREEN));
 
             grid.place(2, 0, new Receptor());
-        }
-
-        /**
-         * Return the playing grid of this game.
-         *
-         * @return The {@link Grid} on which the game is played.
-         */
-        @Override
-        public Grid getGrid() {
-            return grid;
-        }
-
-        /**
-         * Return the {@link Progress} of the player in the game.
-         *
-         * @return The progress of the player in the game.
-         */
-        @Override
-        public Progress getProgress() {
-            return progress;
         }
 
         /**
@@ -135,9 +108,8 @@ public class SimpleLevel implements Level {
          *
          * @return The level of this game.
          */
-        @Override
         public Level getLevel() {
-            return SimpleLevel.this;
+            return MediumLevel.this;
         }
     }
 }

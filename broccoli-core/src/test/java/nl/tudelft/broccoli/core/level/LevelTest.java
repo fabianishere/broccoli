@@ -41,18 +41,32 @@ import org.junit.Test;
 import java.util.Arrays;
 
 /**
- * Testing class that tests the {@link SimpleLevel} class.
+ * Testing class that tests the {@link Level} class.
  */
-public class SimpleLevelTest {
-    private Level level;
+public abstract class LevelTest {
+    /**
+     * The level under test.
+     */
+    Level level;
+
+    /**
+     * The configuration of the level.
+     */
     private Configuration config;
+
+    /**
+     * Return the {@link Level} instance to test.
+     *
+     * @return The level to test.
+     */
+    public abstract Level createLevel();
 
     /**
      * Setup the test suite.
      */
     @Before
     public void setUp() {
-        level = new SimpleLevel();
+        level = createLevel();
         config = mock(Configuration.class);
         when(config.exists(any())).thenReturn(false);
         when(config.get(any()))
@@ -119,6 +133,15 @@ public class SimpleLevelTest {
             .isEqualTo(Grid.HEIGHT.getDefault());
         assertThat(session.getGrid().getWidth())
             .isEqualTo(Grid.WIDTH.getDefault());
+    }
+
+    /**
+     * Test that the game returns the correct configuration.
+     */
+    @Test
+    public void getConfig() {
+        AbstractGameSession session = (AbstractGameSession) level.create(config);
+        assertThat(session.getConfig()).isEqualTo(config);
     }
 
     /**

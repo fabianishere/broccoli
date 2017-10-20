@@ -52,6 +52,7 @@ public interface GameSession {
      * Return the {@link Level} this game represents.
      *
      * @return The level of this game.
-     */
+    */
     Level getLevel();
+
 }
