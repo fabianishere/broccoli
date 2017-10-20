@@ -39,6 +39,7 @@ import nl.tudelft.broccoli.core.grid.Tile;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.grid.TileableListener;
 import nl.tudelft.broccoli.core.track.FilterTrack;
+import nl.tudelft.broccoli.core.track.OneWayTrack;
 import nl.tudelft.broccoli.core.track.Track;
 import nl.tudelft.broccoli.libgdx.Context;
 
@@ -47,6 +48,7 @@ import nl.tudelft.broccoli.libgdx.Context;
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  * @author Christian Slothouber (f.c.slothouber@student.tudelft.nl)
+ * @author Bas Musters (m.b.musters@student.tudelft.nl)
  */
 public class TrackActor extends TileableActor<Track> implements TileableListener {
     /**
@@ -116,7 +118,17 @@ public class TrackActor extends TileableActor<Track> implements TileableListener
                     sprite.getHeight() / 2 - 3,
                     Align.center
             );
+            return image;
+        } else if (getTileable() instanceof OneWayTrack) {
+            int index = ((OneWayTrack) getTileable()).getDirection().ordinal();
+            Image image = new Image(getContext().getTextureAtlas()
+                    .findRegion("direction", index));
 
+            image.setPosition(
+                    sprite.getWidth() / 2,
+                    sprite.getHeight() / 2,
+                    Align.center
+            );
             return image;
         }
 

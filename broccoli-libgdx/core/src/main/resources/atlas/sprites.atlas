@@ -353,7 +353,7 @@ marbles/joker/horizontal
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
-  index: 1
+  index: 2
 marbles/joker/horizontal
   rotate: false
   xy: 47, 2
@@ -367,15 +367,22 @@ marbles/joker/horizontal
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
-  index: 4
+  index: 5
 marbles/joker/horizontal
   rotate: false
   xy: 47, 2
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
-  index: 2
+  index: 1
 marbles/joker/horizontal
+  rotate: false
+  xy: 47, 2
+  size: 43, 43
+  orig: 43, 43
+  offset: 0, 0
+  index: 4
+marbles/joker/vertical
   rotate: false
   xy: 47, 2
   size: 43, 43
@@ -395,7 +402,7 @@ marbles/joker/vertical
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
-  index: 4
+  index: 1
 marbles/joker/vertical
   rotate: false
   xy: 47, 2
@@ -416,14 +423,7 @@ marbles/joker/vertical
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
-  index: 5
-marbles/joker/vertical
-  rotate: false
-  xy: 47, 2
-  size: 43, 43
-  orig: 43, 43
-  offset: 0, 0
-  index: 1
+  index: 4
 marbles/pink/horizontal
   rotate: false
   xy: 975, 930
@@ -1181,69 +1181,97 @@ tile
   index: 96
 
 sprites3.png
-size: 512,256
+size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+direction
+  rotate: false
+  xy: 2, 2
+  size: 117, 117
+  orig: 117, 117
+  offset: 0, 0
+  index: 0
+direction
+  rotate: false
+  xy: 132, 132
+  size: 117, 117
+  orig: 117, 117
+  offset: 0, 0
+  index: 1
+direction
+  rotate: false
+  xy: 251, 132
+  size: 117, 117
+  orig: 117, 117
+  offset: 0, 0
+  index: 2
+direction
+  rotate: false
+  xy: 370, 132
+  size: 117, 117
+  orig: 117, 117
+  offset: 0, 0
+  index: 3
 filter/yellow
   rotate: false
-  xy: 2, 124
+  xy: 2, 121
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
 nexus
   rotate: false
-  xy: 132, 191
+  xy: 489, 188
   size: 137, 61
   orig: 137, 61
   offset: 0, 0
   index: 8
 nexus
   rotate: false
-  xy: 132, 128
+  xy: 628, 188
   size: 137, 61
   orig: 137, 61
   offset: 0, 0
   index: 9
 nexus
   rotate: false
-  xy: 271, 191
+  xy: 767, 188
   size: 137, 61
   orig: 137, 61
   offset: 0, 0
   index: 10
 nexus
   rotate: false
-  xy: 271, 128
+  xy: 489, 125
   size: 137, 61
   orig: 137, 61
   offset: 0, 0
   index: 11
 nexus
   rotate: false
-  xy: 2, 61
+  xy: 628, 125
   size: 137, 61
   orig: 137, 61
   offset: 0, 0
   index: 12
 nexus
   rotate: false
-  xy: 141, 65
+  xy: 767, 125
   size: 137, 61
   orig: 137, 61
   offset: 0, 0
   index: 13
 nexus
   rotate: false
-  xy: 280, 65
+  xy: 132, 69
   size: 137, 61
   orig: 137, 61
   offset: 0, 0
   index: 14
 nexus
   rotate: false
-  xy: 141, 2
+  xy: 271, 69
   size: 137, 61
   orig: 137, 61
   offset: 0, 0

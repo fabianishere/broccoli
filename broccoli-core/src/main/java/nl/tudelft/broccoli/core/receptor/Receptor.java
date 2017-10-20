@@ -291,7 +291,8 @@ public class Receptor extends Tileable {
         /**
          * Determine whether the slot is occupied with a {@link Marble}.
          *
-         * @return <code>true</code> if the slot is occupied with a ball, <code>false</code> otherwise.
+         * @return <code>true</code> if the slot is occupied with a ball,
+         *         <code>false</code> otherwise.
          */
         public boolean isOccupied() {
             return getMarble() != null;

@@ -38,7 +38,6 @@ import nl.tudelft.broccoli.core.grid.TileableListener;
  * @author Christian Slothouber (f.c.slothouber@student.tudelft.nl)
  */
 public class FilterTrack extends Track implements TileableListener {
-
     /**
      * The only {@link MarbleType} that is able to pass.
      */
