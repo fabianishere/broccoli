@@ -44,6 +44,7 @@ mainClassName = "nl.tudelft.broccoli.libgdx.DesktopLauncher"
 dependencies {
 	compile project(':broccoli-core')
 	compile "com.badlogicgames.gdx:gdx:1.9.6"
+	compile "com.badlogicgames.gdx:gdx-freetype:1.9.6"
 
 	testCompile 'junit:junit:4.12'
 	testCompile 'org.assertj:assertj-core:3.8.0'

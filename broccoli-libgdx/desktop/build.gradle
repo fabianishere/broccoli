@@ -36,6 +36,7 @@ dependencies {
 	compile project(':broccoli-config:lightbend')
 	compile "com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.6"
 	compile "com.badlogicgames.gdx:gdx-platform:1.9.6:natives-desktop"
+	compile "com.badlogicgames.gdx:gdx-freetype-platform:1.9.6:natives-desktop"
 
 	testCompile 'junit:junit:4.12'
 	testCompile 'org.assertj:assertj-core:3.8.0'

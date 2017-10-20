@@ -39,6 +39,7 @@ import nl.tudelft.broccoli.core.level.GameSession;
 import nl.tudelft.broccoli.core.level.LevelFactory;
 import nl.tudelft.broccoli.core.level.Progress;
 import nl.tudelft.broccoli.libgdx.scene.GridActor;
+import nl.tudelft.broccoli.libgdx.scene.ScoreBoardActor;
 
 import javax.swing.*;
 
@@ -119,6 +120,7 @@ public class Broccoli extends Game {
         GridActor grid = new GridActor(session.getGrid(), context);
         grid.setFillParent(true);
         stage.addActor(grid);
+        stage.addActor(new ScoreBoardActor(session.getProgress()));
 
 
         Gdx.input.setInputProcessor(stage);
