@@ -241,6 +241,42 @@ public class ReceptorTest {
     }
 
     /**
+     * Test if a slot is not compatible with another slot.
+     */
+    @Test
+    public void isNotCompatibleA() {
+        Grid grid = new Grid(null, 1, 1);
+        grid.place(0, 0, receptor);
+        receptor.accept(Direction.LEFT, marble);
+        assertThat(receptor.getSlot(Direction.LEFT)
+            .isCompatible(receptor.getSlot(Direction.RIGHT))).isFalse();
+    }
+
+    /**
+     * Test if a slot is not compatible with another slot.
+     */
+    @Test
+    public void isNotCompatibleB() {
+        Grid grid = new Grid(null, 1, 1);
+        grid.place(0, 0, receptor);
+        assertThat(receptor.getSlot(Direction.LEFT)
+            .isCompatible(receptor.getSlot(Direction.RIGHT))).isFalse();
+    }
+
+    /**
+     * Test if a slot is not compatible with another slot.
+     */
+    @Test
+    public void isCompatible() {
+        Grid grid = new Grid(null, 1, 1);
+        grid.place(0, 0, receptor);
+        receptor.accept(Direction.LEFT, marble);
+        receptor.accept(Direction.RIGHT, marble);
+        assertThat(receptor.getSlot(Direction.LEFT)
+            .isCompatible(receptor.getSlot(Direction.RIGHT))).isTrue();
+    }
+
+    /**
      * Test if the receptor fails when giving a ball to an occupied slot.
      */
     @Test
@@ -426,6 +462,36 @@ public class ReceptorTest {
 
         verify(listener, times(1)).receptorMarked(receptor);
         verify(progress, times(1)).score(anyInt());
+    }
+
+
+    /**
+     * Test if the receptor is not marked in case of an invalid sequence. (bug #139)
+     */
+    @Test
+    public void notMark() {
+        ReceptorListener listener = mock(ReceptorListener.class);
+        ReceptorListener stub = new ReceptorListener() {};
+        TileableListener tileableListener = mock(TileableListener.class);
+
+        receptor.addListener(listener);
+        receptor.addListener(stub);
+        receptor.addListener(tileableListener);
+
+        Progress progress = mock(Progress.class);
+        GameSession session = mock(GameSession.class);
+        when(session.getProgress()).thenReturn(progress);
+
+        Grid grid = new Grid(session, 2, 1);
+        grid.place(0, 0, receptor);
+
+        receptor.accept(Direction.TOP, new Marble(MarbleType.GREEN));
+        receptor.accept(Direction.RIGHT, new Marble(MarbleType.JOKER));
+        receptor.accept(Direction.BOTTOM, new Marble(MarbleType.BLUE));
+        receptor.accept(Direction.LEFT, new Marble(MarbleType.BLUE));
+
+        verify(listener, never()).receptorMarked(receptor);
+        verify(progress, never()).score(anyInt());
     }
 
     /**

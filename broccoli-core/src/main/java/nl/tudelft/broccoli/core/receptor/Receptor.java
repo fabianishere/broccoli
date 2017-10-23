@@ -130,15 +130,13 @@ public class Receptor extends Tileable {
      *         otherwise.
      */
     private boolean shouldMark() {
-        Slot slot = slots[0];
-
-        for (int i = 1; i < slots.length; i++) {
-            if (!slot.isOccupied() || !slot.getMarble().isCompatible(slots[i].getMarble())) {
-                return false;
+        for (Slot x : slots) {
+            for (Slot y : slots) {
+                if (!x.isCompatible(y)) {
+                    return false;
+                }
             }
-            slot = slots[i];
         }
-
         return true;
     }
 
@@ -329,6 +327,22 @@ public class Receptor extends Tileable {
          */
         public boolean isOccupied() {
             return getMarble() != null;
+        }
+
+        /**
+         * Determine whether the {@link Marble} instance instance in this slot is compatible with
+         * the given slot.
+         *
+         * <p>Compatibility is determined by comparing the type (colour) of the ball, but if either
+         * of the balls is a joker, the result is always <code>true</code>.</p>
+         *
+         * @param other The other slot to determine compatibility with.
+         * @return <code>true</code> if the ball is compatible with the given ball,
+         *         <code>false</code> otherwise.
+         * @see Marble#isCompatible(Marble)
+         */
+        public boolean isCompatible(Slot other) {
+            return isOccupied() && other.isOccupied() && marble.isCompatible(other.marble);
         }
     }
 
