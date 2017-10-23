@@ -1,5 +1,6 @@
 package nl.tudelft.broccoli.core.level;
 
+import nl.tudelft.broccoli.core.Announcer;
 import nl.tudelft.broccoli.core.MarbleType;
 import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.config.Configuration;
@@ -67,8 +68,8 @@ class EasyLevel implements Level {
             grid.place(2, 3, new Nexus(getNexusContext()));
             grid.place(3, 3, new SpawningNexus(getNexusContext(), Direction.RIGHT));
 
-            TimerTile timer = new TimerTile(config.get(TimerTile.MAX_TIME));
-            grid.place(3, 2, timer);
+            grid.place(3, 2, new Announcer());
+            grid.place(3, 1, new TimerTile(config.get(TimerTile.MAX_TIME)));
 
             grid.place(0, 2, new Receptor());
             grid.place(0, 1, new VerticalTrack());
