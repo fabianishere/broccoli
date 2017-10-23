@@ -26,6 +26,7 @@
 package nl.tudelft.broccoli.core.track;
 
 import nl.tudelft.broccoli.core.Marble;
+import nl.tudelft.broccoli.core.MarbleType;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 
@@ -45,7 +46,7 @@ public abstract class Track extends Tileable {
     public abstract boolean isConnected();
 
     /**
-     * Determine whether a certain {@link Marble.Type} is allowed to pass the middle
+     * Determine whether a certain {@link MarbleType} is allowed to pass the middle
      * of the {@link Track}.
      *
      * @param direction The {@link Direction} the {@link Marble} i coming from.

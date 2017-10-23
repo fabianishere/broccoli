@@ -16,11 +16,6 @@ import nl.tudelft.broccoli.libgdx.Context;
  */
 public class GameActor extends WidgetGroup {
     /**
-     * The game {@link Context} to use.
-     */
-    private final Context context;
-
-    /**
      * A pause actor that contains the pause screen.
      */
     private final PauseActor pause;
@@ -32,10 +27,8 @@ public class GameActor extends WidgetGroup {
      */
     public GameActor(Context context) {
         super();
-        this.context = context;
         this.pause = new PauseActor(context);
         this.setFillParent(true);
-
 
         Table table = new Table();
         table.setFillParent(true);

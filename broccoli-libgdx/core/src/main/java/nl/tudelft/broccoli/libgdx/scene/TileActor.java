@@ -31,6 +31,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import nl.tudelft.broccoli.core.Announcer;
 import nl.tudelft.broccoli.core.Empty;
+import nl.tudelft.broccoli.core.Teleporter;
 import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.grid.Tile;
@@ -123,7 +124,9 @@ public class TileActor extends Group {
     private TileableActor<?> createActor(Tile tile) {
         Tileable tileable = tile.getTileable();
 
-        if (tileable instanceof Receptor) {
+        if (tileable instanceof Teleporter) {
+            return new TeleporterActor((Teleporter) tileable, context);
+        } else if (tileable instanceof Receptor) {
             return new ReceptorActor((Receptor) tileable, context);
         } else if (tileable instanceof Nexus) {
             return new NexusActor((Nexus) tileable, context);

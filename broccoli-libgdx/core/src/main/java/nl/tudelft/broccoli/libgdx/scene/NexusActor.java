@@ -25,11 +25,11 @@
 
 package nl.tudelft.broccoli.libgdx.scene;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
@@ -45,11 +45,7 @@ import nl.tudelft.broccoli.libgdx.Context;
  * @author Earth Grob (w.lauwapong@student.tudelft.nl)
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class NexusActor extends TileableActor<Nexus> implements TileableListener {
-    /**
-     * The travel time multiplier for travel speed over this track.
-     */
-    private static final float TRAVEL_TIME = 0.008f;
+public class NexusActor extends TransportingActor<Nexus> implements TileableListener {
 
     /**
      * A flag to indicate whether this tile is connected.
@@ -81,6 +77,16 @@ public class NexusActor extends TileableActor<Nexus> implements TileableListener
         for (int i = 0; i < sprites.length; i++) {
             sprites[i] = context.getTextureAtlas().createSprite("nexus", i);
         }
+
+        this.setSize(sprites[0].getWidth(), sprites[0].getHeight());
+    }
+
+    /**
+     * Get modifier.
+     */
+    @Override
+    protected Image getModifier() {
+        return null;
     }
 
     /**
@@ -159,18 +165,17 @@ public class NexusActor extends TileableActor<Nexus> implements TileableListener
     }
 
     /**
-     * Draw only the tile onto the screen.
+     * Act on the scene updates.
      *
-     * @param batch The batch to use.
-     * @param parentAlpha The alpha of the parent.
+     * @param deltaTime The time delta.
      */
     @Override
-    public void draw(Batch batch, float parentAlpha) {
+    public void act(float deltaTime) {
+        super.act(deltaTime);
         // Spawn a new ball if the nexus is unoccupied and we are a spawning nexus
         if (spawning && !getTileable().getContext().isOccupied()) {
             SpawningNexus nexus = (SpawningNexus) getTileable();
             nexus.spawn();
         }
-        super.draw(batch, parentAlpha);
     }
 }
