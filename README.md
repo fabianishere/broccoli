@@ -35,5 +35,12 @@ To test the source code, run the following code in your command prompt
 $ ./gradlew test
 ```
 
+## Running
+To run the game, simply enter the following in your command prompt:
+```sh
+$ ./gradlew :broccol-libgdx:desktop:run
+```
+This will launch the `libgdx` frontend using a LWJGL desktop driver. 
+
 ## License
 The code is released under the MIT license. See the `LICENSE.txt` file.
