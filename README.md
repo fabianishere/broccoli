@@ -10,6 +10,11 @@
 	<a href="https://travis-ci.com/fabianishere/broccoli">
 		<img src="https://travis-ci.com/fabianishere/broccoli.svg?token=bU4F3wsxcknXqXqbpdoi&branch=master" alt="Build Status">
 	</a>
+	<a href="https://codecov.io/gh/fabianishere/broccoli">
+  <img src="https://codecov.io/gh/fabianishere/broccoli/branch/master/graph/badge.svg?token=t4vunsJLtV" alt="Codecov" />
+</a>
+	<img src='https://bettercodehub.com/edge/badge/fabianishere/broccoli?branch=master&token=aa05b0a498ac55b9d3bfbc4cc7b5b1d6a2e7afdb'>
+	<a href="https://codeclimate.com/repos/59edec87aa24e802970000e7/maintainability"><img src="https://api.codeclimate.com/v1/badges/32297a82df303a777c6b/maintainability" /></a>
 </p>
 
 ## Getting the source
