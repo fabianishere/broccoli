@@ -131,7 +131,7 @@ public class FilterTrack extends Track implements TileableListener {
     }
 
     /**
-     * Determine whether a certain {@link Marble.Type} is allowed to pass the middle
+     * Determine whether a certain {@link MarbleType} is allowed to pass the middle
      * of the {@link Track}.
      *
      * @param direction The {@link Direction} the {@link Marble} i coming from.
@@ -145,12 +145,13 @@ public class FilterTrack extends Track implements TileableListener {
 
     /**
      * Checks if a certain {@link MarbleType} is allowed to enter the {@link Track}.
+     * Jokers are also allowed no matter the type of {@link FilterTrack}.
      *
      * @param marbleType The {@link MarbleType} that is being checked for passage.
      * @return <code>true</code> if allowed, <code>false</code> otherwise.
      */
     private boolean acceptsMarbleType(MarbleType marbleType) {
-        return this.marbleType.equals(marbleType);
+        return this.marbleType.equals(marbleType) || marbleType.equals(MarbleType.JOKER);
     }
 
     /**

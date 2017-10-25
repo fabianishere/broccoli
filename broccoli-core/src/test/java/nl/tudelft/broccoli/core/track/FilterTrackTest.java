@@ -127,6 +127,7 @@ public class FilterTrackTest {
     @Test
     public void acceptsLeft() {
         assertThat(track.accepts(Direction.LEFT, new Marble(MarbleType.GREEN))).isTrue();
+        assertThat(track.passesMidpoint(Direction.LEFT, new Marble(MarbleType.GREEN))).isTrue();
     }
 
     /**
@@ -136,6 +137,16 @@ public class FilterTrackTest {
     public void notAcceptsLeftBlue() {
         assertThat(track.accepts(Direction.LEFT, new Marble(MarbleType.BLUE))).isTrue();
         assertThat(track.passesMidpoint(Direction.LEFT, new Marble(MarbleType.BLUE))).isFalse();
+    }
+
+    /**
+     * Test if a horizontal green filter track does accept a joker marble and lets it pass the
+     * midpoint.
+     */
+    @Test
+    public void acceptsJokers() {
+        assertThat(track.accepts(Direction.LEFT, new Marble(MarbleType.JOKER))).isTrue();
+        assertThat(track.passesMidpoint(Direction.LEFT, new Marble(MarbleType.JOKER))).isTrue();
     }
 
     /**
