@@ -42,8 +42,7 @@ import nl.tudelft.broccoli.core.level.LevelFactory;
 import nl.tudelft.broccoli.core.level.Progress;
 import nl.tudelft.broccoli.core.powerup.PowerUp;
 import nl.tudelft.broccoli.core.receptor.Receptor;
-import nl.tudelft.broccoli.libgdx.scene.GridActor;
-import nl.tudelft.broccoli.libgdx.scene.ScoreBoardActor;
+import nl.tudelft.broccoli.libgdx.scene.GameActor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,11 +96,6 @@ public class Broccoli extends Game {
     private Context context;
 
     /**
-     * Boolean paused.
-     */
-    private boolean paused = false;
-
-    /**
      * Game progress.
      */
     private Progress progress;
@@ -120,19 +114,17 @@ public class Broccoli extends Game {
      */
     @Override
     public void create() {
-        stage = new Stage(new ScreenViewport());
         session = new LevelFactory().create(Difficulty.EASY).create(config);
-        context = new Context(config, new TextureAtlas(Gdx.files.classpath("atlas/sprites.atlas")));
+        context = new Context(config, session,
+            new TextureAtlas(Gdx.files.classpath("atlas/sprites.atlas")));
         progress = new Progress(session.getGrid());
 
-        GridActor grid = new GridActor(session.getGrid(), context);
-        grid.setFillParent(true);
-        stage.addActor(grid);
-        stage.addActor(new ScoreBoardActor(session.getProgress()));
-
+        stage = new Stage(new ScreenViewport());
+        GameActor game = new GameActor(context);
+        stage.setKeyboardFocus(game);
+        stage.addActor(game);
 
         Gdx.input.setInputProcessor(stage);
-
         Gdx.graphics.setWindowedMode(config.get(WINDOW_WIDTH), config.get(WINDOW_HEIGHT));
         Gdx.graphics.setTitle(config.get(WINDOW_TITLE));
 
@@ -222,18 +214,8 @@ public class Broccoli extends Game {
             return;
         }
 
-
-
-        if (!paused) {
-            // Draw the scene stage
-            stage.act(Gdx.graphics.getDeltaTime());
-        }
-
+        stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            paused = !paused;
-            Gdx.input.setInputProcessor(paused ? null : stage);
-        }
     }
 
     /**

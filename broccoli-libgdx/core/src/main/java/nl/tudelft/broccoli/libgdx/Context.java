@@ -29,6 +29,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import nl.tudelft.broccoli.core.Entity;
 import nl.tudelft.broccoli.core.config.Configuration;
+import nl.tudelft.broccoli.core.level.GameSession;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +44,11 @@ public class Context {
      * The game {@link Configuration}.
      */
     private final Configuration config;
+
+    /**
+     * The running {@link GameSession}.
+     */
+    private final GameSession session;
 
     /**
      * The {@link TextureAtlas} we get the sprites from.
@@ -60,8 +66,9 @@ public class Context {
      * @param config The configuration to use.
      * @param atlas The texture atlas to use.
      */
-    public Context(Configuration config, TextureAtlas atlas) {
+    public Context(Configuration config, GameSession session, TextureAtlas atlas) {
         this.config = config;
+        this.session = session;
         this.atlas = atlas;
     }
 
@@ -93,6 +100,15 @@ public class Context {
      */
     public Configuration getConfiguration() {
         return config;
+    }
+
+    /**
+     * Return the running {@link GameSession} instance.
+     *
+     * @return The game session that is running.
+     */
+    public GameSession getSession() {
+        return session;
     }
 
     /**

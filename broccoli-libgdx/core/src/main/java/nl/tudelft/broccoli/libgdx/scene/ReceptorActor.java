@@ -169,6 +169,7 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
                     Actions.run(receptor::unlock)
                 ));
 
+
                 for (Direction direction : Direction.values()) {
                     if (receptor.getSlot(direction).isOccupied()) {
                         Marble ball = receptor.getSlot(direction).getMarble();

@@ -57,11 +57,10 @@ public class GridActor extends WidgetGroup {
     /**
      * Construct a {@link GridActor} instance.
      *
-     * @param grid The grid to create the actor for.
      * @param context The game context to use.
      */
-    public GridActor(Grid grid, Context context) {
-        this.grid = grid;
+    public GridActor(Context context) {
+        this.grid = context.getSession().getGrid();
         this.context = context;
         this.context.register(grid, this);
         this.setUserObject(grid);
