@@ -1,0 +1,14 @@
+engines:
+  fixme:
+    enabled: true
+  pmd:
+    enabled: true
+    channel: "beta"
+  checkstyle:
+    enabled: true
+    config:
+      file: "gradle/config/checkstyle.xml"
+    channel: "beta"
+  sonar-java:
+    enabled: true
+    channel: beta
