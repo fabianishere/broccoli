@@ -1,6 +1,17 @@
 language: java
+before_install:
+  - export DISPLAY=:10
+  - export LIBGL_ALWAYS_SOFTWARE=1
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq alsa-utils
+  - sudo modprobe snd-dummy
+  - sudo usermod -G audio $USER
+  - sudo apt-get install -qq mesa-utils libgl1-mesa-glx libgl1-mesa-dev xserver-xorg-video-dummy
+  - wget http://xpra.org/xorg.conf
+  - Xorg -noreset +extension GLX +extension RANDR +extension RENDER -logfile ./10.log -config ./xorg.conf :10 &
 script:
-  - ./gradlew check
+  # We need to run this with sudo in order to reload the user groups
+  - sudo -E su $USER -c './gradlew check'
   - ./gradlew codeCoverageReport
 after_success:
   - bash <(curl -s https://codecov.io/bash) -t e3bd8270-37f8-496c-aee9-457ae61d88d1
