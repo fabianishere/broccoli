@@ -251,14 +251,14 @@ marbles/blue/horizontal
   index: 5
 marbles/blue/vertical
   rotate: false
-  xy: 975, 435
+  xy: 975, 414
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
   index: 0
 marbles/blue/vertical
   rotate: false
-  xy: 975, 255
+  xy: 975, 234
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
@@ -307,14 +307,14 @@ marbles/green/horizontal
   index: 5
 marbles/green/vertical
   rotate: false
-  xy: 975, 390
+  xy: 975, 369
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
   index: 0
 marbles/green/vertical
   rotate: false
-  xy: 975, 210
+  xy: 975, 189
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
@@ -339,13 +339,6 @@ marbles/joker/horizontal
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
-  index: 5
-marbles/joker/horizontal
-  rotate: false
-  xy: 943, 930
-  size: 43, 43
-  orig: 43, 43
-  offset: 0, 0
   index: 3
 marbles/joker/horizontal
   rotate: false
@@ -355,6 +348,27 @@ marbles/joker/horizontal
   offset: 0, 0
   index: 1
 marbles/joker/horizontal
+  rotate: false
+  xy: 943, 930
+  size: 43, 43
+  orig: 43, 43
+  offset: 0, 0
+  index: 2
+marbles/joker/horizontal
+  rotate: false
+  xy: 943, 930
+  size: 43, 43
+  orig: 43, 43
+  offset: 0, 0
+  index: 5
+marbles/joker/vertical
+  rotate: false
+  xy: 943, 930
+  size: 43, 43
+  orig: 43, 43
+  offset: 0, 0
+  index: 1
+marbles/joker/vertical
   rotate: false
   xy: 943, 930
   size: 43, 43
@@ -374,7 +388,7 @@ marbles/joker/vertical
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
-  index: 2
+  index: 0
 marbles/joker/vertical
   rotate: false
   xy: 943, 930
@@ -388,21 +402,7 @@ marbles/joker/vertical
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
-  index: 0
-marbles/joker/vertical
-  rotate: false
-  xy: 943, 930
-  size: 43, 43
-  orig: 43, 43
-  offset: 0, 0
   index: 3
-marbles/joker/vertical
-  rotate: false
-  xy: 943, 930
-  size: 43, 43
-  orig: 43, 43
-  offset: 0, 0
-  index: 1
 marbles/pink/horizontal
   rotate: false
   xy: 523, 13
@@ -440,21 +440,21 @@ marbles/pink/horizontal
   index: 4
 marbles/pink/horizontal
   rotate: false
-  xy: 975, 525
+  xy: 975, 504
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
   index: 5
 marbles/pink/vertical
   rotate: false
-  xy: 975, 345
+  xy: 975, 324
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
   index: 0
 marbles/pink/vertical
   rotate: false
-  xy: 975, 165
+  xy: 975, 144
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
@@ -496,14 +496,14 @@ marbles/yellow/horizontal
   index: 4
 marbles/yellow/horizontal
   rotate: false
-  xy: 975, 480
+  xy: 975, 459
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
   index: 5
 marbles/yellow/vertical
   rotate: false
-  xy: 975, 300
+  xy: 975, 279
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
@@ -543,6 +543,76 @@ pauseOverlay
   orig: 800, 480
   offset: 0, 0
   index: -1
+score/numeral
+  rotate: false
+  xy: 988, 999
+  size: 19, 19
+  orig: 19, 19
+  offset: 0, 0
+  index: 0
+score/numeral
+  rotate: false
+  xy: 943, 549
+  size: 19, 19
+  orig: 19, 19
+  offset: 0, 0
+  index: 1
+score/numeral
+  rotate: false
+  xy: 988, 978
+  size: 19, 19
+  orig: 19, 19
+  offset: 0, 0
+  index: 2
+score/numeral
+  rotate: false
+  xy: 964, 549
+  size: 19, 19
+  orig: 19, 19
+  offset: 0, 0
+  index: 3
+score/numeral
+  rotate: false
+  xy: 975, 123
+  size: 19, 19
+  orig: 19, 19
+  offset: 0, 0
+  index: 4
+score/numeral
+  rotate: false
+  xy: 985, 549
+  size: 19, 19
+  orig: 19, 19
+  offset: 0, 0
+  index: 5
+score/numeral
+  rotate: false
+  xy: 996, 123
+  size: 19, 19
+  orig: 19, 19
+  offset: 0, 0
+  index: 6
+score/numeral
+  rotate: false
+  xy: 985, 102
+  size: 19, 19
+  orig: 19, 19
+  offset: 0, 0
+  index: 7
+score/numeral
+  rotate: false
+  xy: 988, 957
+  size: 19, 19
+  orig: 19, 19
+  offset: 0, 0
+  index: 8
+score/numeral
+  rotate: false
+  xy: 985, 81
+  size: 19, 19
+  orig: 19, 19
+  offset: 0, 0
+  index: 9
 
 sprites2.png
 size: 1024,1024

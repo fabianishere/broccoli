@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import nl.tudelft.broccoli.libgdx.Context;
 
@@ -36,12 +37,15 @@ public class GameActor extends WidgetGroup {
         this.setFillParent(true);
 
 
+        Table table = new Table();
+        table.setFillParent(true);
+        ScoreBoardActor score = new ScoreBoardActor(context);
+        table.add(score).height(80);
+        table.row();
         GridActor grid = new GridActor(context);
-        grid.setFillParent(true);
-        this.addActor(grid);
+        table.add(grid).expand();
 
-        ScoreBoardActor score = new ScoreBoardActor(context.getSession().getProgress());
-        this.addActor(score);
+        addActor(table);
 
         this.addListener(new InputListener() {
             @Override
