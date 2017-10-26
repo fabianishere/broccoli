@@ -25,7 +25,6 @@
 
 package nl.tudelft.broccoli.libgdx.scene.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -64,8 +63,7 @@ public class TimerActor extends TileableActor<TimerTile> {
             Actions.repeat(4, Actions.sequence(
                 Actions.delay(delay),
                 Actions.run(() -> currentTextureId++)
-            )),
-            Actions.run(() -> Gdx.app.exit())
+            ))
         ));
 
         textures = context.getTextureAtlas().findRegions("counter");

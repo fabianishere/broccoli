@@ -3,6 +3,7 @@ package nl.tudelft.broccoli.libgdx.scene.util;
 import static org.mockito.Mockito.*;
 
 import com.badlogic.gdx.audio.Music;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,6 +24,14 @@ public class MusicActorTest {
     @Before
     public void setUp() {
         actor = new MusicActor();
+    }
+
+    /**
+     * Tear down the test.
+     */
+    @After
+    public void tearDown() {
+        actor.dispose();
     }
 
     /**

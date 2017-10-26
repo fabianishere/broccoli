@@ -25,11 +25,13 @@ import nl.tudelft.broccoli.core.level.Level;
 import nl.tudelft.broccoli.core.nexus.Nexus;
 import nl.tudelft.broccoli.core.nexus.NexusContext;
 import nl.tudelft.broccoli.core.nexus.SpawningNexus;
+import nl.tudelft.broccoli.core.powerup.bonus.BonusPowerUp;
+import nl.tudelft.broccoli.core.powerup.joker.JokerPowerUp;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
-import nl.tudelft.broccoli.libgdx.scene.game.GameSessionActor;
 import nl.tudelft.broccoli.libgdx.scene.game.MarbleActor;
+import nl.tudelft.broccoli.libgdx.scene.ui.screen.GameScreen;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -108,9 +110,9 @@ public class ReceptorActorTest {
             @Override
             public void create() {
                 stage = new Stage(new ScreenViewport());
-                context = new ActorContext(
-                    new TextureAtlas(Gdx.files.classpath("atlas/sprites.atlas")));
-                stage.addActor(new GameSessionActor(context, session));
+                context = new ActorContext(ConfigurationLoader.STUB, new TextureAtlas(
+                    Gdx.files.classpath("atlas/sprites.atlas")));
+                stage.addActor(new GameScreen(context, session));
                 actor = (ReceptorActor) context.actor(receptor);
                 latch.countDown();
             }
@@ -158,6 +160,8 @@ public class ReceptorActorTest {
         // Wait until the actor becomes available.
         assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
         latch = new CountDownLatch(1);
+
+        receptor.accept(Direction.LEFT, new Marble(MarbleType.BLUE));
 
         // Fire escape button press event
         InputEvent event = new InputEvent();
@@ -258,5 +262,36 @@ public class ReceptorActorTest {
         assertThatCode(() ->
             actor.ballDisposed(receptor, Direction.LEFT, new Marble(MarbleType.BLUE))
         ).doesNotThrowAnyException();
+    }
+
+    /**
+     * Test that joker power-up.
+     */
+    @Test
+    public void testJokerPowerUp() throws Exception {
+        // Wait until the actor becomes available.
+        assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
+
+        assertThatCode(() ->
+            receptor.setPowerUp(new JokerPowerUp())
+        ).doesNotThrowAnyException();
+
+        Thread.sleep(500);
+    }
+
+
+    /**
+     * Test that bonus power-up.
+     */
+    @Test
+    public void testBonusPowerUp() throws Exception {
+        // Wait until the actor becomes available.
+        assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
+
+        assertThatCode(() ->
+            receptor.setPowerUp(new BonusPowerUp())
+        ).doesNotThrowAnyException();
+
+        Thread.sleep(500);
     }
 }

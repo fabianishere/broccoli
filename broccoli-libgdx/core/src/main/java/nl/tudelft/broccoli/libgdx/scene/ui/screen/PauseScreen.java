@@ -23,17 +23,16 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene.ui;
+package nl.tudelft.broccoli.libgdx.scene.ui.screen;
 
+import static nl.tudelft.broccoli.libgdx.scene.actions.ScreenActions.pop;
+
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
@@ -43,64 +42,45 @@ import nl.tudelft.broccoli.libgdx.scene.ActorContext;
  *
  * @author Bas Musters (m.b.musters@student.tudelft.nl)
  */
-public class PauseActor extends Table {
+public class PauseScreen extends MenuScreen {
     /**
-     * A flag to indicate the game is paused.
-     */
-    private boolean paused = false;
-
-    /**
-     * Construct a {@link PauseActor} instance.
+     * Construct a {@link PauseScreen} instance.
      *
      * @param context The game context.
      */
-    public PauseActor(ActorContext context) {
-        this.setFillParent(true);
+    public PauseScreen(ActorContext context) {
         this.setBackground(new TextureRegionDrawable(context.getTextureAtlas()
             .findRegion("pauseOverlay")));
-        this.add(createResume()).width(200).height(50);
-    }
-
-    /**
-     * Construct a resume {@link Button}.
-     *
-     * @return The resume button.
-     */
-    private Button createResume() {
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = new BitmapFont();
-
-        Pixmap labelColor = new Pixmap(1, 1, Pixmap.Format.RGB888);
-        labelColor.setColor(Color.GRAY);
-        labelColor.fill();
-        TextButton button = new TextButton("Resume", style);
-
-        button.getLabel().getStyle().background = new Image(new Texture(labelColor))
-            .getDrawable();
-        button.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                paused = !paused;
-                remove();
+        this.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ESCAPE) {
+                    addAction(pop());
+                    return true;
+                }
+                return false;
             }
         });
-        return button;
-    }
 
-    /**
-     * Set whether the game is paused or not.
-     *
-     * @param paused The paused flag to set.
-     */
-    public void setPaused(boolean paused) {
-        this.paused = paused;
-    }
+        Table table = getActor();
+        table.setFillParent(true);
 
-    /**
-     * Determine whether the game is currently paused.
-     *
-     * @return <code>true</code> if the game is paused, <code>false</code> otherwise.
-     */
-    public boolean isPaused() {
-        return paused;
+        Button resume = createButton("Resume", Color.GRAY);
+        resume.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                addAction(pop());
+            }
+        });
+        table.add(resume).width(200).height(50).padBottom(100);
+        table.row();
+
+        Button toMenu = createButton("Quit and return to start menu", Color.GRAY);
+        toMenu.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                addAction(pop(2));
+            }
+        });
+
+        table.add(toMenu).width(200).height(50);
     }
 }

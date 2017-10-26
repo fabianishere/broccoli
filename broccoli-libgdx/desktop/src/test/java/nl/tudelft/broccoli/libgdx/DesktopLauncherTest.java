@@ -22,7 +22,7 @@ public class DesktopLauncherTest {
         assertThatCode(() -> {
             DesktopLauncher.main(new String[] {});
             // Wait two minutes into the game
-            Thread.sleep(10000);
+            Thread.sleep(2000);
             // Stop the application
             ((LwjglApplication) Gdx.app).stop();
         }).doesNotThrowAnyException();

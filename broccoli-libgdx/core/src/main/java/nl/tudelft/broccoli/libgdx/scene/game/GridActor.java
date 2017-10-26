@@ -88,7 +88,6 @@ public class GridActor extends Stack {
             tiles.row();
             tileables.row();
         }
-        this.setDebug(true, true);
     }
 
     /**

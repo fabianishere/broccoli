@@ -104,8 +104,8 @@ public class TeleporterActorTest {
             @Override
             public void create() {
                 stage = new Stage(new ScreenViewport());
-                context = new ActorContext(
-                    new TextureAtlas(Gdx.files.classpath("atlas/sprites.atlas")));
+                context = new ActorContext(ConfigurationLoader.STUB, new TextureAtlas(
+                    Gdx.files.classpath("atlas/sprites.atlas")));
                 GridActor grid = new GridActor(context, session.getGrid());
                 grid.setFillParent(true);
                 stage.addActor(grid);

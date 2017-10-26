@@ -96,8 +96,8 @@ public class TrackActorTest {
             @Override
             public void create() {
                 stage = new Stage(new ScreenViewport());
-                context = new ActorContext(
-                    new TextureAtlas(Gdx.files.classpath("atlas/sprites.atlas")));
+                context = new ActorContext(ConfigurationLoader.STUB, new TextureAtlas(
+                    Gdx.files.classpath("atlas/sprites.atlas")));
                 grid = session.getGrid();
                 GridActor gridActor = new GridActor(context, grid);
                 gridActor.setFillParent(true);

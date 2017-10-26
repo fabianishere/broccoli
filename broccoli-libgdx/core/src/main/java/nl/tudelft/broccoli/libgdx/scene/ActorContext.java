@@ -28,6 +28,7 @@ package nl.tudelft.broccoli.libgdx.scene;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import nl.tudelft.broccoli.core.Entity;
+import nl.tudelft.broccoli.core.config.Configuration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +40,11 @@ import java.util.Map;
  */
 public class ActorContext {
     /**
+     * The game configuration.
+     */
+    private final Configuration configuration;
+
+    /**
      * The {@link TextureAtlas} we get the sprites from.
      */
     private final TextureAtlas atlas;
@@ -49,11 +55,13 @@ public class ActorContext {
     private final Map<Entity, Actor> registry = new HashMap<>();
 
     /**
-     * Construct a {@link ActorContext} instance.
+     * Construct an {@link ActorContext} instance.
      *
+     * @param configuration The game configuration.
      * @param atlas The texture atlas to use.
      */
-    public ActorContext(TextureAtlas atlas) {
+    public ActorContext(Configuration configuration, TextureAtlas atlas) {
+        this.configuration = configuration;
         this.atlas = atlas;
     }
 
@@ -76,6 +84,15 @@ public class ActorContext {
      */
     public void register(Entity entity, Actor actor) {
         registry.put(entity, actor);
+    }
+
+    /**
+     * Return the game {@link Configuration} object.
+     *
+     * @return The game configuration.
+     */
+    public Configuration getConfiguration() {
+        return configuration;
     }
 
     /**

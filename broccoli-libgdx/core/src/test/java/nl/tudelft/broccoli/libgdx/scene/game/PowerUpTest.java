@@ -5,12 +5,10 @@ import static org.mockito.Mockito.*;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -27,7 +25,9 @@ import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.receptor.ReceptorListener;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
-import nl.tudelft.broccoli.libgdx.scene.ui.PauseActor;
+import nl.tudelft.broccoli.libgdx.scene.StackableStage;
+import nl.tudelft.broccoli.libgdx.scene.ui.screen.GameScreen;
+import nl.tudelft.broccoli.libgdx.scene.ui.screen.ScreenStack;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -38,16 +38,21 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Test suite for the {@link GameSessionActor} class.
+ * Test suite for the power ups.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class GameSessionActorTest {
+public class PowerUpTest {
     /**
      * The game actor under test.
      */
-    private GameSessionActor actor;
+    private GameScreen actor;
+
+    /**
+     * The view stack.
+     */
+    private ScreenStack stack;
 
     /**
      * The application that is used for testing.
@@ -70,8 +75,8 @@ public class GameSessionActorTest {
     @Before
     public void setUp() throws Exception {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = 10;
-        config.height = 10;
+        config.width = 400;
+        config.height = 400;
         config.resizable = false;
         config.forceExit = false;
 
@@ -98,10 +103,11 @@ public class GameSessionActorTest {
 
             @Override
             public void create() {
-                stage = new Stage(new ScreenViewport());
-                context = new ActorContext(
-                    new TextureAtlas(Gdx.files.classpath("atlas/sprites.atlas")));
-                actor = new GameSessionActor(context, session);
+                stack = spy(new ScreenStack());
+                stage = new StackableStage(new ScreenViewport(), stack);
+                context = new ActorContext(ConfigurationLoader.STUB, new TextureAtlas(
+                    Gdx.files.classpath("atlas/sprites.atlas")));
+                actor = new GameScreen(context, session);
                 stage.addActor(actor);
                 latch.countDown();
             }
@@ -141,74 +147,6 @@ public class GameSessionActorTest {
     }
 
     /**
-     * Test if pressing the escape button causes the actor to pause.
-     */
-    @Test
-    public void testEscapePause() throws Exception {
-        // Wait until the actor becomes available.
-        assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
-
-        // Fire escape button press event
-        InputEvent event = new InputEvent();
-        event.setType(InputEvent.Type.keyDown);
-        event.setKeyCode(Input.Keys.ESCAPE);
-        app.postRunnable(() -> actor.fire(event));
-
-        // Wait 200ms in order for the events to be processed
-        Thread.sleep(200);
-
-        assertThat(actor.getChildren().pop()).isInstanceOf(PauseActor.class);
-    }
-
-    /**
-     * Test if pressing the escape button causes the actor to resume.
-     */
-    @Test
-    public void testEscapeResume() throws Exception {
-        // Wait until the actor becomes available.
-        assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
-
-        // Fire escape button press event
-        InputEvent event = new InputEvent();
-        event.setType(InputEvent.Type.keyDown);
-        event.setKeyCode(Input.Keys.ESCAPE);
-        app.postRunnable(() -> {
-            actor.fire(event);
-            actor.fire(event);
-        });
-
-        // Wait 20ms in order for the events to be processed
-        Thread.sleep(200);
-
-        assertThat(actor.getChildren().pop()).isNotInstanceOf(PauseActor.class);
-    }
-
-
-    /**
-     * Test if pressing the another button while paused does not cause the game to resume.
-     */
-    @Test
-    public void testNotResume() throws Exception {
-        // Wait until the actor becomes available.
-        assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
-
-        // Fire escape button press event
-        InputEvent event = new InputEvent();
-        event.setType(InputEvent.Type.keyDown);
-        event.setKeyCode(Input.Keys.ESCAPE);
-        app.postRunnable(() -> {
-            actor.fire(event);
-            event.setKeyCode(Input.Keys.E);
-            actor.fire(event);
-        });
-
-        // Wait 200ms in order for the events to be processed
-        Thread.sleep(200);
-
-        assertThat(actor.getChildren().pop()).isInstanceOf(PauseActor.class);
-    }
-
-    /**
      * Test if the power up is shown after some time.
      */
     @Test
@@ -219,7 +157,7 @@ public class GameSessionActorTest {
         ReceptorListener listener = mock(ReceptorListener.class);
         receptor.addListener(listener);
 
-        verify(listener, after(500).atLeastOnce()).receptorAssigned(receptor);
+        verify(listener, after(800).atLeastOnce()).receptorAssigned(receptor);
     }
 
     /**
@@ -304,3 +242,4 @@ public class GameSessionActorTest {
         verify(spy, never()).receptorMarked(receptor);
     }
 }
+

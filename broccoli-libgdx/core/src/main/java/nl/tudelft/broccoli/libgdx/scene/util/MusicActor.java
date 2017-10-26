@@ -2,6 +2,7 @@ package nl.tudelft.broccoli.libgdx.scene.util;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Disposable;
 
 /**
  * This {@link Actor} manages the music of the game. By default it will loop and play immediately
@@ -9,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  *
  * @author Christian Slothouber {f.c.slothouber@student.tudelft.nl}
  */
-public class MusicActor extends Actor {
+public class MusicActor extends Actor implements Disposable {
     /**
      * The current music theme that is playing.
      */
@@ -29,5 +30,13 @@ public class MusicActor extends Actor {
         this.theme = theme;
         this.theme.setLooping(true);
         this.theme.play();
+    }
+
+    /**
+     * Releases all resources of this object.
+     */
+    @Override
+    public void dispose() {
+        this.theme.stop();
     }
 }
