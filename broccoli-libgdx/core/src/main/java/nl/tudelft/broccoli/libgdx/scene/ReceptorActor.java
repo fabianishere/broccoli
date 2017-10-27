@@ -29,9 +29,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -43,9 +41,13 @@ import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.powerup.PowerUp;
+import nl.tudelft.broccoli.core.powerup.bonus.BonusPowerUp;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.receptor.ReceptorListener;
 import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.strategy.BonusStrategy;
+import nl.tudelft.broccoli.libgdx.strategy.JokerStrategy;
+import nl.tudelft.broccoli.libgdx.strategy.PowerUpStrategy;
 
 import java.util.EnumMap;
 
@@ -113,6 +115,11 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
      * The animation time.
      */
     private float animationTime = 0.f;
+
+    /**
+     * The power-up strategy.
+     */
+    private PowerUpStrategy powerUpStrategy;
 
     /**
      * A map which maps the direction of slots to their positions on the receptor.
@@ -261,14 +268,15 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
     @Override
     public void receptorAssigned(Receptor receptor) {
         if (receptor.getPowerUp() != null) {
+            if (receptor.getPowerUp() instanceof BonusPowerUp) {
+                powerUpStrategy = new BonusStrategy();
+            } else {
+                powerUpStrategy = new JokerStrategy();
+            }
             animationTime = 0.f;
             EXPLODE.play();
 
-            Action action = Actions.forever(Actions.sequence(
-                Actions.color(Color.RED, 0.5f, Interpolation.fade),
-                Actions.color(Color.WHITE, 0.5f, Interpolation.fade)
-            ));
-            image.addAction(action);
+            image.addAction(powerUpStrategy.animate());
             return;
         }
 
