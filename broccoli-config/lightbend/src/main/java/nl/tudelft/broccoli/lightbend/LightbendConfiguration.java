@@ -43,24 +43,8 @@ public class LightbendConfiguration implements Configuration {
         // the implementation. We checked them for you; they should work.
         Class<T> type = property.getType();
         String key = property.getKey();
-        Object value = null;
-
-        try {
-            if (Boolean.class.isAssignableFrom(type)) {
-                value = api.getBoolean(key);
-            } else if (Double.class.isAssignableFrom(type)) {
-                value = api.getDouble(key);
-            } else if (Integer.class.isAssignableFrom(type)) {
-                value = api.getInt(key);
-            } else if (String.class.isAssignableFrom(type)) {
-                value = api.getString(key);
-            } else if (property instanceof ListProperty) {
-                ListProperty listProperty = (ListProperty) property;
-                value = getList(listProperty);
-            }
-        } catch (ConfigException ignored) {
-            // We ignore the exception that has been thrown since we just return the default value.
-        }
+        Object value = property instanceof ListProperty ? getList((ListProperty) property) :
+            getValue(key, type);
 
         // We do not permit null configuration values and return the default value instead.
         if (value == null) {
@@ -83,6 +67,33 @@ public class LightbendConfiguration implements Configuration {
     }
 
     /**
+     * Return the value of the given property with the given type.
+     *
+     * @param key The key of the property.
+     * @param type The type of the property.
+     * @return The property value or <code>null</code> if the property value is invalid or does not
+     *         exist.
+     */
+    private Object getValue(String key, Class<?> type) {
+        Object value = null;
+        try {
+            if (Boolean.class.isAssignableFrom(type)) {
+                value = api.getBoolean(key);
+            } else if (Double.class.isAssignableFrom(type)) {
+                value = api.getDouble(key);
+            } else if (Integer.class.isAssignableFrom(type)) {
+                value = api.getInt(key);
+            } else if (String.class.isAssignableFrom(type)) {
+                value = api.getString(key);
+            }
+        } catch (ConfigException ignored) {
+            // We ignore the exception that has been thrown since we just return the default value.
+        }
+
+        return value;
+    }
+
+    /**
      * Return the value of the given list property.
      *
      * @param property The property to get the value of.
@@ -90,17 +101,21 @@ public class LightbendConfiguration implements Configuration {
      */
     private List getList(ListProperty property) throws ConfigException {
         Class type = property.getElementType();
-
-        if (Boolean.class.isAssignableFrom(type)) {
-            return api.getBooleanList(property.getKey());
-        } else if (Double.class.isAssignableFrom(type)) {
-            return api.getDoubleList(property.getKey());
-        } else if (Integer.class.isAssignableFrom(type)) {
-            return api.getIntList(property.getKey());
-        } else if (String.class.isAssignableFrom(type)) {
-            return api.getStringList(property.getKey());
+        List result = null;
+        try {
+            if (Boolean.class.isAssignableFrom(type)) {
+                result = api.getBooleanList(property.getKey());
+            } else if (Double.class.isAssignableFrom(type)) {
+                result = api.getDoubleList(property.getKey());
+            } else if (Integer.class.isAssignableFrom(type)) {
+                result = api.getIntList(property.getKey());
+            } else if (String.class.isAssignableFrom(type)) {
+                result = api.getStringList(property.getKey());
+            }
+        } catch (ConfigException ignored) {
+            // We ignore the exception that has been thrown since we just return the default value.
         }
 
-        return null;
+        return result;
     }
 }

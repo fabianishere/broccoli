@@ -123,23 +123,26 @@ public class TileActor extends Group {
      */
     private TileableActor<?> createActor(Tile tile) {
         Tileable tileable = tile.getTileable();
+        final TileableActor<?> result;
 
         if (tileable instanceof Teleporter) {
-            return new TeleporterActor((Teleporter) tileable, context);
+            result = new TeleporterActor((Teleporter) tileable, context);
         } else if (tileable instanceof Receptor) {
-            return new ReceptorActor((Receptor) tileable, context);
+            result = new ReceptorActor((Receptor) tileable, context);
         } else if (tileable instanceof Nexus) {
-            return new NexusActor((Nexus) tileable, context);
+            result = new NexusActor((Nexus) tileable, context);
         } else if (tileable instanceof Track) {
-            return new TrackActor((Track) tileable, context);
+            result = new TrackActor((Track) tileable, context);
         } else if (tileable instanceof TimerTile) {
-            return new TimerActor((TimerTile) tileable, context);
+            result = new TimerActor((TimerTile) tileable, context);
         } else if (tileable instanceof Announcer) {
-            return new AnnouncerActor((Announcer) tileable, context);
+            result = new AnnouncerActor((Announcer) tileable, context);
         } else if (tileable instanceof Empty) {
-            return new EmptyActor((Empty) tileable, context);
+            result = new EmptyActor((Empty) tileable, context);
+        } else {
+            result = new UnsupportedTileableActor(tileable, context);
         }
 
-        return new UnsupportedTileableActor(tileable, context);
+        return result;
     }
 }

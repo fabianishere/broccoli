@@ -50,10 +50,12 @@ public abstract class AbstractGameSession implements GameSession {
      * Construct a {@link AbstractGameSession} instance.
      *
      * @param config The game configuration to use.
+     * @param width The width of the grid to use.
+     * @param height The height of the grid to use.
      */
-    public AbstractGameSession(Configuration config) {
+    public AbstractGameSession(Configuration config, int width, int height) {
         this.config = config;
-        this.grid = new Grid(this, config.get(Grid.WIDTH), config.get(Grid.HEIGHT));
+        this.grid = new Grid(this, width, height);
         this.progress = new Progress(grid);
 
         // Read the initial sequence of balls from the configuration

@@ -28,6 +28,7 @@ package nl.tudelft.broccoli.libgdx.scene;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import nl.tudelft.broccoli.core.Entity;
+import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.libgdx.Context;
 
@@ -42,6 +43,11 @@ public abstract class TileableActor<T extends Tileable> extends WidgetGroup {
      * The tileable {@link Entity}.
      */
     private final T tileable;
+
+    /**
+     * The tile index of the tileable.
+     */
+    private final int index;
 
     /**
      * The game context to use.
@@ -60,6 +66,19 @@ public abstract class TileableActor<T extends Tileable> extends WidgetGroup {
         this.context.register(tileable, this);
         this.setUserObject(tileable);
         this.setFillParent(true);
+
+        int tile = 0;
+        // Generate the index of the adaptive tile.
+        // We generate this index by creating a number between 1-15 representing the directions
+        // at which the tileable is connected in binary in counterclockwise order starting from
+        // the TOP direction (e.g. 1010 means TOP and BOTTOM are connected)
+        // This is done by flipping the bits on the tile index on the places it is connected.
+        for (int i = 0; i < 4; i++) {
+            if (tileable.isConnected(Direction.from(4 - i))) {
+                tile |= 1 << (3 - i);
+            }
+        }
+        this.index = tile;
     }
 
     /**
@@ -85,5 +104,19 @@ public abstract class TileableActor<T extends Tileable> extends WidgetGroup {
      */
     public Context getContext() {
         return context;
+    }
+
+    /**
+     * Return the index of the adaptive tile.
+     *
+     * <p>We generate this index by creating a number between 1-15 representing the directions
+     * at which the receptor is connected in binary in counterclockwise order starting from
+     * the TOP direction (e.g. 1010 means TOP and BOTTOM are connected)
+     * This is done by flipping the bits on the tile index on the places it is connected.</p>
+     *
+     * @return The index of the adaptive tile.
+     */
+    public int getTileIndex() {
+        return index;
     }
 }

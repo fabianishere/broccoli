@@ -97,7 +97,8 @@ public class GridActor extends WidgetGroup {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        // XXX Hack to draw contents of tiles after the tiles themselves
+        // Hack to draw contents of tiles after the tiles themselves
+        // This allows the content of tiles (including the marbles) to overflow into new tiles.
         for (Actor actor : table.getChildren()) {
             TileActor tile = (TileActor) actor;
             tile.drawTileable(batch, parentAlpha);

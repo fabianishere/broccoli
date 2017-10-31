@@ -39,10 +39,10 @@ import nl.tudelft.broccoli.core.grid.Tileable;
  */
 public class HorizontalTrack extends Track {
     /**
-     * Determine whether this rail is connected at both endpoints.
+     * Determine whether this horizontal track is connected at both endpoints.
      *
-     * @return <code>true</code> if both endpoints are connected to a port, <code>false</code>
-     *         otherwise.
+     * @return <code>true</code> if both horizontal endpoints are connected to a port,
+     *         <code>false</code> otherwise.
      */
     public boolean isConnected() {
         Tile tile = getTile();

@@ -142,16 +142,7 @@ public class Broccoli extends Game {
      * Initialise the {@link PowerUp} assignment in the game.
      */
     private void initPowerUps() {
-        final List<Receptor> receptors = new ArrayList<>();
-        for (int i = 0; i < session.getGrid().getWidth(); i++) {
-            for (int j = 0; j < session.getGrid().getHeight(); j++) {
-                Tileable t = session.getGrid().get(i, j).getTileable();
-                if (t instanceof Receptor) {
-                    receptors.add((Receptor) t);
-                }
-            }
-        }
-
+        List<Receptor> receptors = getReceptors();
         int n = receptors.size();
         int stdev = 10;
         int mu = 30;
@@ -182,9 +173,28 @@ public class Broccoli extends Game {
         };
 
         int next = (int) random.nextGaussian() * stdev + mu;
-        System.out.println(next);
         stage.addAction(Actions.delay(next, Actions.run(assign)));
     }
+
+    /**
+     * Get the receptors on the grid.
+     *
+     * @return The receptors on the grid.
+     */
+    private List<Receptor> getReceptors() {
+        final List<Receptor> receptors = new ArrayList<>();
+        for (int i = 0; i < session.getGrid().getWidth(); i++) {
+            for (int j = 0; j < session.getGrid().getHeight(); j++) {
+                Tileable t = session.getGrid().get(i, j).getTileable();
+                if (t instanceof Receptor) {
+                    receptors.add((Receptor) t);
+                }
+            }
+        }
+
+        return receptors;
+    }
+
 
     /**
      * This method is invoked when the window is resized.

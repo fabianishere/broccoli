@@ -45,6 +45,7 @@ public abstract class Tile implements Entity {
      */
     public Tile() {
         this.tileable = new Empty();
+        this.tileable.setTile(this);
     }
 
     /**

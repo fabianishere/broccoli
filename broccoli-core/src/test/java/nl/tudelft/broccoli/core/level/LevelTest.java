@@ -129,10 +129,7 @@ public abstract class LevelTest {
     @Test
     public void getGrid() {
         GameSession session = level.create(config);
-        assertThat(session.getGrid().getHeight())
-            .isEqualTo(Grid.HEIGHT.getDefault());
-        assertThat(session.getGrid().getWidth())
-            .isEqualTo(Grid.WIDTH.getDefault());
+        assertThat(session.getGrid().getSession()).isEqualTo(session);
     }
 
     /**

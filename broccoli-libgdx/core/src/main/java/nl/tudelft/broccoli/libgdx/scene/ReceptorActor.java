@@ -140,20 +140,8 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
         image = new Image(atlas.findRegion("receptor/unmarked"));
         addActor(image);
 
-        int tile = 0;
-        // Generate the index of the adaptive tile.
-        // We generate this index by creating a number between 1-15 representing the directions
-        // at which the receptor is connected in binary in counterclockwise order starting from
-        // the TOP direction (e.g. 1010 means TOP and BOTTOM are connected)
-        // This is done by flipping the bits on the tile index on the places it is connected.
-        for (int i = 0; i < 4; i++) {
-            if (receptor.isConnected(Direction.from(4 - i))) {
-                tile |= 1 << (3 - i);
-            }
-        }
-
-        markedTile = atlas.createSprite("receptor/tile_marked", tile);
-        unmarkedTile = atlas.createSprite("receptor/tile_unmarked", tile);
+        markedTile = atlas.createSprite("receptor/tile_marked", getTileIndex());
+        unmarkedTile = atlas.createSprite("receptor/tile_unmarked", getTileIndex());
         explosion = new Animation<>(EXPLOSION_TIME, atlas.findRegions("explosion"),
             Animation.PlayMode.REVERSED);
 
@@ -313,12 +301,9 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
         MarbleActor registry = (MarbleActor) getContext().actor(marble);
         MarbleActor actor = registry != null ? registry : new MarbleActor(marble, getContext());
 
-        Receptor receptor = getTileable();
-        Receptor.Slot slot = receptor.getSlot(direction);
+        Vector2 target = getTarget(direction);
+        Vector2 origin = getOrigin(actor);
 
-        Vector2 target = positions.get(direction.rotate(-receptor.getRotation())).cpy();
-        Vector2 origin = stageToLocalCoordinates(actor.localToStageCoordinates(
-                new Vector2(actor.getWidth() / 2.f, actor.getHeight() / 2.f)));
         actor.addAction(Actions.sequence(
             Actions.moveToAligned(target.x, target.y, Align.center, target.dst(origin)
                 * TRAVEL_TIME),
@@ -326,13 +311,50 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
         ));
         actor.setPosition(origin.x, origin.y, Align.center);
         actor.rotateBy(-getRotation());
-        actor.addListener(new InputListener() {
+        actor.addListener(getInputHandler(actor, direction));
+
+        addActor(actor);
+        DOCK.play();
+    }
+
+    /**
+     * Return the target of a marble.
+     *
+     * @param direction The direction the ball is coming from.
+     * @return The target of a marble.
+     */
+    private Vector2 getTarget(Direction direction) {
+        return positions.get(direction.rotate(-getTileable().getRotation())).cpy();
+    }
+
+    /**
+     * Return the origin of a marble.
+     *
+     * @param actor The actor of the marble.
+     * @return The origin of the marble.
+     */
+    private Vector2 getOrigin(Actor actor) {
+        return stageToLocalCoordinates(actor.localToStageCoordinates(
+            new Vector2(actor.getWidth() / 2.f, actor.getHeight() / 2.f)));
+    }
+
+    /**
+     * Return the input handler for the given marble actor.
+     *
+     * @param actor The marble actor to create the input handler for.
+     * @param direction The direction the marble is coming from.
+     * @return The input handler of the marble actor.
+     */
+    private InputListener getInputHandler(MarbleActor actor, Direction direction) {
+        Receptor receptor = getTileable();
+        Receptor.Slot slot = receptor.getSlot(direction);
+        return new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 Direction out = slot.getDirection();
                 Vector2 pos = positions.get(out.rotate(-receptor.getRotation())).cpy();
 
-                if (receptor.isReleasable(out, marble)) {
+                if (receptor.isReleasable(out, actor.getMarble())) {
                     actor.clearActions();
                     actor.removeListener(this);
                     actor.setDirection(out);
@@ -346,9 +368,6 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
                 event.stop();
                 return true;
             }
-        });
-        addActor(actor);
-
-        DOCK.play();
+        };
     }
 }

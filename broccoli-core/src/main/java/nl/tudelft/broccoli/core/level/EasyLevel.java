@@ -60,7 +60,7 @@ class EasyLevel implements Level {
          * @param config The game configuration to use.
          */
         public EasyGame(Configuration config) {
-            super(config);
+            super(config, 4, 4);
             Grid grid = getGrid();
 
             grid.place(0, 3, new Nexus(getNexusContext()));

@@ -39,6 +39,11 @@ import java.util.Set;
  */
 public abstract class Tileable implements Entity {
     /**
+     * The message printed when a tileable entity is not placed on a grid.
+     */
+    private static final String TILEABLE_UNPLACED = "The entity is not placed on a tile";
+
+    /**
      * The {@link Tile} this entity is placed on.
      */
     private Tile tile;
@@ -105,7 +110,7 @@ public abstract class Tileable implements Entity {
      */
     public boolean isConnected(Direction direction) {
         if (tile == null) {
-            throw new IllegalStateException("The entity is not placed on a tile");
+            throw new IllegalStateException(TILEABLE_UNPLACED);
         } else if (!allowsConnection(direction)) {
             return false;
         }
@@ -125,7 +130,7 @@ public abstract class Tileable implements Entity {
      */
     public boolean isReleasable(Direction direction, Marble marble) {
         if (tile == null) {
-            throw new IllegalStateException("The entity is not placed on a tile");
+            throw new IllegalStateException(TILEABLE_UNPLACED);
         }
 
         Tile neighbour = tile.get(direction);
@@ -143,7 +148,7 @@ public abstract class Tileable implements Entity {
      */
     public void release(Direction direction, Marble marble) {
         if (tile == null) {
-            throw new IllegalStateException("The entity is not placed on a tile");
+            throw new IllegalStateException(TILEABLE_UNPLACED);
         }
 
         Tile neighbour = tile.get(direction);

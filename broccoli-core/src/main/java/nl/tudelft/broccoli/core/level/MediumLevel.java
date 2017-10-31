@@ -61,7 +61,7 @@ class MediumLevel implements Level {
          * @param config The game configuration to use.
          */
         public MediumGame(Configuration config) {
-            super(config);
+            super(config, 4, 4);
             Grid grid = getGrid();
 
             NexusContext context = getNexusContext();

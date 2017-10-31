@@ -26,6 +26,7 @@
 package nl.tudelft.broccoli.libgdx.scene;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -114,32 +115,17 @@ public class NexusActor extends TransportingActor<Nexus> implements TileableList
         addActor(actor);
 
         Nexus nexus = getTileable();
-        Action move;
-
-        switch (direction) {
-            case TOP:
-                actor.setPosition(getWidth() / 2.f, getHeight(), Align.center);
-                move = Actions.moveBy(0, -getHeight() / 2.f, (getHeight() / 2.f) * TRAVEL_TIME);
-                break;
-            case BOTTOM:
-                actor.setPosition(getWidth() / 2.f, 0.f, Align.center);
-                move = Actions.moveBy(0, getHeight() / 2.f, (getHeight() / 2.f) * TRAVEL_TIME);
-                break;
-            case LEFT:
-                actor.setPosition(0.f, getHeight() / 2.f, Align.center);
-                move = Actions.moveBy(getWidth() / 2.f, 0, (getWidth() / 2.f) * TRAVEL_TIME);
-                break;
-            case RIGHT:
-                actor.setPosition(getWidth(), getHeight() / 2.f, Align.center);
-                move = Actions.moveBy(-getWidth() / 2.f, 0, (getWidth() / 2.f) * TRAVEL_TIME);
-                break;
-            default:
-                move = Actions.sequence();
-        }
-
+        Vector2 origin = getOrigin(direction);
+        Vector2 center = getCenter();
+        Vector2 target = getTarget(direction);
+        Action moveCenter = Actions.moveToAligned(center.x, center.y, Align.center,
+            origin.dst(center) * TRAVEL_TIME);
+        Action moveTarget = Actions.moveToAligned(target.x, target.y, Align.center,
+            target.dst(center) * TRAVEL_TIME);
+        actor.setPosition(origin.x, origin.y, Align.center);
         actor.setDirection(direction.inverse());
         actor.addAction(Actions.sequence(
-            move,
+            moveCenter,
             Actions.run(() -> {
                 Direction out = Direction.BOTTOM;
                 if (nexus.isReleasable(out, marble)) {
@@ -147,11 +133,9 @@ public class NexusActor extends TransportingActor<Nexus> implements TileableList
                     actor.setDirection(out);
                     nexus.release(out, marble);
                     nexus.getContext().setOccupied(false);
-                    return;
                 }
-                move.restart();
             }),
-            move,
+            moveTarget,
             Actions.run(() -> {
                 Direction inverse = direction.inverse();
                 if (!nexus.isReleasable(inverse, marble)) {
@@ -162,6 +146,34 @@ public class NexusActor extends TransportingActor<Nexus> implements TileableList
                 nexus.release(inverse, marble);
             })
         ));
+    }
+
+    /**
+     * Return the origin position for a mable.
+     *
+     * @param direction The direction the ball is coming from.
+     * @return The origin position for a marble.
+     */
+    private Vector2 getOrigin(Direction direction) {
+        Vector2 result;
+        switch (direction) {
+            case TOP:
+                result = new Vector2(getWidth() / 2.f, getHeight());
+                break;
+            case BOTTOM:
+                result = new Vector2(getWidth() / 2.f, 0.f);
+                break;
+            case LEFT:
+                result = new Vector2(0.f, getHeight() / 2.f);
+                break;
+            case RIGHT:
+                result = new Vector2(getWidth(), getHeight() / 2.f);
+                break;
+            default:
+                result = new Vector2(0, 0);
+        }
+
+        return result;
     }
 
     /**

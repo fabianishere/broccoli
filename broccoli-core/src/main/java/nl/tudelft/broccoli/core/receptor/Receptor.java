@@ -289,14 +289,14 @@ public class Receptor extends Tileable {
                 throw new IllegalStateException("The receptor is locked");
             }
 
-            Direction direction = getDirection();
+            Direction output = getDirection();
 
-            if (!isConnected(direction) || !isReleasable(direction, marble)) {
+            if (!isConnected(output) || !isReleasable(output, marble)) {
                 throw new IllegalStateException("The slot cannot release the marble "
                         + "to its neighbor");
             }
 
-            Receptor.this.release(direction, marble);
+            Receptor.this.release(output, marble);
             marble = null;
         }
 

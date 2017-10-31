@@ -43,23 +43,15 @@ public class DefProConfiguration implements Configuration {
         // the implementation. We checked them for you; they should work.
         Class<T> type = property.getType();
         String key = property.getKey();
-        Object value = null;
-        try {
-            if (Boolean.class.isAssignableFrom(type)) {
-                value = api.getBooleanValueOf(key);
-            } else if (Double.class.isAssignableFrom(type)) {
-                value = api.getRealValueOf(key);
-            } else if (Integer.class.isAssignableFrom(type)) {
-                value = api.getIntegerValueOf(key);
-            } else if (String.class.isAssignableFrom(type)) {
-                value = api.getStringValueOf(key);
-            } else if (property instanceof ListProperty) {
-                ListProperty listProperty = (ListProperty) property;
-                value = getList(listProperty);
-            }
-        } catch (NotExistingVariableException ignored) {
-            // We ignore the exception that has been thrown since we just return the default value.
+        Object value;
+
+        if (property instanceof ListProperty) {
+            ListProperty listProperty = (ListProperty) property;
+            value = getList(listProperty);
+        } else {
+            value = getValue(key, type);
         }
+
 
         // We do not permit null configuration values and return the default value instead.
         if (value == null) {
@@ -86,23 +78,54 @@ public class DefProConfiguration implements Configuration {
     }
 
     /**
+     * Return the value of the given property with the given type.
+     *
+     * @param key The key of the property.
+     * @param type The type of the property.
+     * @return The property value or <code>null</code> if the property value is invalid or does not
+     *         exist.
+     */
+    private Object getValue(String key, Class<?> type) {
+        Object value = null;
+        try {
+            if (Boolean.class.isAssignableFrom(type)) {
+                value = api.getBooleanValueOf(key);
+            } else if (Double.class.isAssignableFrom(type)) {
+                value = api.getRealValueOf(key);
+            } else if (Integer.class.isAssignableFrom(type)) {
+                value = api.getIntegerValueOf(key);
+            } else if (String.class.isAssignableFrom(type)) {
+                value = api.getStringValueOf(key);
+            }
+        } catch (NotExistingVariableException ignored) {
+            // We ignore the exception that has been thrown since we just return the default value.
+        }
+        return value;
+    }
+
+    /**
      * Return the value of the given list property.
      *
      * @param property The property to get the value of.
      * @return The value of the property.
      */
-    private List getList(ListProperty property) throws NotExistingVariableException {
+    private List getList(ListProperty property) {
         Class type = property.getElementType();
+        List result = null;
 
-        if (Boolean.class.isAssignableFrom(type)) {
-            return api.getListBoolValueOf(property.getKey());
-        } else if (Double.class.isAssignableFrom(type)) {
-            return api.getListRealValueOf(property.getKey());
-        } else if (Integer.class.isAssignableFrom(type)) {
-            return api.getListIntValueOf(property.getKey());
-        } else if (String.class.isAssignableFrom(type)) {
-            return api.getListStringValueOf(property.getKey());
+        try {
+            if (Boolean.class.isAssignableFrom(type)) {
+                result = api.getListBoolValueOf(property.getKey());
+            } else if (Double.class.isAssignableFrom(type)) {
+                result = api.getListRealValueOf(property.getKey());
+            } else if (Integer.class.isAssignableFrom(type)) {
+                result = api.getListIntValueOf(property.getKey());
+            } else if (String.class.isAssignableFrom(type)) {
+                result = api.getListStringValueOf(property.getKey());
+            }
+        } catch (NotExistingVariableException ignored) {
+            // We ignore the exception that has been thrown since we just return the default value.
         }
-        return null;
+        return result;
     }
 }

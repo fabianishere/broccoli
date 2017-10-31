@@ -80,19 +80,7 @@ public abstract class TransportingActor<T extends Tileable> extends TileableActo
     public TransportingActor(T tileable, Context context) {
         super(tileable, context);
         tileable.addListener(this);
-
-        int tileIndex = 0;
-        // Generate the index of the adaptive tile.
-        // We generate this index by creating a number between 1-15 representing the directions
-        // at which the track is connected in binary in counterclockwise order starting from
-        // the TOP direction (e.g. 1010 means TOP and BOTTOM are connected)
-        // This is done by flipping the bits on the tile index on the places it is connected.
-        for (int i = 0; i < 4; i++) {
-            if (tileable.isConnected(Direction.from(4 - i))) {
-                tileIndex |= 1 << (3 - i);
-            }
-        }
-        this.sprite = context.getTextureAtlas().createSprite("tile", tileIndex);
+        this.sprite = context.getTextureAtlas().createSprite("tile", getTileIndex());
         this.setSize(sprite.getWidth(), sprite.getHeight());
         this.modifier = getModifier();
         if (modifier != null) {

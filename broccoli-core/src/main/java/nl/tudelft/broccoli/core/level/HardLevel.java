@@ -61,7 +61,7 @@ class HardLevel implements Level {
          * @param config The game configuration to use.
          */
         public HardGame(Configuration config) {
-            super(config);
+            super(config, 4, 4);
             Grid grid = getGrid();
 
             NexusContext context = getNexusContext();
