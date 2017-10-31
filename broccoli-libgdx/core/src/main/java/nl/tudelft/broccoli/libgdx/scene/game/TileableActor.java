@@ -23,14 +23,14 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import nl.tudelft.broccoli.core.Entity;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
  * An actor in the scene for a {@link nl.tudelft.broccoli.core.grid.Tileable} entity.
@@ -52,7 +52,7 @@ public abstract class TileableActor<T extends Tileable> extends WidgetGroup {
     /**
      * The game context to use.
      */
-    private final Context context;
+    private final ActorContext context;
 
     /**
      * Construct a {@link TileableActor} instance.
@@ -60,7 +60,7 @@ public abstract class TileableActor<T extends Tileable> extends WidgetGroup {
      * @param tileable The tileable entity to create the actor for.
      * @param context The game context to use.
      */
-    public TileableActor(T tileable, Context context) {
+    public TileableActor(T tileable, ActorContext context) {
         this.tileable = tileable;
         this.context = context;
         this.context.register(tileable, this);
@@ -98,11 +98,11 @@ public abstract class TileableActor<T extends Tileable> extends WidgetGroup {
     }
 
     /**
-     * Return the game {@link Context} of this actor.
+     * Return the game {@link ActorContext} of this actor.
      *
      * @return The game context of the actor.
      */
-    public Context getContext() {
+    public ActorContext getContext() {
         return context;
     }
 

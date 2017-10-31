@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -33,7 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
 import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 
 /**
@@ -55,7 +55,7 @@ public class MarbleActor extends Actor {
     /**
      * The game context of the actor.
      */
-    private Context context;
+    private ActorContext context;
 
     /**
      * The horizontal animation for this marble.
@@ -88,7 +88,7 @@ public class MarbleActor extends Actor {
      * @param marble The marble to create this actor for.
      * @param context The context of the actor.
      */
-    public MarbleActor(Marble marble, Context context) {
+    public MarbleActor(Marble marble, ActorContext context) {
         this.marble = marble;
         this.context = context;
         this.context.register(marble, this);

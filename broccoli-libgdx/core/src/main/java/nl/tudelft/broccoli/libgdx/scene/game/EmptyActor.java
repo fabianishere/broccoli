@@ -23,34 +23,34 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import nl.tudelft.broccoli.core.grid.Grid;
+import nl.tudelft.broccoli.core.Empty;
 import nl.tudelft.broccoli.core.grid.Tileable;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
- * An {@link Actor} for unsupported {@link Tileable}s on a {@link Grid}.
+ * An {@link Actor} for an empty tile.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class UnsupportedTileableActor extends TileableActor<Tileable> {
+public class EmptyActor extends TileableActor<Empty> {
     /**
-     * The sprite to represent this object.
+     * The sprite for an empty tile.
      */
-    private Sprite sprite;
+    private final Sprite empty;
 
     /**
      * Construct a {@link TileableActor} instance.
      *
      * @param tileable The tileable entity to create the actor for.
-     * @param context  The game context of this actor.
+     * @param context The game context of this actor.
      */
-    public UnsupportedTileableActor(Tileable tileable, Context context) {
+    public EmptyActor(Empty tileable, ActorContext context) {
         super(tileable, context);
-        sprite = context.getTextureAtlas().createSprite("tile/empty");
+        empty = context.getTextureAtlas().createSprite("tile", 0);
     }
 
     /**
@@ -60,7 +60,7 @@ public class UnsupportedTileableActor extends TileableActor<Tileable> {
      */
     @Override
     public Sprite getTileSprite() {
-        return sprite;
+        return empty;
     }
-}
 
+}

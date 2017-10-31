@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -36,7 +36,7 @@ import nl.tudelft.broccoli.core.grid.TileableListener;
 import nl.tudelft.broccoli.core.track.FilterTrack;
 import nl.tudelft.broccoli.core.track.OneWayTrack;
 import nl.tudelft.broccoli.core.track.Track;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
  * An {@link Actor} for a track on the grid.
@@ -52,7 +52,7 @@ public class TrackActor extends TransportingActor<Track> implements TileableList
      * @param tileable The tileable entity to create the actor for.
      * @param context  The game context of this actor.
      */
-    public TrackActor(Track tileable, Context context) {
+    public TrackActor(Track tileable, ActorContext context) {
         super(tileable, context);
     }
 

@@ -29,25 +29,10 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import nl.tudelft.broccoli.core.config.*;
-import nl.tudelft.broccoli.core.grid.Tileable;
-import nl.tudelft.broccoli.core.level.Difficulty;
-import nl.tudelft.broccoli.core.level.GameSession;
-import nl.tudelft.broccoli.core.level.LevelFactory;
-import nl.tudelft.broccoli.core.level.Progress;
-import nl.tudelft.broccoli.core.powerup.PowerUp;
-import nl.tudelft.broccoli.core.receptor.Receptor;
-import nl.tudelft.broccoli.libgdx.scene.GameActor;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import javax.swing.*;
+import nl.tudelft.broccoli.libgdx.scene.GameStage;
 
 /**
  * A {@link Game} implementation which provides a 2d game view over the game logic defined in
@@ -85,21 +70,6 @@ public class Broccoli extends Game {
     private Stage stage;
 
     /**
-     * The {@link GameSession} to render.
-     */
-    private GameSession session;
-
-    /**
-     * The game {@link Context} to use.
-     */
-    private Context context;
-
-    /**
-     * Game progress.
-     */
-    private Progress progress;
-
-    /**
      * Construct a {@link Broccoli} instance.
      *
      * @param config The game configuration to use.
@@ -113,88 +83,9 @@ public class Broccoli extends Game {
      */
     @Override
     public void create() {
-        session = new LevelFactory().create(Difficulty.EASY).create(config);
-        context = new Context(config, session,
-            new TextureAtlas(Gdx.files.classpath("atlas/sprites.atlas")));
-        progress = new Progress(session.getGrid());
-
-        stage = new Stage(new ScreenViewport());
-        GameActor game = new GameActor(context);
-        stage.setKeyboardFocus(game);
-        stage.addActor(game);
-
+        stage = new GameStage(config, new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        Gdx.graphics.setWindowedMode(config.get(WINDOW_WIDTH), config.get(WINDOW_HEIGHT));
-        Gdx.graphics.setTitle(config.get(WINDOW_TITLE));
-
-        initMusic();
-        initPowerUps();
     }
-
-    /**
-     * Initialise the background music.
-     */
-    private void initMusic() {
-        new BackgroundMusic("sound/music/placeholder.mp3");
-    }
-
-    /**
-     * Initialise the {@link PowerUp} assignment in the game.
-     */
-    private void initPowerUps() {
-        List<Receptor> receptors = getReceptors();
-        int n = receptors.size();
-        int stdev = 10;
-        int mu = 30;
-        int duration = 20;
-
-        final Random random = new Random();
-        final Runnable assign = new Runnable() {
-            @Override
-            public void run() {
-                // Create the power-up to assign
-                PowerUp powerUp = session.getPowerUpFactory().create();
-
-                // Find receptor to assign to
-                Receptor receptor = receptors.get(random.nextInt(n));
-                receptor.setPowerUp(powerUp);
-
-                // Schedule de-assignment of power-up
-                stage.addAction(Actions.delay(duration, Actions.run(() -> {
-                    if (receptor.getPowerUp() != null && receptor.getPowerUp().equals(powerUp)) {
-                        receptor.setPowerUp(null);
-                    }
-                })));
-
-                // Schedule next assignment of power-up
-                int next = (int) random.nextGaussian() * stdev + mu;
-                stage.addAction(Actions.delay(next, Actions.run(this)));
-            }
-        };
-
-        int next = (int) random.nextGaussian() * stdev + mu;
-        stage.addAction(Actions.delay(next, Actions.run(assign)));
-    }
-
-    /**
-     * Get the receptors on the grid.
-     *
-     * @return The receptors on the grid.
-     */
-    private List<Receptor> getReceptors() {
-        final List<Receptor> receptors = new ArrayList<>();
-        for (int i = 0; i < session.getGrid().getWidth(); i++) {
-            for (int j = 0; j < session.getGrid().getHeight(); j++) {
-                Tileable t = session.getGrid().get(i, j).getTileable();
-                if (t instanceof Receptor) {
-                    receptors.add((Receptor) t);
-                }
-            }
-        }
-
-        return receptors;
-    }
-
 
     /**
      * This method is invoked when the window is resized.
@@ -213,15 +104,6 @@ public class Broccoli extends Game {
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // Check if the game has been won
-        if (progress.isWon()) {
-            JOptionPane.showMessageDialog(new JFrame(), "Congratulations! You won the game "
-                    +  "and earned " + session.getProgress().getScore() + " points.",
-                "Winner!", JOptionPane.INFORMATION_MESSAGE);
-            Gdx.app.exit();
-            return;
-        }
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();

@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -38,7 +38,7 @@ import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.grid.TileableListener;
 import nl.tudelft.broccoli.core.nexus.Nexus;
 import nl.tudelft.broccoli.core.nexus.SpawningNexus;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
  * An {@link Actor} for a (spawning) nexus on the grid.
@@ -69,7 +69,7 @@ public class NexusActor extends TransportingActor<Nexus> implements TileableList
      * @param nexus The tileable entity to create the actor for.
      * @param context The game context of this actor.
      */
-    public NexusActor(Nexus nexus, Context context) {
+    public NexusActor(Nexus nexus, ActorContext context) {
         super(nexus, context);
         nexus.addListener(this);
         connected = nexus.isConnected(Direction.BOTTOM);

@@ -1,4 +1,4 @@
-package nl.tudelft.broccoli.libgdx.strategy;
+package nl.tudelft.broccoli.libgdx.scene.game.receptor;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 

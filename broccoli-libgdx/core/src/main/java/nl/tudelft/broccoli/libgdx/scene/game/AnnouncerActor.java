@@ -1,10 +1,10 @@
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
 import nl.tudelft.broccoli.core.Announcer;
 import nl.tudelft.broccoli.core.grid.Tileable;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
  * An actor for the {@link Announcer} tile that announces the next marble to be spawned.
@@ -28,7 +28,7 @@ public class AnnouncerActor extends TileableActor<Announcer> {
      * @param tileable The tileable entity to create the actor for.
      * @param context  The game context to use.
      */
-    public AnnouncerActor(Announcer tileable, Context context) {
+    public AnnouncerActor(Announcer tileable, ActorContext context) {
         super(tileable, context);
         this.sprites = context.getTextureAtlas().createSprites("announcer");
     }

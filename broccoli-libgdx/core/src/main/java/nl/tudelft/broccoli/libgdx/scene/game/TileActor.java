@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -39,7 +39,8 @@ import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.nexus.Nexus;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.Track;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
+import nl.tudelft.broccoli.libgdx.scene.game.receptor.ReceptorActor;
 
 /**
  * An {@link Actor} that represents a {@link Tile} on a {@link Grid}.
@@ -55,7 +56,7 @@ public class TileActor extends Group {
     /**
      * The game context of this actor.
      */
-    private final Context context;
+    private final ActorContext context;
 
     /**
      * The {@link TileableActor} for the {@link Tileable} of this tile.
@@ -68,7 +69,7 @@ public class TileActor extends Group {
      * @param tile The {@link Tile} to create the actor for.
      * @param context The game context to use.
      */
-    public TileActor(Tile tile, Context context) {
+    public TileActor(Tile tile, ActorContext context) {
         this.tile = tile;
         this.context = context;
         this.context.register(tile, this);

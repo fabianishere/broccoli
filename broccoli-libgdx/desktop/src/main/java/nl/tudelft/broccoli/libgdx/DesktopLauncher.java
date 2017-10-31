@@ -27,9 +27,11 @@ package nl.tudelft.broccoli.libgdx;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.config.ConfigurationLoader;
 import nl.tudelft.broccoli.lightbend.LightbendConfigurationLoader;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -72,14 +74,20 @@ public final class DesktopLauncher implements Runnable {
      */
     @Override
     public void run() {
-        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.title = "Broccoli";
-        config.width = 800;
-        config.height = 480;
-        config.resizable = false;
+        try (InputStream input = DesktopLauncher.class.getResourceAsStream("/reference.conf")) {
+            ConfigurationLoader loader = new LightbendConfigurationLoader();
+            Configuration configuration = loader.tryLoad(input);
 
-        InputStream input = DesktopLauncher.class.getResourceAsStream("/reference.conf");
-        ConfigurationLoader loader = new LightbendConfigurationLoader();
-        new LwjglApplication(new Broccoli(loader.tryLoad(input)), config);
+            LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+            config.title = configuration.get(Broccoli.WINDOW_TITLE);
+            config.width = configuration.get(Broccoli.WINDOW_WIDTH);
+            config.height = configuration.get(Broccoli.WINDOW_HEIGHT);
+            config.resizable = false;
+            config.forceExit = true;
+
+            new LwjglApplication(new Broccoli(configuration), config);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 }

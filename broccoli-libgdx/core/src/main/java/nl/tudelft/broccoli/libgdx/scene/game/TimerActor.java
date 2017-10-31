@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -31,7 +31,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.grid.Tileable;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
  * An {@link Actor} for a timer on the grid.
@@ -56,7 +56,7 @@ public class TimerActor extends TileableActor<TimerTile> {
      * @param tileable The tileable entity to create the actor for.
      * @param context  The game context to use.
      */
-    public TimerActor(TimerTile tileable, Context context) {
+    public TimerActor(TimerTile tileable, ActorContext context) {
         super(tileable, context);
 
         float delay = getTileable().getMaxTime() / 5.f;

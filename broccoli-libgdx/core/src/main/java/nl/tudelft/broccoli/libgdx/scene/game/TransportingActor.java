@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
@@ -39,7 +39,7 @@ import nl.tudelft.broccoli.core.grid.Tile;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.grid.TileableListener;
 import nl.tudelft.broccoli.core.track.Track;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
  * An {@link Actor} for a track on the grid.
@@ -77,7 +77,7 @@ public abstract class TransportingActor<T extends Tileable> extends TileableActo
      * @param tileable The tileable entity to create the actor for.
      * @param context  The game context of this actor.
      */
-    public TransportingActor(T tileable, Context context) {
+    public TransportingActor(T tileable, ActorContext context) {
         super(tileable, context);
         tileable.addListener(this);
         this.sprite = context.getTextureAtlas().createSprite("tile", getTileIndex());

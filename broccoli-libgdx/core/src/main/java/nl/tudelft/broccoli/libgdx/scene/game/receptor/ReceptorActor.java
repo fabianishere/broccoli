@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game.receptor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
@@ -44,10 +44,9 @@ import nl.tudelft.broccoli.core.powerup.PowerUp;
 import nl.tudelft.broccoli.core.powerup.bonus.BonusPowerUp;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.receptor.ReceptorListener;
-import nl.tudelft.broccoli.libgdx.Context;
-import nl.tudelft.broccoli.libgdx.strategy.BonusStrategy;
-import nl.tudelft.broccoli.libgdx.strategy.JokerStrategy;
-import nl.tudelft.broccoli.libgdx.strategy.PowerUpStrategy;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
+import nl.tudelft.broccoli.libgdx.scene.game.MarbleActor;
+import nl.tudelft.broccoli.libgdx.scene.game.TileableActor;
 
 import java.util.EnumMap;
 
@@ -132,7 +131,7 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
      * @param receptor The receptor this actor represents.
      * @param context The context of the actor.
      */
-    public ReceptorActor(Receptor receptor, Context context) {
+    public ReceptorActor(Receptor receptor, ActorContext context) {
         super(receptor, context);
 
         // Initialise sprites of the receptor.

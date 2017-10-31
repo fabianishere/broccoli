@@ -23,33 +23,21 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx;
+package nl.tudelft.broccoli.libgdx.scene;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import nl.tudelft.broccoli.core.Entity;
-import nl.tudelft.broccoli.core.config.Configuration;
-import nl.tudelft.broccoli.core.level.GameSession;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A context for the game scene.
+ * A context object that is shared between the actors of a scene.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class Context {
-    /**
-     * The game {@link Configuration}.
-     */
-    private final Configuration config;
-
-    /**
-     * The running {@link GameSession}.
-     */
-    private final GameSession session;
-
+public class ActorContext {
     /**
      * The {@link TextureAtlas} we get the sprites from.
      */
@@ -61,14 +49,11 @@ public class Context {
     private final Map<Entity, Actor> registry = new HashMap<>();
 
     /**
-     * Construct a {@link Context} instance.
+     * Construct a {@link ActorContext} instance.
      *
-     * @param config The configuration to use.
      * @param atlas The texture atlas to use.
      */
-    public Context(Configuration config, GameSession session, TextureAtlas atlas) {
-        this.config = config;
-        this.session = session;
+    public ActorContext(TextureAtlas atlas) {
         this.atlas = atlas;
     }
 
@@ -91,24 +76,6 @@ public class Context {
      */
     public void register(Entity entity, Actor actor) {
         registry.put(entity, actor);
-    }
-
-    /**
-     * Return the game configuration object.
-     *
-     * @return The game's configuration.
-     */
-    public Configuration getConfiguration() {
-        return config;
-    }
-
-    /**
-     * Return the running {@link GameSession} instance.
-     *
-     * @return The game session that is running.
-     */
-    public GameSession getSession() {
-        return session;
     }
 
     /**
