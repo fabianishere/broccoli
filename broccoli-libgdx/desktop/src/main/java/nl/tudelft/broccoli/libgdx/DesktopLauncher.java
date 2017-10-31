@@ -38,11 +38,25 @@ import java.io.InputStream;
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public final class DesktopLauncher {
+public final class DesktopLauncher implements Runnable {
+    /**
+     * The singleton instance of this class.
+     */
+    private static final DesktopLauncher INSTANCE = new DesktopLauncher();
+
     /**
      * Disallow instantiation of the {@link DesktopLauncher} class.
      */
     private DesktopLauncher() {}
+
+    /**
+     * Return the singleton instance of the {@link DesktopLauncher} class.
+     *
+     * @return An {@link DesktopLauncher} instance.
+     */
+    public static DesktopLauncher getInstance() {
+        return INSTANCE;
+    }
 
     /**
      * The main entry point of the program.
@@ -50,6 +64,14 @@ public final class DesktopLauncher {
      * @param args The command line arguments passed to this program.
      */
     public static void main(String[] args) {
+        getInstance().run();
+    }
+
+    /**
+     * Launch the desktop frontend of the Gudeballs game.
+     */
+    @Override
+    public void run() {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Broccoli";
         config.width = 800;

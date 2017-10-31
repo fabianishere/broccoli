@@ -18,7 +18,7 @@ public class DesktopLauncherTest {
         // it to your mother-in-law.
         // But it shows that the game runs and exits without crashing.
         assertThatCode(() -> {
-            DesktopLauncher.main(new String[] {});
+            DesktopLauncher.getInstance().run();
             // Wait two minutes into the game
             Thread.sleep(10000);
         }).doesNotThrowAnyException();
