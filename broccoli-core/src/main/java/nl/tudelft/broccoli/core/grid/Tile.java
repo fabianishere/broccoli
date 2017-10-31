@@ -84,18 +84,25 @@ public abstract class Tile implements Entity {
             throw new IllegalArgumentException();
         }
 
+        Tile result = null;
+
         switch (direction) {
             case TOP:
-                return grid.get(x, y + 1);
+                result = grid.get(x, y + 1);
+                break;
             case RIGHT:
-                return grid.get(x + 1, y);
+                result = grid.get(x + 1, y);
+                break;
             case BOTTOM:
-                return grid.get(x, y - 1);
+                result = grid.get(x, y - 1);
+                break;
             case LEFT:
-                return grid.get(x - 1, y);
+                result = grid.get(x - 1, y);
+                break;
             default:
-                throw new IllegalArgumentException("The specified direction is not supported");
         }
+
+        return result;
     }
 
     /**
