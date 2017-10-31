@@ -46,6 +46,15 @@ public class GameStage extends Stage {
     }
 
     /**
+     * Return the {@link ActorContext} of this stage.
+     *
+     * @return The context shared between actors.
+     */
+    public ActorContext getContext() {
+        return context;
+    }
+
+    /**
      * Initialise the {@link GameActor} that displays the actual game.
      */
     private Actor initGame() {

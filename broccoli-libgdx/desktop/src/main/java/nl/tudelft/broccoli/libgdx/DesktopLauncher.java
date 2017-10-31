@@ -83,7 +83,7 @@ public final class DesktopLauncher implements Runnable {
             config.width = configuration.get(Broccoli.WINDOW_WIDTH);
             config.height = configuration.get(Broccoli.WINDOW_HEIGHT);
             config.resizable = false;
-            config.forceExit = true;
+            config.forceExit = false;
 
             new LwjglApplication(new Broccoli(configuration), config);
         } catch (IOException exception) {
