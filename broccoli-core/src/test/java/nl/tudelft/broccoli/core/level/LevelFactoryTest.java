@@ -10,41 +10,57 @@ import org.junit.Test;
  *
  * @author Earth Grob (w.lauwapong@student.tudelft.nl)
  */
-public class LevelFactoryTest {
+public abstract class LevelFactoryTest {
     /**
      * The object under test.
      */
-    private LevelFactory factory;
+    protected LevelFactory factory;
+
+    /**
+     * Return the {@link LevelFactory} instance to test.
+     *
+     * @return The level factory to test.
+     */
+    protected abstract LevelFactory createFactory();
 
     /**
      * Set up the test suite.
      */
     @Before
     public void setUp() {
-        factory = new LevelFactory();
+        factory = createFactory();
     }
 
     /**
-     * Test whether creating a level with easy difficulty succeeds.
+     * Test whether we can get the first level.
      */
     @Test
-    public void getEasy() {
-        assertThat(factory.create(Difficulty.EASY)).isInstanceOf(EasyLevel.class);
+    public void getFirst() {
+        assertThat(factory.create(1)).isNotNull();
+    }
+
+
+    /**
+     * Test whether we can get the second level.
+     */
+    @Test
+    public void getSecond() {
+        assertThat(factory.create(2)).isNotNull();
     }
 
     /**
-     * Test whether creating a level with medium difficulty succeeds.
+     * Test whether we can get the third level.
      */
     @Test
-    public void getMedium() {
-        assertThat(factory.create(Difficulty.MEDIUM)).isInstanceOf(MediumLevel.class);
+    public void getThird() {
+        assertThat(factory.create(3)).isNotNull();
     }
 
     /**
-     * Test whether creating a level with hard difficulty succeeds.
+     * Test whether we cannot get the fourth level.
      */
     @Test
-    public void getHard() {
-        assertThat(factory.create(Difficulty.HARD)).isInstanceOf(HardLevel.class);
+    public void getFourth() {
+        assertThat(factory.create(4)).isNull();
     }
 }

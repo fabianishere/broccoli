@@ -33,7 +33,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import nl.tudelft.broccoli.core.level.Difficulty;
 import nl.tudelft.broccoli.core.level.GameSession;
 import nl.tudelft.broccoli.core.level.LevelFactory;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
@@ -62,7 +61,7 @@ public class StartScreen extends MenuScreen {
         Button easy = createButton("Easy", Color.CORAL);
         easy.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                GameSession session = factory.create(Difficulty.EASY)
+                GameSession session = factory.create(1)
                     .create(context.getConfiguration());
                 addAction(push(new GameScreen(context, session)));
             }
@@ -73,7 +72,7 @@ public class StartScreen extends MenuScreen {
         Button medium = createButton("Medium", Color.CORAL);
         medium.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                GameSession session = factory.create(Difficulty.MEDIUM)
+                GameSession session = factory.create(2)
                     .create(context.getConfiguration());
                 addAction(push(new GameScreen(context, session)));
             }
@@ -84,7 +83,7 @@ public class StartScreen extends MenuScreen {
         Button hard = createButton("Hard", Color.CORAL);
         hard.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                GameSession session = factory.create(Difficulty.HARD)
+                GameSession session = factory.create(3)
                     .create(context.getConfiguration());
                 addAction(push(new GameScreen(context, session)));
             }

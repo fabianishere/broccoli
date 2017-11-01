@@ -27,12 +27,14 @@ package nl.tudelft.broccoli.core.level;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import nl.tudelft.broccoli.core.level.medium.AbstractMediumLevel;
+import nl.tudelft.broccoli.core.level.medium.MediumLevelOne;
 import org.junit.Test;
 
 /**
- * Testing class that tests the {@link MediumLevel} class.
+ * Testing class that tests the {@link AbstractMediumLevel} class.
  */
-public class MediumLevelTest extends LevelTest {
+public class AbstractMediumLevelTest extends LevelTest {
     /**
      * Return the {@link Level} instance to test.
      *
@@ -40,15 +42,15 @@ public class MediumLevelTest extends LevelTest {
      */
     @Override
     public Level createLevel() {
-        return new MediumLevel();
+        return new MediumLevelOne();
     }
 
     /**
      * Test the difficulty of the level.
      */
     @Test
-    public void getDifficulty() {
-        assertThat(level.getDifficulty()).isEqualTo(Difficulty.MEDIUM);
+    public void getIndex() {
+        assertThat(level.getIndex()).isEqualTo(1);
     }
 }
 

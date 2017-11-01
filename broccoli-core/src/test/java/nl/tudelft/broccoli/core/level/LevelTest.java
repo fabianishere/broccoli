@@ -84,14 +84,6 @@ public abstract class LevelTest {
     }
 
     /**
-     * Test to see if getting the name of the level is simple.
-     */
-    @Test
-    public void getName() {
-        assertThat(level.getName()).isEqualTo("simple");
-    }
-
-    /**
      * Test that the game is linked to the level that created it.
      */
     @Test

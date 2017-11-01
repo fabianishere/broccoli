@@ -31,12 +31,19 @@ import nl.tudelft.broccoli.core.Empty;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
+import java.util.Random;
+
 /**
  * An {@link Actor} for an empty tile.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 public class EmptyActor extends TileableActor<Empty> {
+    /**
+     * The {@link Random} instance to determine the empty tile.
+     */
+    private static final Random RANDOM = new Random();
+
     /**
      * The texture for an empty tile.
      */
@@ -50,7 +57,7 @@ public class EmptyActor extends TileableActor<Empty> {
      */
     public EmptyActor(Empty tileable, ActorContext context) {
         super(tileable, context);
-        empty = context.getTextureAtlas().findRegion("tile", 0);
+        empty = context.getTextureAtlas().findRegion("tile", 16 * RANDOM.nextInt(6));
     }
 
     /**
