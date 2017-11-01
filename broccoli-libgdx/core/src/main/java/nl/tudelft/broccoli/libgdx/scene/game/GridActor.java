@@ -74,15 +74,6 @@ public class GridActor extends WidgetGroup {
     }
 
     /**
-     * Return the {@link Grid} of the actor.
-     *
-     * @return The grid of the actor.
-     */
-    public Grid getGrid() {
-        return grid;
-    }
-
-    /**
      * Draw the tile onto the screen.
      *
      * @param batch The batch to use.

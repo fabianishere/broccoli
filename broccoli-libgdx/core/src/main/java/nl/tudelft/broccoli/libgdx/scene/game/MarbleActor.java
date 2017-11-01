@@ -165,15 +165,6 @@ public class MarbleActor extends Actor {
     }
 
     /**
-     * Return the {@link Direction} in which the {@link Marble} is traveling.
-     *
-     * @return The direction in which the marble is traveling.
-     */
-    public Direction getDirection() {
-        return direction;
-    }
-
-    /**
      * Set the {@link Direction} in which the {@link Marble} is traveling.
      *
      * @param direction The direction in which the marble is traveling.
@@ -193,15 +184,6 @@ public class MarbleActor extends Actor {
                 break;
             default:
         }
-    }
-
-    /**
-     * Determine whether the {@link Marble} is moving over the scene.
-     *
-     * @return <code>true</code> if the marble is moving, otherwise <code>false</code>.
-     */
-    public boolean isMoving() {
-        return moving;
     }
 
     /**

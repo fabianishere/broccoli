@@ -157,12 +157,6 @@ public class NexusActor extends TransportingActor<Nexus> implements TileableList
     private Vector2 getOrigin(Direction direction) {
         Vector2 result;
         switch (direction) {
-            case TOP:
-                result = new Vector2(getWidth() / 2.f, getHeight());
-                break;
-            case BOTTOM:
-                result = new Vector2(getWidth() / 2.f, 0.f);
-                break;
             case LEFT:
                 result = new Vector2(0.f, getHeight() / 2.f);
                 break;
@@ -170,7 +164,9 @@ public class NexusActor extends TransportingActor<Nexus> implements TileableList
                 result = new Vector2(getWidth(), getHeight() / 2.f);
                 break;
             default:
-                result = new Vector2(0, 0);
+                // Nexus is a horizontal track, so it will never accept a ball from any other
+                // direction than those above.
+                throw new IllegalArgumentException();
         }
 
         return result;

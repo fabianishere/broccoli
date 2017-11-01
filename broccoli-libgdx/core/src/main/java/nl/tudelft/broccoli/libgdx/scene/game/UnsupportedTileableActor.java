@@ -50,7 +50,7 @@ public class UnsupportedTileableActor extends TileableActor<Tileable> {
      */
     public UnsupportedTileableActor(Tileable tileable, ActorContext context) {
         super(tileable, context);
-        sprite = context.getTextureAtlas().createSprite("tile/empty");
+        sprite = context.getTextureAtlas().createSprite("tile", 0);
     }
 
     /**

@@ -108,15 +108,6 @@ public class TileActor extends Group {
     }
 
     /**
-     * Return the {@link Tile} of this actor.
-     *
-     * @return The tile of this actor.
-     */
-    public Tile getTile() {
-        return tile;
-    }
-
-    /**
      * Convert a {@link Tile} instance to a {@link TileableActor}.
      *
      * @param tile The tile to convert.

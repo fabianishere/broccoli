@@ -81,9 +81,7 @@ public class TimerActor extends TileableActor<TimerTile> {
     @Override
     public Sprite getTileSprite() {
         int index = sprites.length - currentTextureId - 1;
-        if (index < 0) {
-            return sprites[0];
-        }
-        return sprites[index];
+
+        return sprites[Math.max(0, index)];
     }
 }
