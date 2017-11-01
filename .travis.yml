@@ -12,6 +12,6 @@ before_install:
 script:
   # We need to run this with sudo in order to reload the user groups
   - sudo -E su $USER -c './gradlew check'
-  - ./gradlew codeCoverageReport
 after_success:
+  - ./gradlew codeCoverageReport
   - bash <(curl -s https://codecov.io/bash) -t e3bd8270-37f8-496c-aee9-457ae61d88d1

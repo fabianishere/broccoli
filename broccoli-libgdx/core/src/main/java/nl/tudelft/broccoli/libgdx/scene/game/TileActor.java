@@ -49,11 +49,6 @@ import nl.tudelft.broccoli.libgdx.scene.game.receptor.ReceptorActor;
  */
 public class TileActor extends Group {
     /**
-     * The {@link Tile} of this actor.
-     */
-    private final Tile tile;
-
-    /**
      * The game context of this actor.
      */
     private final ActorContext context;
@@ -70,7 +65,6 @@ public class TileActor extends Group {
      * @param context The game context to use.
      */
     public TileActor(Tile tile, ActorContext context) {
-        this.tile = tile;
         this.context = context;
         this.context.register(tile, this);
         this.tileableActor = createActor(tile);
