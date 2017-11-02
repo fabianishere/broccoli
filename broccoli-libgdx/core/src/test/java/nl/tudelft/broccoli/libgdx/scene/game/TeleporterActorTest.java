@@ -158,7 +158,7 @@ public class TeleporterActorTest {
         latch = new CountDownLatch(2);
 
         Marble marble = new Marble(MarbleType.BLUE);
-        context.register(marble, new MarbleActor(marble, context));
+        context.register(marble, new RegularMarbleActor(marble, context));
         TileableListener listener = spy(new TileableListener() {
             @Override
             public void ballReleased(Tileable tileable, Direction direction, Marble marble) {
@@ -188,7 +188,7 @@ public class TeleporterActorTest {
         latch = new CountDownLatch(1);
 
         Marble marble = new Marble(MarbleType.BLUE);
-        context.register(marble, new MarbleActor(marble, context));
+        context.register(marble, new RegularMarbleActor(marble, context));
         TileableListener listener = mock(TileableListener.class);
         teleporter.getDestination().addListener(listener);
         app.postRunnable(() -> {

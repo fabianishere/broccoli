@@ -25,85 +25,39 @@
 
 package nl.tudelft.broccoli.libgdx.scene.game;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import nl.tudelft.broccoli.core.Marble;
+import nl.tudelft.broccoli.core.MarbleType;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
-
 
 /**
  * An {@link Actor} that represents an in-game marble.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
+ * @author Christian Slothouber (f.c.slothouber@student.tudelft.nl)
  */
-public class MarbleActor extends Actor {
+public abstract class MarbleActor extends Group {
     /**
-     * The travel time multiplier for travel speed over this track.
-     */
-    private static final float FRAME_DURATION = 0.08f;
-
-    /**
-     * The marble of this actor.
-     */
-    private Marble marble;
-
-    /**
-     * The game context of the actor.
-     */
-    private ActorContext context;
-
-    /**
-     * The horizontal animation for this marble.
-     */
-    private Animation<TextureRegion> horizontal;
-
-    /**
-     * The vertical animation for this marble.
-     */
-    private Animation<TextureRegion> vertical;
-
-    /**
-     * The animation time.
-     */
-    private float animationTime = 0.f;
-
-    /**
-     * The direction the marble is going.
-     */
-    private Direction direction;
-
-    /**
-     * A flag to indicate the marble is moving.
-     */
-    private boolean moving = true;
-
-    /**
-     * Construct a {@link MarbleActor} instance.
+     * Get the {@link MarbleActor} for the given {@link Marble} given the {@link ActorContext}.
      *
-     * @param marble The marble to create this actor for.
-     * @param context The context of the actor.
+     * @param marble The marble to get the actor for.
+     * @param context The context to use when creating the actor.
+     * @return The corresponding actor.
      */
-    public MarbleActor(Marble marble, ActorContext context) {
-        this.marble = marble;
-        this.context = context;
-        this.context.register(marble, this);
-        this.horizontal = new Animation<>(FRAME_DURATION,
-            context.getTextureAtlas().findRegions("marbles/"
-                + marble.getType().name().toLowerCase() + "/horizontal"), Animation.PlayMode.LOOP);
-        this.vertical = new Animation<>(FRAME_DURATION,
-            context.getTextureAtlas().findRegions("marbles/"
-                + marble.getType().name().toLowerCase() + "/vertical"), Animation.PlayMode.LOOP);
+    public static MarbleActor get(Marble marble, ActorContext context) {
+        MarbleActor registry = (MarbleActor) context.actor(marble);
 
-        TextureRegion region = horizontal.getKeyFrame(0);
-        this.setUserObject(marble);
-        this.setSize(region.getRegionWidth(), region.getRegionHeight());
-        this.setOrigin(Align.center);
-        this.setDirection(Direction.LEFT);
+        if (registry == null) {
+            if (MarbleType.JOKER.equals(marble.getType())) {
+                registry = new JokerMarbleActor(marble, context);
+            } else {
+                registry = new RegularMarbleActor(marble, context);
+
+            }
+        }
+        return registry;
     }
 
     /**
@@ -111,87 +65,19 @@ public class MarbleActor extends Actor {
      *
      * @return The marble of this actor.
      */
-    public Marble getMarble() {
-        return marble;
-    }
-
-    /**
-     * Draw the tile onto the screen.
-     *
-     * @param batch The batch to use.
-     * @param parentAlpha The alpha of the parent.
-     */
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        Color color = getColor();
-        TextureRegion region = getAnimation().getKeyFrame(animationTime);
-        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-        batch.draw(region, getX(), getY(), getOriginX(), getOriginY(), getWidth(),
-            getHeight(), getScaleX(), getScaleY(), getRotation());
-        super.draw(batch, parentAlpha);
-    }
-
-    /**
-     * Act on the scene updates.
-     *
-     * @param deltaTime The time delta.
-     */
-    @Override
-    public void act(float deltaTime) {
-        super.act(deltaTime);
-
-        if (!moving) {
-            return;
-        }
-        animationTime += deltaTime;
-    }
-
-    /**
-     * Return the {@link Animation} to use for the drawing.
-     *
-     * @return The animation to use.
-     */
-    private Animation<TextureRegion> getAnimation() {
-        switch (direction) {
-            case LEFT:
-            case RIGHT:
-                return horizontal;
-            case TOP:
-            case BOTTOM:
-                return vertical;
-            default:
-                return horizontal;
-        }
-    }
+    public abstract Marble getMarble();
 
     /**
      * Set the {@link Direction} in which the {@link Marble} is traveling.
      *
      * @param direction The direction in which the marble is traveling.
      */
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-
-        Animation<TextureRegion> animation = getAnimation();
-        switch (direction) {
-            case LEFT:
-            case BOTTOM:
-                animation.setPlayMode(Animation.PlayMode.LOOP_REVERSED);
-                break;
-            case RIGHT:
-            case TOP:
-                animation.setPlayMode(Animation.PlayMode.LOOP);
-                break;
-            default:
-        }
-    }
+    public abstract void setDirection(Direction direction);
 
     /**
      * Set the flag whether the {@link Marble} is moving or not.
      *
      * @param moving A flag indicate the moving of the marble.
      */
-    public void setMoving(boolean moving) {
-        this.moving = moving;
-    }
+    public abstract void setMoving(boolean moving);
 }

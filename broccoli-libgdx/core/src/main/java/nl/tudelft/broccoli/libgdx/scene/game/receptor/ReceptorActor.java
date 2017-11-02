@@ -33,6 +33,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -300,20 +301,21 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
     @Override
     public void ballAccepted(Tileable tileable, Direction direction, Marble marble) {
         // Get the actor for the marble or create a new one if one does not exist yet.
-        MarbleActor registry = (MarbleActor) getContext().actor(marble);
-        MarbleActor actor = registry != null ? registry : new MarbleActor(marble, getContext());
+        MarbleActor actor = MarbleActor.get(marble, getContext());
 
         Vector2 target = getTarget(direction);
         Vector2 origin = getOrigin(actor);
 
-        actor.addAction(Actions.sequence(
+        Action animation = Actions.sequence(
             Actions.moveToAligned(target.x, target.y, Align.center, target.dst(origin)
                 * TRAVEL_TIME),
             Actions.run(() -> actor.setMoving(false))
-        ));
+        );
+
+        actor.addAction(animation);
         actor.setPosition(origin.x, origin.y, Align.center);
         actor.rotateBy(-getRotation());
-        actor.addListener(getInputHandler(actor, direction));
+        actor.addListener(getInputHandler(actor, direction, animation));
 
         addActor(actor);
         DOCK.play();
@@ -345,9 +347,10 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
      *
      * @param actor The marble actor to create the input handler for.
      * @param direction The direction the marble is coming from.
+     * @param action The animation action to cancel.
      * @return The input handler of the marble actor.
      */
-    private InputListener getInputHandler(MarbleActor actor, Direction direction) {
+    private InputListener getInputHandler(MarbleActor actor, Direction direction, Action action) {
         Receptor receptor = getTileable();
         Receptor.Slot slot = receptor.getSlot(direction);
         return new InputListener() {
@@ -357,7 +360,7 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
                 Vector2 pos = positions.get(out.rotate(-receptor.getRotation())).cpy();
 
                 if (receptor.isReleasable(out, actor.getMarble())) {
-                    actor.clearActions();
+                    actor.removeAction(action);
                     actor.removeListener(this);
                     actor.setDirection(out);
                     actor.setPosition(pos.x, pos.y, Align.center);

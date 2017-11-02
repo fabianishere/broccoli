@@ -30,6 +30,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
@@ -108,42 +109,42 @@ public class NexusActor extends TransportingActor<Nexus> implements TileableList
     @Override
     public void ballAccepted(Tileable tileable, Direction direction, Marble marble) {
         // Get the actor for the marble or create a new one if one does not exist yet.
-        MarbleActor registry = (MarbleActor) getContext().actor(marble);
-        MarbleActor actor = registry != null ? registry : new MarbleActor(marble, getContext());
+        MarbleActor actor = MarbleActor.get(marble, getContext());
         addActor(actor);
 
         Nexus nexus = getTileable();
         Vector2 origin = getOrigin(direction);
         Vector2 center = getCenter();
         Vector2 target = getTarget(direction);
+        actor.setPosition(origin.x, origin.y, Align.center);
+        actor.setDirection(direction.inverse());
+
         Action moveCenter = Actions.moveToAligned(center.x, center.y, Align.center,
             origin.dst(center) * TRAVEL_TIME);
         Action moveTarget = Actions.moveToAligned(target.x, target.y, Align.center,
             target.dst(center) * TRAVEL_TIME);
-        actor.setPosition(origin.x, origin.y, Align.center);
-        actor.setDirection(direction.inverse());
-        actor.addAction(Actions.sequence(
-            moveCenter,
-            Actions.run(() -> {
-                Direction out = Direction.BOTTOM;
-                if (nexus.isReleasable(out, marble)) {
-                    actor.clearActions();
-                    actor.setDirection(out);
-                    nexus.release(out, marble);
-                    nexus.getContext().setOccupied(false);
-                }
-            }),
-            moveTarget,
-            Actions.run(() -> {
-                Direction inverse = direction.inverse();
-                if (!nexus.isReleasable(inverse, marble)) {
-                    ballAccepted(tileable, inverse, marble);
-                    return;
-                }
 
-                nexus.release(inverse, marble);
-            })
-        ));
+        SequenceAction animation = new SequenceAction();
+        animation.addAction(moveCenter);
+        animation.addAction(Actions.run(() -> {
+            Direction out = Direction.BOTTOM;
+            if (nexus.isReleasable(out, marble)) {
+                actor.removeAction(animation);
+                actor.setDirection(out);
+                nexus.release(out, marble);
+                nexus.getContext().setOccupied(false);
+            }
+        }));
+        animation.addAction(moveTarget);
+        animation.addAction(Actions.run(() -> {
+            Direction inverse = direction.inverse();
+            if (!nexus.isReleasable(inverse, marble)) {
+                ballAccepted(tileable, inverse, marble);
+                return;
+            }
+            nexus.release(inverse, marble);
+        }));
+        actor.addAction(animation);
     }
 
     /**

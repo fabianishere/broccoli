@@ -30,7 +30,7 @@ import nl.tudelft.broccoli.core.powerup.joker.JokerPowerUp;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
-import nl.tudelft.broccoli.libgdx.scene.game.MarbleActor;
+import nl.tudelft.broccoli.libgdx.scene.game.RegularMarbleActor;
 import nl.tudelft.broccoli.libgdx.scene.ui.screen.GameScreen;
 import org.junit.After;
 import org.junit.Before;
@@ -192,7 +192,7 @@ public class ReceptorActorTest {
 
         // Place marble in receptor
         app.postRunnable(() -> {
-            new MarbleActor(marble, context);
+            new RegularMarbleActor(marble, context);
             receptor.accept(Direction.LEFT, marble);
             latch.countDown();
         });
@@ -228,7 +228,7 @@ public class ReceptorActorTest {
 
         // Place marble in receptor
         app.postRunnable(() -> {
-            new MarbleActor(marble, context);
+            new RegularMarbleActor(marble, context);
             receptor.accept(Direction.RIGHT, marble);
             latch.countDown();
         });

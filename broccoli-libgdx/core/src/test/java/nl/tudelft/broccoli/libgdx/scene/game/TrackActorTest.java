@@ -11,6 +11,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -151,7 +152,7 @@ public class TrackActorTest {
         latch = new CountDownLatch(2);
 
         Marble marble = new Marble(MarbleType.BLUE);
-        context.register(marble, new MarbleActor(marble, context));
+        context.register(marble, new RegularMarbleActor(marble, context));
 
         OneWayTrack track = (OneWayTrack) grid.get(1, 0).getTileable();
         TrackActor actor = (TrackActor) context.actor(track);
@@ -179,6 +180,46 @@ public class TrackActorTest {
     }
 
     /**
+     * Test whether a joker ball passes through the filter track.
+     */
+    @Test
+    public void testFilterJoker() throws Exception {
+        // Wait until the actor becomes available.
+        assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
+        latch = new CountDownLatch(2);
+
+        Marble marble = new Marble(MarbleType.JOKER);
+        JokerMarbleActor jokerActor = new JokerMarbleActor(marble, context);
+        jokerActor.addActor(new Actor());
+        context.register(marble, jokerActor);
+
+        FilterTrack track = (FilterTrack) grid.get(0, 1).getTileable();
+        TrackActor actor = (TrackActor) context.actor(track);
+        Direction direction = Direction.TOP;
+        TileableListener listener = spy(new TileableListener() {
+            @Override
+            public void ballReleased(Tileable tileable, Direction direction, Marble marble) {
+                latch.countDown();
+            }
+        });
+        track.addListener(listener);
+        app.postRunnable(() -> {
+            actor.addActor(context.actor(marble));
+            track.accept(direction, marble);
+            latch.countDown();
+        });
+
+        // Wait for the ball to be spawned.
+        assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
+
+        // Wait for the events to be processed
+        Thread.sleep(200);
+
+        verify(listener, atLeastOnce()).ballAccepted(any(), eq(direction), any());
+        verify(listener, atLeastOnce()).ballReleased(any(), eq(direction.inverse()), any());
+    }
+
+    /**
      * Test whether a ball bounces from a one directional track.
      */
     @Test
@@ -188,7 +229,7 @@ public class TrackActorTest {
         latch = new CountDownLatch(1);
 
         Marble marble = new Marble(MarbleType.GREEN);
-        context.register(marble, new MarbleActor(marble, context));
+        context.register(marble, new RegularMarbleActor(marble, context));
 
         FilterTrack track = (FilterTrack) grid.get(0, 1).getTileable();
         TrackActor actor = (TrackActor) context.actor(track);
@@ -220,7 +261,7 @@ public class TrackActorTest {
         latch = new CountDownLatch(2);
 
         Marble marble = new Marble(MarbleType.GREEN);
-        context.register(marble, new MarbleActor(marble, context));
+        context.register(marble, new RegularMarbleActor(marble, context));
 
         FilterTrack track = (FilterTrack) grid.get(0, 1).getTileable();
         TrackActor actor = (TrackActor) context.actor(track);
