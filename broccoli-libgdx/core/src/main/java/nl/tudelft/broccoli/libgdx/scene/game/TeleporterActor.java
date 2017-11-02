@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -37,7 +37,7 @@ import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.grid.TileableListener;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import nl.tudelft.broccoli.core.track.Track;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
  * An {@link Actor} for a track on the grid.
@@ -51,7 +51,7 @@ public class TeleporterActor extends TransportingActor<Teleporter> implements Ti
      * @param teleporter The teleporter entity to create the actor for.
      * @param context  The game context of this actor.
      */
-    public TeleporterActor(Teleporter teleporter, Context context) {
+    public TeleporterActor(Teleporter teleporter, ActorContext context) {
         super(teleporter, context);
     }
 

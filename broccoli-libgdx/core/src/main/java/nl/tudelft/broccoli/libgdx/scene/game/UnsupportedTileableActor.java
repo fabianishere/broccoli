@@ -23,13 +23,13 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.grid.Tileable;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
  * An {@link Actor} for unsupported {@link Tileable}s on a {@link Grid}.
@@ -48,9 +48,9 @@ public class UnsupportedTileableActor extends TileableActor<Tileable> {
      * @param tileable The tileable entity to create the actor for.
      * @param context  The game context of this actor.
      */
-    public UnsupportedTileableActor(Tileable tileable, Context context) {
+    public UnsupportedTileableActor(Tileable tileable, ActorContext context) {
         super(tileable, context);
-        sprite = context.getTextureAtlas().createSprite("tile/empty");
+        sprite = context.getTextureAtlas().createSprite("tile", 0);
     }
 
     /**
@@ -59,7 +59,7 @@ public class UnsupportedTileableActor extends TileableActor<Tileable> {
      * @return The tile sprite.
      */
     @Override
-    public Sprite getTileSprite() {
+    public Sprite getTileTexture() {
         return sprite;
     }
 }

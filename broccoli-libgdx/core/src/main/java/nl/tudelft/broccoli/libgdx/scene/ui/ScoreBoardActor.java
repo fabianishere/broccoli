@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.ui;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -32,7 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import nl.tudelft.broccoli.core.level.Progress;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
  * This {@link Actor} represents an in-game score board.
@@ -69,10 +69,11 @@ public class ScoreBoardActor extends Table {
     /**
      * Constructs a {@link ScoreBoardActor}.
      *
-     * @param context The {@link Context} of the current game.
+     * @param context The actor context.
+     * @param progress The progress to track.
      */
-    public ScoreBoardActor(Context context) {
-        this.progress = context.getSession().getProgress();
+    public ScoreBoardActor(ActorContext context, Progress progress) {
+        this.progress = progress;
 
         // Cache the digit textures
         for (int i = 0; i < digits.length; i++) {

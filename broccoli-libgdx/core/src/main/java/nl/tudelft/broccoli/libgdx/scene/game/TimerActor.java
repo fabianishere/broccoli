@@ -23,15 +23,16 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.utils.Array;
 import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.grid.Tileable;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
  * An {@link Actor} for a timer on the grid.
@@ -39,11 +40,10 @@ import nl.tudelft.broccoli.libgdx.Context;
  * @author Christian Slothouber (f.c.slothouber@student.tudelft.nl)
  */
 public class TimerActor extends TileableActor<TimerTile> {
-
     /**
-     * The possible sprites of the timer.
+     * The possible textures of the timer.
      */
-    private Sprite[] sprites = new Sprite[5];
+    private final Array<? extends TextureRegion> textures;
 
     /**
      * The index of the sprite currently shown.
@@ -56,7 +56,7 @@ public class TimerActor extends TileableActor<TimerTile> {
      * @param tileable The tileable entity to create the actor for.
      * @param context  The game context to use.
      */
-    public TimerActor(TimerTile tileable, Context context) {
+    public TimerActor(TimerTile tileable, ActorContext context) {
         super(tileable, context);
 
         float delay = getTileable().getMaxTime() / 5.f;
@@ -68,22 +68,17 @@ public class TimerActor extends TileableActor<TimerTile> {
             Actions.run(() -> Gdx.app.exit())
         ));
 
-        for (int i = 0; i < sprites.length; i++) {
-            sprites[i] = context.getTextureAtlas().createSprite("counter", i);
-        }
+        textures = context.getTextureAtlas().findRegions("counter");
     }
 
     /**
-     * Return the tile {@link Sprite} for this {@link Tileable}.
+     * Return the tile {@link TextureRegion} for this {@link Tileable}.
      *
-     * @return The tile sprite.
+     * @return The tile texture.
      */
     @Override
-    public Sprite getTileSprite() {
-        int index = sprites.length - currentTextureId - 1;
-        if (index < 0) {
-            return sprites[0];
-        }
-        return sprites[index];
+    public TextureRegion getTileTexture() {
+        int index = textures.size - currentTextureId - 1;
+        return textures.get(Math.max(0, index));
     }
 }

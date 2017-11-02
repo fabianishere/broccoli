@@ -48,8 +48,15 @@ dependencies {
 
 	testCompile 'junit:junit:4.12'
 	testCompile 'org.assertj:assertj-core:3.8.0'
-	testCompile "com.badlogicgames.gdx:gdx-backend-headless:1.9.6"
 	testCompile "org.mockito:mockito-core:1.+"
+	testCompile 'com.google.code.findbugs:annotations:3.0.0'
+	testCompile "com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.6"
+	testCompile "com.badlogicgames.gdx:gdx-platform:1.9.6:natives-desktop"
+}
+
+tasks.withType(Test) {
+	// We force Gradle to run all tests synchronously, in order to be able to test the LWJGL frontend.
+	maxParallelForks = 1
 }
 
 // An array containing the input directory of the packer,

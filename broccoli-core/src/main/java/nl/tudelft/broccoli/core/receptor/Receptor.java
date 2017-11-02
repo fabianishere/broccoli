@@ -150,7 +150,6 @@ public class Receptor extends Tileable {
         // Add the scored points to the progress of the game.
         getTile().getGrid().getSession().getProgress().score(multiplier);
 
-
         for (Slot slot : slots) {
             slot.dispose();
         }

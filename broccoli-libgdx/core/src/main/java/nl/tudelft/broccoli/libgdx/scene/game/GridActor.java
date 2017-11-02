@@ -23,12 +23,11 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import nl.tudelft.broccoli.core.Announcer;
 import nl.tudelft.broccoli.core.Empty;
 import nl.tudelft.broccoli.core.Teleporter;
@@ -39,80 +38,57 @@ import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.core.nexus.Nexus;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.Track;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
+import nl.tudelft.broccoli.libgdx.scene.game.receptor.ReceptorActor;
 
 /**
- * An {@link Actor} that represents a {@link Tile} on a {@link Grid}.
+ * An {@link Actor} node in the 2d scene which represents an in-game grid.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class TileActor extends Group {
+public class GridActor extends Stack {
     /**
-     * The {@link Tile} of this actor.
+     * The {@link Table} we use to draw the grid.
      */
-    private final Tile tile;
+    private final Table tiles;
 
     /**
-     * The game context of this actor.
+     * The {@link Table} we use to draw the tileables.
      */
-    private final Context context;
+    private final Table tileables;
 
     /**
-     * The {@link TileableActor} for the {@link Tileable} of this tile.
-     */
-    private TileableActor<?> tileableActor;
-
-    /**
-     * Construct a {@link TileActor}.
+     * Construct a {@link GridActor} instance.
      *
-     * @param tile The {@link Tile} to create the actor for.
-     * @param context The game context to use.
+     * @param context The actor context to use.
+     * @param grid The grid to display.
      */
-    public TileActor(Tile tile, Context context) {
-        this.tile = tile;
-        this.context = context;
-        this.context.register(tile, this);
-        this.tileableActor = createActor(tile);
-        this.addActor(tileableActor);
-        this.setUserObject(tile);
+    public GridActor(ActorContext context, Grid grid) {
+        this.setUserObject(grid);
+        context.register(grid, this);
 
-        Sprite sprite = tileableActor.getTileSprite();
-        setSize(sprite.getWidth(), sprite.getHeight());
-    }
+        this.tiles = new Table();
+        this.tiles.setFillParent(true);
+        this.add(tiles);
 
-    /**
-     * Draw the contents of the tile onto the screen.
-     *
-     * @param batch the batch to use.
-     * @param parentAlpha The alpha of the parent.
-     */
-    public void drawTileable(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-    }
+        this.tileables = new Table();
+        this.tileables.setFillParent(true);
+        this.add(tileables);
 
-    /**
-     * Draw only the tile onto the screen.
-     *
-     * @param batch The batch to use.
-     * @param parentAlpha The alpha of the parent.
-     */
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        Sprite tile = tileableActor.getTileSprite();
-        tile.setScale(getScaleX(), getScaleY());
-        tile.setOrigin(getOriginX(), getOriginY());
-        tile.setRotation(getRotation());
-        tile.setPosition(getX(), getY());
-        tile.draw(batch);
-    }
-
-    /**
-     * Return the {@link Tile} of this actor.
-     *
-     * @return The tile of this actor.
-     */
-    public Tile getTile() {
-        return tile;
+        for (int j = grid.getHeight() - 1; j >= 0; j--) {
+            for (int i = 0; i < grid.getWidth(); i++) {
+                Tile tile = grid.get(i, j);
+                TileableActor<?> tileableActor = createTileable(tile, context);
+                TileActor tileActor = new TileActor(tile, context);
+                tiles.add(tileActor).fill();
+                tileables.add(tileableActor)
+                    .width(tileActor.getWidth())
+                    .height(tileActor.getHeight());
+            }
+            tiles.row();
+            tileables.row();
+        }
+        this.setDebug(true, true);
     }
 
     /**
@@ -121,7 +97,7 @@ public class TileActor extends Group {
      * @param tile The tile to convert.
      * @return The {@link TileableActor} for the tile.
      */
-    private TileableActor<?> createActor(Tile tile) {
+    private TileableActor<?> createTileable(Tile tile, ActorContext context) {
         Tileable tileable = tile.getTileable();
         final TileableActor<?> result;
 

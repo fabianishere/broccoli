@@ -23,85 +23,51 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.grid.Tile;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
- * An {@link Actor} node in the 2d scene which represents an in-game grid.
+ * An {@link Actor} that represents a {@link Tile} on a {@link Grid}.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class GridActor extends WidgetGroup {
+public class TileActor extends Actor {
     /**
-     * The grid to draw.
+     * The {@link TileableActor} of the tile.
      */
-    private Grid grid;
+    private final TileableActor<?> tileableActor;
 
     /**
-     * The game context to use.
-     */
-    private Context context;
-
-    /**
-     * The {@link Table} we use to draw the grid.
-     */
-    private Table table;
-
-    /**
-     * Construct a {@link GridActor} instance.
+     * Construct a {@link TileActor}.
      *
+     * @param tile The {@link Tile} to create the actor for.
      * @param context The game context to use.
      */
-    public GridActor(Context context) {
-        this.grid = context.getSession().getGrid();
-        this.context = context;
-        this.context.register(grid, this);
-        this.setUserObject(grid);
+    public TileActor(Tile tile, ActorContext context) {
+        context.register(tile, this);
+        this.setUserObject(tile);
+        this.tileableActor = (TileableActor<?>) context.actor(tile.getTileable());
 
-        this.table = new Table();
-        this.table.setFillParent(true);
-        this.addActor(table);
-
-        for (int j = grid.getHeight() - 1; j >= 0; j--) {
-            for (int i = 0; i < grid.getWidth(); i++) {
-                Tile tile = grid.get(i, j);
-                table.add(new TileActor(tile, context));
-            }
-            table.row();
-        }
+        TextureRegion region = tileableActor.getTileTexture();
+        this.setSize(region.getRegionWidth(), region.getRegionHeight());
     }
 
     /**
-     * Return the {@link Grid} of the actor.
-     *
-     * @return The grid of the actor.
-     */
-    public Grid getGrid() {
-        return grid;
-    }
-
-    /**
-     * Draw the tile onto the screen.
+     * Draw only the tile onto the screen.
      *
      * @param batch The batch to use.
      * @param parentAlpha The alpha of the parent.
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-
-        // Hack to draw contents of tiles after the tiles themselves
-        // This allows the content of tiles (including the marbles) to overflow into new tiles.
-        for (Actor actor : table.getChildren()) {
-            TileActor tile = (TileActor) actor;
-            tile.drawTileable(batch, parentAlpha);
-        }
+        TextureRegion region = tileableActor.getTileTexture();
+        batch.draw(region, getX(), getY(), getOriginX(), getOriginY(), getWidth(),
+            getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 }

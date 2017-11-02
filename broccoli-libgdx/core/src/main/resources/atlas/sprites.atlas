@@ -304,6 +304,13 @@ marbles/joker/horizontal
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
+  index: 3
+marbles/joker/horizontal
+  rotate: false
+  xy: 950, 929
+  size: 43, 43
+  orig: 43, 43
+  offset: 0, 0
   index: 1
 marbles/joker/horizontal
   rotate: false
@@ -311,14 +318,14 @@ marbles/joker/horizontal
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
-  index: 2
+  index: 5
 marbles/joker/horizontal
   rotate: false
   xy: 950, 929
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
-  index: 3
+  index: 2
 marbles/joker/horizontal
   rotate: false
   xy: 950, 929
@@ -326,41 +333,6 @@ marbles/joker/horizontal
   orig: 43, 43
   offset: 0, 0
   index: 4
-marbles/joker/horizontal
-  rotate: false
-  xy: 950, 929
-  size: 43, 43
-  orig: 43, 43
-  offset: 0, 0
-  index: 5
-marbles/joker/vertical
-  rotate: false
-  xy: 950, 929
-  size: 43, 43
-  orig: 43, 43
-  offset: 0, 0
-  index: 3
-marbles/joker/vertical
-  rotate: false
-  xy: 950, 929
-  size: 43, 43
-  orig: 43, 43
-  offset: 0, 0
-  index: 1
-marbles/joker/vertical
-  rotate: false
-  xy: 950, 929
-  size: 43, 43
-  orig: 43, 43
-  offset: 0, 0
-  index: 5
-marbles/joker/vertical
-  rotate: false
-  xy: 950, 929
-  size: 43, 43
-  orig: 43, 43
-  offset: 0, 0
-  index: 2
 marbles/joker/vertical
   rotate: false
   xy: 950, 929
@@ -374,7 +346,35 @@ marbles/joker/vertical
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
+  index: 1
+marbles/joker/vertical
+  rotate: false
+  xy: 950, 929
+  size: 43, 43
+  orig: 43, 43
+  offset: 0, 0
+  index: 3
+marbles/joker/vertical
+  rotate: false
+  xy: 950, 929
+  size: 43, 43
+  orig: 43, 43
+  offset: 0, 0
+  index: 2
+marbles/joker/vertical
+  rotate: false
+  xy: 950, 929
+  size: 43, 43
+  orig: 43, 43
+  offset: 0, 0
   index: 4
+marbles/joker/vertical
+  rotate: false
+  xy: 950, 929
+  size: 43, 43
+  orig: 43, 43
+  offset: 0, 0
+  index: 5
 marbles/pink/horizontal
   rotate: false
   xy: 47, 5

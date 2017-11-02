@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -36,7 +36,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
  * An actor in the scene for a pause overlay.
@@ -54,7 +54,7 @@ public class PauseActor extends Table {
      *
      * @param context The game context.
      */
-    public PauseActor(Context context) {
+    public PauseActor(ActorContext context) {
         this.setFillParent(true);
         this.setBackground(new TextureRegionDrawable(context.getTextureAtlas()
             .findRegion("pauseOverlay")));

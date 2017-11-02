@@ -2,6 +2,8 @@ package nl.tudelft.broccoli.libgdx;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import org.junit.Test;
 
 /**
@@ -21,6 +23,8 @@ public class DesktopLauncherTest {
             DesktopLauncher.main(new String[] {});
             // Wait two minutes into the game
             Thread.sleep(10000);
+            // Stop the application
+            ((LwjglApplication) Gdx.app).stop();
         }).doesNotThrowAnyException();
     }
 }

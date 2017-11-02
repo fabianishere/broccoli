@@ -140,6 +140,17 @@ public class SpawningNexusTest {
     }
 
     /**
+     * Test if the add method successfully introduces a new marble type into the queue.
+     */
+    @Test
+    public void add() {
+        when(random.nextDouble()).thenReturn(0.0);
+        context.add(MarbleType.JOKER);
+        context.poll();
+        assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.JOKER);
+    }
+
+    /**
      * Test if the class correctly returns the direction at which the balls are spawned.
      */
     @Test

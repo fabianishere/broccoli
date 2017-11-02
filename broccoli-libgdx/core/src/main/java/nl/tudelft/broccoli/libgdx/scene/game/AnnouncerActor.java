@@ -1,10 +1,10 @@
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import nl.tudelft.broccoli.core.Announcer;
 import nl.tudelft.broccoli.core.grid.Tileable;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
  * An actor for the {@link Announcer} tile that announces the next marble to be spawned.
@@ -13,9 +13,9 @@ import nl.tudelft.broccoli.libgdx.Context;
  */
 public class AnnouncerActor extends TileableActor<Announcer> {
     /**
-     * The {@link Sprite} array containing the announcer sprites.
+     * The {@link TextureRegion} array containing the announcer sprites.
      */
-    private Array<Sprite> sprites;
+    private Array<? extends TextureRegion> sprites;
 
     /**
      * The index of in the sprite array.
@@ -28,18 +28,18 @@ public class AnnouncerActor extends TileableActor<Announcer> {
      * @param tileable The tileable entity to create the actor for.
      * @param context  The game context to use.
      */
-    public AnnouncerActor(Announcer tileable, Context context) {
+    public AnnouncerActor(Announcer tileable, ActorContext context) {
         super(tileable, context);
-        this.sprites = context.getTextureAtlas().createSprites("announcer");
+        this.sprites = context.getTextureAtlas().findRegions("announcer");
     }
 
     /**
-     * Return the tile {@link Sprite} for this {@link Tileable}.
+     * Return the tile {@link TextureRegion} for this {@link Tileable}.
      *
-     * @return The tile sprite.
+     * @return The tile texture.
      */
     @Override
-    public Sprite getTileSprite() {
+    public TextureRegion getTileTexture() {
         return sprites.get(index);
     }
 

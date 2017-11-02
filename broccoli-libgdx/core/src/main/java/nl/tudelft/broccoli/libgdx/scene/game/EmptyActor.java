@@ -23,13 +23,13 @@
  * THE SOFTWARE.
  */
 
-package nl.tudelft.broccoli.libgdx.scene;
+package nl.tudelft.broccoli.libgdx.scene.game;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import nl.tudelft.broccoli.core.Empty;
 import nl.tudelft.broccoli.core.grid.Tileable;
-import nl.tudelft.broccoli.libgdx.Context;
+import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
  * An {@link Actor} for an empty tile.
@@ -38,9 +38,9 @@ import nl.tudelft.broccoli.libgdx.Context;
  */
 public class EmptyActor extends TileableActor<Empty> {
     /**
-     * The sprite for an empty tile.
+     * The texture for an empty tile.
      */
-    private final Sprite empty;
+    private final TextureRegion empty;
 
     /**
      * Construct a {@link TileableActor} instance.
@@ -48,18 +48,18 @@ public class EmptyActor extends TileableActor<Empty> {
      * @param tileable The tileable entity to create the actor for.
      * @param context The game context of this actor.
      */
-    public EmptyActor(Empty tileable, Context context) {
+    public EmptyActor(Empty tileable, ActorContext context) {
         super(tileable, context);
-        empty = context.getTextureAtlas().createSprite("tile", 0);
+        empty = context.getTextureAtlas().findRegion("tile", 0);
     }
 
     /**
-     * Return the tile {@link Sprite} for this {@link Tileable}.
+     * Return the tile {@link TextureRegion} for this {@link Tileable}.
      *
-     * @return The tile sprite.
+     * @return The tile texture.
      */
     @Override
-    public Sprite getTileSprite() {
+    public TextureRegion getTileTexture() {
         return empty;
     }
 

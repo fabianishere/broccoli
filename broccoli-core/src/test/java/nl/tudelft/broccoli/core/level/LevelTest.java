@@ -33,8 +33,8 @@ import static org.mockito.Mockito.when;
 import nl.tudelft.broccoli.core.MarbleType;
 import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.config.Property;
-import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.nexus.SpawningNexus;
+import nl.tudelft.broccoli.core.powerup.PowerUpFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -148,5 +148,15 @@ public abstract class LevelTest {
     public void getProgress() {
         GameSession session = level.create(config);
         assertThat(session.getProgress()).isNotNull();
+    }
+
+
+    /**
+     * Test that the game session contains a {@link PowerUpFactory}.
+     */
+    @Test
+    public void getPowerUpFactory() {
+        GameSession session = level.create(config);
+        assertThat(session.getPowerUpFactory()).isNotNull();
     }
 }

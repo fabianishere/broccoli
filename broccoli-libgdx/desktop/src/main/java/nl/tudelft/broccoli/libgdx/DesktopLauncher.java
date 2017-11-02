@@ -27,9 +27,11 @@ package nl.tudelft.broccoli.libgdx;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.config.ConfigurationLoader;
 import nl.tudelft.broccoli.lightbend.LightbendConfigurationLoader;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -38,11 +40,25 @@ import java.io.InputStream;
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public final class DesktopLauncher {
+public final class DesktopLauncher implements Runnable {
+    /**
+     * The singleton instance of this class.
+     */
+    private static final DesktopLauncher INSTANCE = new DesktopLauncher();
+
     /**
      * Disallow instantiation of the {@link DesktopLauncher} class.
      */
     private DesktopLauncher() {}
+
+    /**
+     * Return the singleton instance of the {@link DesktopLauncher} class.
+     *
+     * @return An {@link DesktopLauncher} instance.
+     */
+    public static DesktopLauncher getInstance() {
+        return INSTANCE;
+    }
 
     /**
      * The main entry point of the program.
@@ -50,14 +66,28 @@ public final class DesktopLauncher {
      * @param args The command line arguments passed to this program.
      */
     public static void main(String[] args) {
-        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.title = "Broccoli";
-        config.width = 800;
-        config.height = 480;
-        config.resizable = false;
+        getInstance().run();
+    }
 
-        InputStream input = DesktopLauncher.class.getResourceAsStream("/reference.conf");
-        ConfigurationLoader loader = new LightbendConfigurationLoader();
-        new LwjglApplication(new Broccoli(loader.tryLoad(input)), config);
+    /**
+     * Launch the desktop frontend of the Gudeballs game.
+     */
+    @Override
+    public void run() {
+        try (InputStream input = DesktopLauncher.class.getResourceAsStream("/reference.conf")) {
+            ConfigurationLoader loader = new LightbendConfigurationLoader();
+            Configuration configuration = loader.tryLoad(input);
+
+            LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+            config.title = configuration.get(Broccoli.WINDOW_TITLE);
+            config.width = configuration.get(Broccoli.WINDOW_WIDTH);
+            config.height = configuration.get(Broccoli.WINDOW_HEIGHT);
+            config.resizable = false;
+            config.forceExit = false;
+
+            new LwjglApplication(new Broccoli(configuration), config);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
     }
 }
