@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import nl.tudelft.broccoli.core.grid.Grid;
@@ -26,7 +27,7 @@ import java.util.Random;
  *
  * @author Bas Musters (m.b.musters@student.tudelft.nl)
  */
-public class GameActor extends WidgetGroup {
+public class GameSessionActor extends Stack {
     /**
      * The game session that is running.
      */
@@ -38,16 +39,15 @@ public class GameActor extends WidgetGroup {
     private final PauseActor pause;
 
     /**
-     * Construct a {@link GameActor}.
+     * Construct a {@link GameSessionActor}.
      *
      * @param context The game {@link ActorContext} to use.
      * @param session The game session that is running.
      */
-    public GameActor(ActorContext context, GameSession session) {
+    public GameSessionActor(ActorContext context, GameSession session) {
         super();
         this.session = session;
         this.pause = new PauseActor(context);
-        this.setFillParent(true);
 
         Table table = new Table();
         table.setFillParent(true);
@@ -57,8 +57,7 @@ public class GameActor extends WidgetGroup {
         GridActor grid = new GridActor(context, session.getGrid());
         table.add(grid).expand();
 
-        addActor(table);
-
+        this.addActor(table);
         this.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {

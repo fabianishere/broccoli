@@ -38,16 +38,16 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Test suite for the {@link GameActor} class.
+ * Test suite for the {@link GameSessionActor} class.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class GameActorTest {
+public class GameSessionActorTest {
     /**
      * The game actor under test.
      */
-    private GameActor actor;
+    private GameSessionActor actor;
 
     /**
      * The application that is used for testing.
@@ -101,7 +101,7 @@ public class GameActorTest {
                 stage = new Stage(new ScreenViewport());
                 context = new ActorContext(
                     new TextureAtlas(Gdx.files.classpath("atlas/sprites.atlas")));
-                actor = new GameActor(context, session);
+                actor = new GameSessionActor(context, session);
                 stage.addActor(actor);
                 latch.countDown();
             }

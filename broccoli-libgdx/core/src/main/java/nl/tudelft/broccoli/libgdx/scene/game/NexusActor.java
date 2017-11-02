@@ -25,13 +25,14 @@
 
 package nl.tudelft.broccoli.libgdx.scene.game;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import nl.tudelft.broccoli.core.Marble;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Tileable;
@@ -59,9 +60,9 @@ public class NexusActor extends TransportingActor<Nexus> implements TileableList
     private boolean spawning = false;
 
     /**
-     * The sprites of the nexus.
+     * The textures of the nexus.
      */
-    private Sprite[] sprites = new Sprite[16];
+    private final Array<? extends TextureRegion> sprites;
 
     /**
      * Construct a {@link NexusActor} instance.
@@ -74,12 +75,9 @@ public class NexusActor extends TransportingActor<Nexus> implements TileableList
         nexus.addListener(this);
         connected = nexus.isConnected(Direction.BOTTOM);
         spawning = nexus instanceof SpawningNexus;
+        sprites = context.getTextureAtlas().findRegions("nexus");
 
-        for (int i = 0; i < sprites.length; i++) {
-            sprites[i] = context.getTextureAtlas().createSprite("nexus", i);
-        }
-
-        this.setSize(sprites[0].getWidth(), sprites[0].getHeight());
+        this.setSize(sprites.get(0).getRegionWidth(), sprites.get(0).getRegionHeight());
     }
 
     /**
@@ -91,13 +89,13 @@ public class NexusActor extends TransportingActor<Nexus> implements TileableList
     }
 
     /**
-     * Return the tile {@link Sprite} for this {@link Tileable}.
+     * Return the tile {@link TextureRegion} for this {@link Tileable}.
      *
-     * @return The tile sprite.
+     * @return The tile texture.
      */
     @Override
-    public Sprite getTileSprite() {
-        return connected ? sprites[9] : sprites[0];
+    public TextureRegion getTileTexture() {
+        return connected ? sprites.get(9) : sprites.get(0);
     }
 
     /**

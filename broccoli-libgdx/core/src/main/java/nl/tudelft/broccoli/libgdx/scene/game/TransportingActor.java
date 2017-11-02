@@ -27,7 +27,7 @@ package nl.tudelft.broccoli.libgdx.scene.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -67,9 +67,9 @@ public abstract class TransportingActor<T extends Tileable> extends TileableActo
     Image modifier;
 
     /**
-     * The sprite for this track.
+     * The texture for this track.
      */
-    private Sprite sprite;
+    private TextureRegion texture;
 
     /**
      * Construct a {@link TileableActor} instance.
@@ -80,8 +80,8 @@ public abstract class TransportingActor<T extends Tileable> extends TileableActo
     public TransportingActor(T tileable, ActorContext context) {
         super(tileable, context);
         tileable.addListener(this);
-        this.sprite = context.getTextureAtlas().createSprite("tile", getTileIndex());
-        this.setSize(sprite.getWidth(), sprite.getHeight());
+        this.texture = context.getTextureAtlas().findRegion("tile", getTileIndex());
+        this.setSize(texture.getRegionWidth(), texture.getRegionHeight());
         this.modifier = getModifier();
         if (modifier != null) {
             addActor(modifier);
@@ -96,13 +96,13 @@ public abstract class TransportingActor<T extends Tileable> extends TileableActo
     protected abstract Image getModifier();
 
     /**
-     * Return the tile {@link Sprite} for this {@link Tileable}.
+     * Return the tile {@link TextureRegion} for this {@link Tileable}.
      *
-     * @return The tile sprite.
+     * @return The tile texture.
      */
     @Override
-    public Sprite getTileSprite() {
-        return sprite;
+    public TextureRegion getTileTexture() {
+        return texture;
     }
 
     /**

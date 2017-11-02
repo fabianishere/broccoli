@@ -26,37 +26,22 @@
 package nl.tudelft.broccoli.libgdx.scene.game;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import nl.tudelft.broccoli.core.Announcer;
-import nl.tudelft.broccoli.core.Empty;
-import nl.tudelft.broccoli.core.Teleporter;
-import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.grid.Tile;
-import nl.tudelft.broccoli.core.grid.Tileable;
-import nl.tudelft.broccoli.core.nexus.Nexus;
-import nl.tudelft.broccoli.core.receptor.Receptor;
-import nl.tudelft.broccoli.core.track.Track;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
-import nl.tudelft.broccoli.libgdx.scene.game.receptor.ReceptorActor;
 
 /**
  * An {@link Actor} that represents a {@link Tile} on a {@link Grid}.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class TileActor extends Group {
+public class TileActor extends Actor {
     /**
-     * The game context of this actor.
+     * The {@link TileableActor} of the tile.
      */
-    private final ActorContext context;
-
-    /**
-     * The {@link TileableActor} for the {@link Tileable} of this tile.
-     */
-    private TileableActor<?> tileableActor;
+    private final TileableActor<?> tileableActor;
 
     /**
      * Construct a {@link TileActor}.
@@ -65,24 +50,12 @@ public class TileActor extends Group {
      * @param context The game context to use.
      */
     public TileActor(Tile tile, ActorContext context) {
-        this.context = context;
-        this.context.register(tile, this);
-        this.tileableActor = createActor(tile);
-        this.addActor(tileableActor);
+        context.register(tile, this);
         this.setUserObject(tile);
+        this.tileableActor = (TileableActor<?>) context.actor(tile.getTileable());
 
-        Sprite sprite = tileableActor.getTileSprite();
-        setSize(sprite.getWidth(), sprite.getHeight());
-    }
-
-    /**
-     * Draw the contents of the tile onto the screen.
-     *
-     * @param batch the batch to use.
-     * @param parentAlpha The alpha of the parent.
-     */
-    public void drawTileable(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
+        TextureRegion region = tileableActor.getTileTexture();
+        this.setSize(region.getRegionWidth(), region.getRegionHeight());
     }
 
     /**
@@ -93,42 +66,8 @@ public class TileActor extends Group {
      */
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        Sprite tile = tileableActor.getTileSprite();
-        tile.setScale(getScaleX(), getScaleY());
-        tile.setOrigin(getOriginX(), getOriginY());
-        tile.setRotation(getRotation());
-        tile.setPosition(getX(), getY());
-        tile.draw(batch);
-    }
-
-    /**
-     * Convert a {@link Tile} instance to a {@link TileableActor}.
-     *
-     * @param tile The tile to convert.
-     * @return The {@link TileableActor} for the tile.
-     */
-    private TileableActor<?> createActor(Tile tile) {
-        Tileable tileable = tile.getTileable();
-        final TileableActor<?> result;
-
-        if (tileable instanceof Teleporter) {
-            result = new TeleporterActor((Teleporter) tileable, context);
-        } else if (tileable instanceof Receptor) {
-            result = new ReceptorActor((Receptor) tileable, context);
-        } else if (tileable instanceof Nexus) {
-            result = new NexusActor((Nexus) tileable, context);
-        } else if (tileable instanceof Track) {
-            result = new TrackActor((Track) tileable, context);
-        } else if (tileable instanceof TimerTile) {
-            result = new TimerActor((TimerTile) tileable, context);
-        } else if (tileable instanceof Announcer) {
-            result = new AnnouncerActor((Announcer) tileable, context);
-        } else if (tileable instanceof Empty) {
-            result = new EmptyActor((Empty) tileable, context);
-        } else {
-            result = new UnsupportedTileableActor(tileable, context);
-        }
-
-        return result;
+        TextureRegion region = tileableActor.getTileTexture();
+        batch.draw(region, getX(), getY(), getOriginX(), getOriginY(), getWidth(),
+            getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 }

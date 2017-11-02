@@ -59,7 +59,7 @@ public class UnsupportedTileableActor extends TileableActor<Tileable> {
      * @return The tile sprite.
      */
     @Override
-    public Sprite getTileSprite() {
+    public Sprite getTileTexture() {
         return sprite;
     }
 }

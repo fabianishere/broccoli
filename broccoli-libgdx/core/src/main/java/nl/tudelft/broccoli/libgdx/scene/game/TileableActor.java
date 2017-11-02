@@ -25,7 +25,7 @@
 
 package nl.tudelft.broccoli.libgdx.scene.game;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import nl.tudelft.broccoli.core.Entity;
 import nl.tudelft.broccoli.core.grid.Direction;
@@ -65,7 +65,6 @@ public abstract class TileableActor<T extends Tileable> extends WidgetGroup {
         this.context = context;
         this.context.register(tileable, this);
         this.setUserObject(tileable);
-        this.setFillParent(true);
 
         int tile = 0;
         // Generate the index of the adaptive tile.
@@ -82,11 +81,11 @@ public abstract class TileableActor<T extends Tileable> extends WidgetGroup {
     }
 
     /**
-     * Return the tile {@link Sprite} for this {@link Tileable}.
+     * Return the tile {@link TextureRegion} for this {@link Tileable}.
      *
-     * @return The tile sprite.
+     * @return The tile texture.
      */
-    public abstract Sprite getTileSprite();
+    public abstract TextureRegion getTileTexture();
 
     /**
      * Return the {@link Tileable} of this actor.

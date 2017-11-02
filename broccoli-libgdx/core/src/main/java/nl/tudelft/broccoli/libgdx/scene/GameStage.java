@@ -9,7 +9,7 @@ import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.level.Difficulty;
 import nl.tudelft.broccoli.core.level.GameSession;
 import nl.tudelft.broccoli.core.level.LevelFactory;
-import nl.tudelft.broccoli.libgdx.scene.game.GameActor;
+import nl.tudelft.broccoli.libgdx.scene.game.GameSessionActor;
 import nl.tudelft.broccoli.libgdx.scene.util.MusicActor;
 
 /**
@@ -46,11 +46,12 @@ public class GameStage extends Stage {
     }
 
     /**
-     * Initialise the {@link GameActor} that displays the actual game.
+     * Initialise the {@link GameSessionActor} that displays the actual game.
      */
     private Actor initGame() {
         GameSession session = new LevelFactory().create(Difficulty.EASY).create(configuration);
-        GameActor game = new GameActor(context, session);
+        GameSessionActor game = new GameSessionActor(context, session);
+        game.setFillParent(true);
         setKeyboardFocus(game);
         return game;
     }

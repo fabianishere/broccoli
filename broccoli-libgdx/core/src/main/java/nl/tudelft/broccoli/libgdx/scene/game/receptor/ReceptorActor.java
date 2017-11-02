@@ -98,12 +98,12 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
     /**
      * The marked receptor tile sprite of this receptor.
      */
-    private final Sprite markedTile;
+    private final TextureRegion markedTile;
 
     /**
      * The unmarked receptor tile sprite of this receptor.
      */
-    private final Sprite unmarkedTile;
+    private final TextureRegion unmarkedTile;
 
     /**
      * The explosion animation of the receptor.
@@ -139,8 +139,8 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
         image = new Image(atlas.findRegion("receptor/unmarked"));
         addActor(image);
 
-        markedTile = atlas.createSprite("receptor/tile_marked", getTileIndex());
-        unmarkedTile = atlas.createSprite("receptor/tile_unmarked", getTileIndex());
+        markedTile = atlas.findRegion("receptor/tile_marked", getTileIndex());
+        unmarkedTile = atlas.findRegion("receptor/tile_unmarked", getTileIndex());
         explosion = new Animation<>(EXPLOSION_TIME, atlas.findRegions("explosion"),
             Animation.PlayMode.REVERSED);
 
@@ -195,12 +195,12 @@ public class ReceptorActor extends TileableActor<Receptor> implements ReceptorLi
     }
 
     /**
-     * Return the tile {@link Sprite} for this {@link Tileable}.
+     * Return the tile {@link TextureRegion} for this {@link Tileable}.
      *
-     * @return The tile sprite.
+     * @return The tile texture.
      */
     @Override
-    public Sprite getTileSprite() {
+    public TextureRegion getTileTexture() {
         return getTileable().isMarked() ? markedTile : unmarkedTile;
     }
 

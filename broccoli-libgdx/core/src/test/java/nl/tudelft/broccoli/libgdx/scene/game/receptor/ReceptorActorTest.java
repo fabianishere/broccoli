@@ -28,7 +28,7 @@ import nl.tudelft.broccoli.core.nexus.SpawningNexus;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
-import nl.tudelft.broccoli.libgdx.scene.game.GameActor;
+import nl.tudelft.broccoli.libgdx.scene.game.GameSessionActor;
 import nl.tudelft.broccoli.libgdx.scene.game.MarbleActor;
 import org.junit.After;
 import org.junit.Before;
@@ -110,7 +110,7 @@ public class ReceptorActorTest {
                 stage = new Stage(new ScreenViewport());
                 context = new ActorContext(
                     new TextureAtlas(Gdx.files.classpath("atlas/sprites.atlas")));
-                stage.addActor(new GameActor(context, session));
+                stage.addActor(new GameSessionActor(context, session));
                 actor = (ReceptorActor) context.actor(receptor);
                 latch.countDown();
             }

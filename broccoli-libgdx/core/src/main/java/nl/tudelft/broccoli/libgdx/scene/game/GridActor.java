@@ -25,29 +25,37 @@
 
 package nl.tudelft.broccoli.libgdx.scene.game;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
+import nl.tudelft.broccoli.core.Announcer;
+import nl.tudelft.broccoli.core.Empty;
+import nl.tudelft.broccoli.core.Teleporter;
+import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.grid.Tile;
+import nl.tudelft.broccoli.core.grid.Tileable;
+import nl.tudelft.broccoli.core.nexus.Nexus;
+import nl.tudelft.broccoli.core.receptor.Receptor;
+import nl.tudelft.broccoli.core.track.Track;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
+import nl.tudelft.broccoli.libgdx.scene.game.receptor.ReceptorActor;
 
 /**
  * An {@link Actor} node in the 2d scene which represents an in-game grid.
  *
  * @author Fabian Mastenbroek (f.s.mastenbroek@student.tudelft.nl)
  */
-public class GridActor extends WidgetGroup {
-    /**
-     * The grid to draw.
-     */
-    private final Grid grid;
-
+public class GridActor extends Stack {
     /**
      * The {@link Table} we use to draw the grid.
      */
-    private final Table table;
+    private final Table tiles;
+
+    /**
+     * The {@link Table} we use to draw the tileables.
+     */
+    private final Table tileables;
 
     /**
      * Construct a {@link GridActor} instance.
@@ -56,38 +64,61 @@ public class GridActor extends WidgetGroup {
      * @param grid The grid to display.
      */
     public GridActor(ActorContext context, Grid grid) {
-        this.grid = grid;
         this.setUserObject(grid);
         context.register(grid, this);
 
-        this.table = new Table();
-        this.table.setFillParent(true);
-        this.addActor(table);
+        this.tiles = new Table();
+        this.tiles.setFillParent(true);
+        this.add(tiles);
+
+        this.tileables = new Table();
+        this.tileables.setFillParent(true);
+        this.add(tileables);
 
         for (int j = grid.getHeight() - 1; j >= 0; j--) {
             for (int i = 0; i < grid.getWidth(); i++) {
                 Tile tile = grid.get(i, j);
-                table.add(new TileActor(tile, context));
+                TileableActor<?> tileableActor = createTileable(tile, context);
+                TileActor tileActor = new TileActor(tile, context);
+                tiles.add(tileActor).fill();
+                tileables.add(tileableActor)
+                    .width(tileActor.getWidth())
+                    .height(tileActor.getHeight());
             }
-            table.row();
+            tiles.row();
+            tileables.row();
         }
+        this.setDebug(true, true);
     }
 
     /**
-     * Draw the tile onto the screen.
+     * Convert a {@link Tile} instance to a {@link TileableActor}.
      *
-     * @param batch The batch to use.
-     * @param parentAlpha The alpha of the parent.
+     * @param tile The tile to convert.
+     * @return The {@link TileableActor} for the tile.
      */
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
+    private TileableActor<?> createTileable(Tile tile, ActorContext context) {
+        Tileable tileable = tile.getTileable();
+        final TileableActor<?> result;
 
-        // Hack to draw contents of tiles after the tiles themselves
-        // This allows the content of tiles (including the marbles) to overflow into new tiles.
-        for (Actor actor : table.getChildren()) {
-            TileActor tile = (TileActor) actor;
-            tile.drawTileable(batch, parentAlpha);
+        if (tileable instanceof Teleporter) {
+            result = new TeleporterActor((Teleporter) tileable, context);
+        } else if (tileable instanceof Receptor) {
+            result = new ReceptorActor((Receptor) tileable, context);
+        } else if (tileable instanceof Nexus) {
+            result = new NexusActor((Nexus) tileable, context);
+        } else if (tileable instanceof Track) {
+            result = new TrackActor((Track) tileable, context);
+        } else if (tileable instanceof TimerTile) {
+            result = new TimerActor((TimerTile) tileable, context);
+        } else if (tileable instanceof Announcer) {
+            result = new AnnouncerActor((Announcer) tileable, context);
+        } else if (tileable instanceof Empty) {
+            result = new EmptyActor((Empty) tileable, context);
+        } else {
+            result = new UnsupportedTileableActor(tileable, context);
         }
+
+        return result;
     }
 }
