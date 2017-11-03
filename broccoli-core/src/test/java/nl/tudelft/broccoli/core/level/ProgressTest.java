@@ -38,7 +38,8 @@ public class ProgressTest {
         grid.place(0, 0, receptor);
         grid.place(0, 1, horTrack);
 
-        this.progress = new Progress(grid);
+        this.progress = new Progress();
+        this.progress.track(grid);
         when(gameSession.getProgress()).thenReturn(progress);
     }
 

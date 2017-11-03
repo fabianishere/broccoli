@@ -34,7 +34,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import nl.tudelft.broccoli.core.level.GameSession;
-import nl.tudelft.broccoli.core.level.LevelFactory;
+import nl.tudelft.broccoli.core.level.easy.EasyLevelFactory;
+import nl.tudelft.broccoli.core.level.hard.HardLevelFactory;
+import nl.tudelft.broccoli.core.level.medium.MediumLevelFactory;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
 /**
@@ -47,9 +49,8 @@ public class StartScreen extends MenuScreen {
      * Construct a {@link StartScreen}.
      *
      * @param context The {@link ActorContext} to use.
-     * @param factory The level factory to create the levels with.
      */
-    public StartScreen(ActorContext context, LevelFactory factory) {
+    public StartScreen(ActorContext context) {
         Table table = getActor();
 
         Label.LabelStyle labelStyle = new Label.LabelStyle();
@@ -61,7 +62,7 @@ public class StartScreen extends MenuScreen {
         Button easy = createButton("Easy", Color.CORAL);
         easy.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                GameSession session = factory.create(1)
+                GameSession session = new EasyLevelFactory().create(1)
                     .create(context.getConfiguration());
                 addAction(push(new GameScreen(context, session)));
             }
@@ -72,7 +73,7 @@ public class StartScreen extends MenuScreen {
         Button medium = createButton("Medium", Color.CORAL);
         medium.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                GameSession session = factory.create(2)
+                GameSession session = new MediumLevelFactory().create(1)
                     .create(context.getConfiguration());
                 addAction(push(new GameScreen(context, session)));
             }
@@ -83,7 +84,7 @@ public class StartScreen extends MenuScreen {
         Button hard = createButton("Hard", Color.CORAL);
         hard.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                GameSession session = factory.create(3)
+                GameSession session = new HardLevelFactory().create(1)
                     .create(context.getConfiguration());
                 addAction(push(new GameScreen(context, session)));
             }

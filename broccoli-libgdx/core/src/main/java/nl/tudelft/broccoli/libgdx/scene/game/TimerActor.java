@@ -25,6 +25,8 @@
 
 package nl.tudelft.broccoli.libgdx.scene.game;
 
+import static nl.tudelft.broccoli.libgdx.scene.actions.ScreenActions.replace;
+
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -32,6 +34,7 @@ import com.badlogic.gdx.utils.Array;
 import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.grid.Tileable;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
+import nl.tudelft.broccoli.libgdx.scene.ui.screen.FinishScreen;
 
 /**
  * An {@link Actor} for a timer on the grid.
@@ -63,7 +66,8 @@ public class TimerActor extends TileableActor<TimerTile> {
             Actions.repeat(4, Actions.sequence(
                 Actions.delay(delay),
                 Actions.run(() -> currentTextureId++)
-            ))
+            )),
+            replace(new FinishScreen(context, getTileable().getTile().getGrid().getSession()))
         ));
 
         textures = context.getTextureAtlas().findRegions("counter");

@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import nl.tudelft.broccoli.core.config.Configuration;
-import nl.tudelft.broccoli.core.level.LevelFactory;
 import nl.tudelft.broccoli.libgdx.scene.ui.screen.StartScreen;
 import nl.tudelft.broccoli.libgdx.scene.util.MusicActor;
 
@@ -32,16 +31,15 @@ public class GameStage extends StackableStage {
      *
      * @param configuration The configuration of the stage.
      * @param viewport      The viewport of the stage.
-     * @param factory       The level factory to construct the levels with.
      */
-    public GameStage(Viewport viewport, Configuration configuration, LevelFactory factory) {
+    public GameStage(Viewport viewport, Configuration configuration) {
         super(viewport);
         this.context = new ActorContext(configuration, new TextureAtlas(
             Gdx.files.classpath("atlas/sprites.atlas")));
 
         this.music = initMusic();
         this.addActor(music);
-        this.getScreenStack().replace(new StartScreen(context, factory));
+        this.getScreenStack().replace(new StartScreen(context));
     }
 
     /**

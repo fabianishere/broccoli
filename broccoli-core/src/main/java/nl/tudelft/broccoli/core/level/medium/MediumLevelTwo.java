@@ -1,14 +1,9 @@
 package nl.tudelft.broccoli.core.level.medium;
 
-import nl.tudelft.broccoli.core.Announcer;
 import nl.tudelft.broccoli.core.MarbleType;
-import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.config.Configuration;
-import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.level.*;
-import nl.tudelft.broccoli.core.nexus.Nexus;
-import nl.tudelft.broccoli.core.nexus.SpawningNexus;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.FilterTrack;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
@@ -50,22 +45,15 @@ public class MediumLevelTwo extends AbstractMediumLevel {
             super(config, 6 ,6);
             Grid grid = getGrid();
 
-            grid.place(0, 5, new Nexus(getNexusContext()));
-            grid.place(1, 5, new Nexus(getNexusContext()));
-            grid.place(2, 5, new Nexus(getNexusContext()));
-            grid.place(3, 5, new Nexus(getNexusContext()));
-            grid.place(4, 5, new Nexus(getNexusContext()));
-            grid.place(5, 5, new SpawningNexus(getNexusContext(), Direction.RIGHT));
+            initNexus();
+            initInfo();
 
-            grid.place(5, 4, new Announcer());
-            grid.place(5, 3, new TimerTile(config.get(TimerTile.MAX_TIME)));
-
-            grid.place(0, 4, new Receptor());
             grid.place(0, 3, new VerticalTrack());
+            grid.place(0, 4, new Receptor());
 
             grid.place(1, 4, new HorizontalTrack());
-            grid.place(2, 4, new Receptor());
             grid.place(2, 3, new VerticalTrack());
+            grid.place(2, 4, new Receptor());
 
             grid.place(0, 2, new FilterTrack(new VerticalTrack(), MarbleType.PINK));
             grid.place(0, 1, new VerticalTrack());

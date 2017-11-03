@@ -1,8 +1,12 @@
 package nl.tudelft.broccoli.core.level;
 
+import nl.tudelft.broccoli.core.Announcer;
 import nl.tudelft.broccoli.core.MarbleType;
+import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.config.Configuration;
+import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
+import nl.tudelft.broccoli.core.nexus.Nexus;
 import nl.tudelft.broccoli.core.nexus.NexusContext;
 import nl.tudelft.broccoli.core.nexus.SpawningNexus;
 import nl.tudelft.broccoli.core.powerup.PowerUp;
@@ -56,7 +60,7 @@ public abstract class AbstractGameSession implements GameSession {
     public AbstractGameSession(Configuration config, int width, int height) {
         this.config = config;
         this.grid = new Grid(this, width, height);
-        this.progress = new Progress(grid);
+        this.progress = new Progress();
 
         // Read the initial sequence of balls from the configuration
         List<String> initial = config.get(SpawningNexus.INITIAL_SEQUENCE);
@@ -77,6 +81,26 @@ public abstract class AbstractGameSession implements GameSession {
         cdf.put(0.0, new BonusPowerUpFactory());
         cdf.put(0.8, new JokerPowerUpFactory());
         this.powerUpFactory = new RandomPowerUpFactory(new Random(), cdf);
+    }
+
+    /**
+     * Create the default nexus setup.
+     */
+    protected void initNexus() {
+        grid.place(0, 5, new Nexus(getNexusContext()));
+        grid.place(1, 5, new Nexus(getNexusContext()));
+        grid.place(2, 5, new Nexus(getNexusContext()));
+        grid.place(3, 5, new Nexus(getNexusContext()));
+        grid.place(4, 5, new Nexus(getNexusContext()));
+        grid.place(5, 5, new SpawningNexus(getNexusContext(), Direction.RIGHT));
+    }
+
+    /**
+     * Create default information setup.
+     */
+    protected void initInfo() {
+        grid.place(5, 4, new Announcer());
+        grid.place(5, 3, new TimerTile(config.get(TimerTile.MAX_TIME)));
     }
 
     /**

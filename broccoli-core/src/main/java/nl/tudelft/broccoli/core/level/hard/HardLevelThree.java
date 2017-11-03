@@ -1,16 +1,12 @@
 package nl.tudelft.broccoli.core.level.hard;
 
-import nl.tudelft.broccoli.core.Announcer;
 import nl.tudelft.broccoli.core.MarbleType;
 import nl.tudelft.broccoli.core.Teleporter;
-import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.config.Configuration;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.level.*;
 import nl.tudelft.broccoli.core.level.easy.AbstractEasyLevel;
-import nl.tudelft.broccoli.core.nexus.Nexus;
-import nl.tudelft.broccoli.core.nexus.SpawningNexus;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.FilterTrack;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
@@ -65,25 +61,8 @@ public class HardLevelThree extends AbstractHardLevel {
 
             Grid grid = getGrid();
 
-            grid.place(0, 5, new Nexus(getNexusContext()));
-            grid.place(1, 5, new Nexus(getNexusContext()));
-            grid.place(2, 5, new Nexus(getNexusContext()));
-            grid.place(3, 5, new Nexus(getNexusContext()));
-            grid.place(4, 5, new Nexus(getNexusContext()));
-            grid.place(5, 5, new SpawningNexus(getNexusContext(), Direction.RIGHT));
-
-            grid.place(5, 4, new Announcer());
-            grid.place(5, 3, new TimerTile(config.get(TimerTile.MAX_TIME)));
-
-            grid.place(2, 4, new Receptor());
-            grid.place(2, 3, new VerticalTrack());
-
-            grid.place(0, 3, new Receptor());
-            grid.place(0, 2, teleporter2);
-            grid.place(0, 1, receiver1);
-
-            grid.place(2, 1, receiver2);
-            grid.place(2, 2, new Receptor());
+            initNexus();
+            initInfo();
 
             grid.place(4, 2, new Receptor());
             grid.place(4, 1, teleporter1);
@@ -91,10 +70,15 @@ public class HardLevelThree extends AbstractHardLevel {
             grid.place(2, 0, new Receptor());
             grid.place(3, 0, new FilterTrack(new HorizontalTrack(), MarbleType.BLUE));
             grid.place(3, 2, new OneWayTrack(new HorizontalTrack(), Direction.RIGHT));
-
-
+            grid.place(2, 4, new Receptor());
+            grid.place(2, 3, new VerticalTrack());
+            grid.place(0, 3, new Receptor());
+            grid.place(0, 2, teleporter2);
+            grid.place(0, 1, receiver1);
             grid.place(0, 0, new Receptor());
             grid.place(1, 0, new OneWayTrack(new HorizontalTrack(), Direction.RIGHT));
+            grid.place(2, 1, receiver2);
+            grid.place(2, 2, new Receptor());
         }
 
         /**

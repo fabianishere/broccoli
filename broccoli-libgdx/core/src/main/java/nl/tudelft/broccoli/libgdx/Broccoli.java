@@ -32,7 +32,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import nl.tudelft.broccoli.core.config.*;
-import nl.tudelft.broccoli.core.level.easy.EasyLevelFactory;
 import nl.tudelft.broccoli.libgdx.scene.GameStage;
 
 /**
@@ -84,8 +83,7 @@ public class Broccoli extends Game {
      */
     @Override
     public void create() {
-        stage = new GameStage(new ScreenViewport(), config, new EasyLevelFactory());
-
+        stage = new GameStage(new ScreenViewport(), config);
         Gdx.input.setInputProcessor(stage);
     }
 

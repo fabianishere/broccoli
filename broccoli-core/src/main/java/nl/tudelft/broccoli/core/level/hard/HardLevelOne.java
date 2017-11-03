@@ -1,15 +1,10 @@
 package nl.tudelft.broccoli.core.level.hard;
 
-import nl.tudelft.broccoli.core.Announcer;
 import nl.tudelft.broccoli.core.Teleporter;
-import nl.tudelft.broccoli.core.TimerTile;
 import nl.tudelft.broccoli.core.config.Configuration;
-import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.grid.Grid;
 import nl.tudelft.broccoli.core.level.*;
 import nl.tudelft.broccoli.core.level.easy.AbstractEasyLevel;
-import nl.tudelft.broccoli.core.nexus.Nexus;
-import nl.tudelft.broccoli.core.nexus.SpawningNexus;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.core.track.HorizontalTrack;
 import nl.tudelft.broccoli.core.track.VerticalTrack;
@@ -73,15 +68,8 @@ public class HardLevelOne extends AbstractHardLevel {
 
             Grid grid = getGrid();
 
-            grid.place(0, 5, new Nexus(getNexusContext()));
-            grid.place(1, 5, new Nexus(getNexusContext()));
-            grid.place(2, 5, new Nexus(getNexusContext()));
-            grid.place(3, 5, new Nexus(getNexusContext()));
-            grid.place(4, 5, new Nexus(getNexusContext()));
-            grid.place(5, 5, new SpawningNexus(getNexusContext(), Direction.RIGHT));
-
-            grid.place(5, 4, new Announcer());
-            grid.place(5, 3, new TimerTile(config.get(TimerTile.MAX_TIME)));
+            initNexus();
+            initInfo();
 
             grid.place(0, 4, new Receptor());
             grid.place(0, 3, teleporter2);

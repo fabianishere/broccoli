@@ -1,6 +1,7 @@
 package nl.tudelft.broccoli.libgdx.scene.ui.screen;
 
 import static nl.tudelft.broccoli.libgdx.scene.actions.ScreenActions.push;
+import static nl.tudelft.broccoli.libgdx.scene.actions.ScreenActions.replace;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -36,6 +37,11 @@ public class GameScreen extends Stack {
     private final GameSession session;
 
     /**
+     * The actor context that is being used.
+     */
+    private final ActorContext context;
+
+    /**
      * Construct a {@link GameScreen}.
      *
      * @param context The game {@link ActorContext} to use.
@@ -44,6 +50,7 @@ public class GameScreen extends Stack {
     public GameScreen(ActorContext context, GameSession session) {
         super();
         this.session = session;
+        this.context = context;
 
         Table table = new Table();
         table.setFillParent(true);
@@ -52,6 +59,7 @@ public class GameScreen extends Stack {
         table.row();
         GridActor grid = new GridActor(context, session.getGrid());
         table.add(grid).expand();
+        session.getProgress().track(session.getGrid());
 
         this.addActor(table);
         this.addListener(new InputListener() {
@@ -124,5 +132,19 @@ public class GameScreen extends Stack {
         }
 
         return receptors;
+    }
+
+    /**
+     * Method that is checked every tick.
+     *
+     * @param delta Time delta
+     */
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
+        if (session.getProgress().isWon()) {
+            addAction(replace(new FinishScreen(context, session)));
+        }
     }
 }

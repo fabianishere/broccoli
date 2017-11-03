@@ -47,7 +47,7 @@ public abstract class LevelTest {
     /**
      * The level under test.
      */
-    Level level;
+    public Level level;
 
     /**
      * The configuration of the level.
@@ -101,7 +101,7 @@ public abstract class LevelTest {
             "BLUE", "PINK", "JOKER", "YELLOW", "INVALID"));
 
         GameSession session = level.create(config);
-        SpawningNexus nexus = (SpawningNexus) session.getGrid().get(3, 3).getTileable();
+        SpawningNexus nexus = (SpawningNexus) session.getGrid().get(5, 5).getTileable();
         assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.GREEN);
         nexus.getContext().setOccupied(false);
         assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.BLUE);

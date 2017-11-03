@@ -15,8 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import nl.tudelft.broccoli.core.config.ConfigurationLoader;
-import nl.tudelft.broccoli.core.level.LevelFactory;
-import nl.tudelft.broccoli.core.level.easy.EasyLevelFactory;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 import nl.tudelft.broccoli.libgdx.scene.StackableStage;
 import org.junit.After;
@@ -58,11 +56,6 @@ public class StartScreenTest {
     private ActorContext context;
 
     /**
-     * The level factory.
-     */
-    private LevelFactory factory;
-
-    /**
      * Set up the test suite.
      */
     @Before
@@ -84,8 +77,7 @@ public class StartScreenTest {
                 stage = new StackableStage(new ScreenViewport(), stack);
                 context = new ActorContext(ConfigurationLoader.STUB, new TextureAtlas(
                     Gdx.files.classpath("atlas/sprites.atlas")));
-                factory = spy(new EasyLevelFactory());
-                actor = new StartScreen(context, factory);
+                actor = new StartScreen(context);
                 stage.addActor(actor);
                 latch.countDown();
             }
@@ -142,9 +134,8 @@ public class StartScreenTest {
 
         assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
 
-        // Wait 200 ms for the event to be processed
-        verify(factory, after(200)).create(eq(1));
-        verify(stack).push(any(GameScreen.class));
+        // Wait 500 ms for the event to be processed
+        verify(stack, after(500)).push(any(GameScreen.class));
     }
 
     /**
@@ -165,9 +156,8 @@ public class StartScreenTest {
 
         assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
 
-        // Wait 200 ms for the event to be processed
-        verify(factory, after(200)).create(eq(2));
-        verify(stack).push(any(GameScreen.class));
+        // Wait 500 ms for the event to be processed
+        verify(stack, after(500)).push(any(GameScreen.class));
     }
 
     /**
@@ -188,9 +178,8 @@ public class StartScreenTest {
 
         assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
 
-        // Wait 200 ms for the event to be processed
-        verify(factory, after(200)).create(eq(3));
-        verify(stack).push(any(GameScreen.class));
+        // Wait 500 ms for the event to be processed
+        verify(stack, after(500)).push(any(GameScreen.class));
     }
 
     /**
