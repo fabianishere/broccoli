@@ -26,6 +26,7 @@
 package nl.tudelft.broccoli.libgdx.scene.ui.screen;
 
 import static nl.tudelft.broccoli.libgdx.scene.actions.ScreenActions.pop;
+import static nl.tudelft.broccoli.libgdx.scene.actions.ScreenActions.replace;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -33,6 +34,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import nl.tudelft.broccoli.core.level.GameSession;
+import nl.tudelft.broccoli.core.level.Level;
+import nl.tudelft.broccoli.core.level.LevelFactory;
 import nl.tudelft.broccoli.core.level.Progress;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 
@@ -62,7 +65,15 @@ public class FinishScreen extends MenuScreen {
 
         table.add(initLabel(feedback)).padBottom(100);
         table.row();
-        table.add(initMenuButton()).width(200).height(50);
+        table.add(initMenuButton()).width(200).height(50).padBottom(100);
+
+        Level level = session.getLevel();
+        int index = level.getIndex();
+        if (index < 3) {
+            table.row();
+            table.add(initNextButton(context, level.getFactory(), index + 1))
+                .width(200).height(50);
+        }
     }
 
     /**
@@ -87,6 +98,24 @@ public class FinishScreen extends MenuScreen {
         button.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 addAction(pop());
+            }
+        });
+
+        return button;
+    }
+
+    /**
+     * Return the menu button of the screen.
+     *
+     * @return The menu button of the screen.
+     */
+    private Button initNextButton(ActorContext context, LevelFactory factory, int index) {
+        Button button = createButton("Next level", Color.CORAL);
+        button.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                GameSession session = factory.create(index)
+                        .create(context.getConfiguration());
+                addAction(replace(new GameScreen(context, session)));
             }
         });
 

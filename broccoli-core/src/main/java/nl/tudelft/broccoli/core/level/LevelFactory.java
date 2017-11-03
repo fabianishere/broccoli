@@ -1,28 +1,16 @@
 package nl.tudelft.broccoli.core.level;
 
 /**
- * An factory class which produces {@link Level} instances, based on a given {@link Difficulty}.
+ * An abstract factory class which produces {@link Level} instances, based on a given index.
  *
  * @author Earth Grob (w.lauwapong@student.tudelft.nl)
  */
-public class LevelFactory {
+public abstract class LevelFactory {
     /**
-     * Create a {@link Level} for the given {@link Difficulty}.
+     * Create a {@link Level} for the given index.
      *
-     * @param difficulty The difficulty of the level.
+     * @param level The index of the level to create.
      * @return The {@link Level} that is generated.
      */
-    public Level create(Difficulty difficulty) {
-        switch (difficulty) {
-            case EASY:
-                return new EasyLevel();
-            case MEDIUM:
-                return new MediumLevel();
-            case HARD:
-                return new HardLevel();
-            default:
-                // UNREACHABLE
-                return null;
-        }
-    }
+    public abstract Level create(int level);
 }

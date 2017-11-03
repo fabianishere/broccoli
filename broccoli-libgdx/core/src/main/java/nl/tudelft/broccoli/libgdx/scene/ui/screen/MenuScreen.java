@@ -29,7 +29,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public abstract class MenuScreen extends Container<Table> {
     /**
@@ -38,6 +40,12 @@ public abstract class MenuScreen extends Container<Table> {
     public MenuScreen() {
         this.setActor(new Table());
         this.setFillParent(true);
+
+        Pixmap pix = new Pixmap(2, 2, Pixmap.Format.RGBA8888);
+        pix.setColor(Color.BLACK);
+        pix.fill();
+
+        this.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pix))));
         this.fill();
     }
 

@@ -19,6 +19,7 @@ import nl.tudelft.broccoli.core.MarbleType;
 import nl.tudelft.broccoli.core.config.ConfigurationLoader;
 import nl.tudelft.broccoli.core.grid.Direction;
 import nl.tudelft.broccoli.core.level.*;
+import nl.tudelft.broccoli.core.level.easy.EasyLevelFactory;
 import nl.tudelft.broccoli.core.receptor.Receptor;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 import nl.tudelft.broccoli.libgdx.scene.StackableStage;
@@ -89,7 +90,7 @@ public class GameScreenTest {
 
             @Override
             public void create() {
-                session = new LevelFactory().create(Difficulty.EASY)
+                session = new EasyLevelFactory().create(1)
                     .create(ConfigurationLoader.STUB);
 
                 stack = spy(new ScreenStack());

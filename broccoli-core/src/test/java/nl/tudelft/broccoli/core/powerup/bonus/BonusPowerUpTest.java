@@ -48,12 +48,13 @@ public class BonusPowerUpTest {
     @Before
     public void setUp() {
         session = mock(GameSession.class);
-        Grid grid = new Grid(session, 1, 1);
-        progress = new Progress(grid);
+        progress = new Progress();
         when(session.getProgress()).thenReturn(progress);
         receptor = new Receptor();
+        Grid grid = new Grid(session, 1, 1);
         grid.place(0, 0, receptor);
         powerUp = new BonusPowerUp();
+        progress.track(grid);
     }
 
     /**

@@ -14,6 +14,7 @@ import java.util.Set;
  * @author Matthijs Rijm (m.rijm@student.tudelft.nl)
  */
 public class Progress implements ReceptorListener {
+
     /**
      * The score of the player.
      */
@@ -23,23 +24,6 @@ public class Progress implements ReceptorListener {
      * Set with all unmarked receptors, when it is empty the game is won.
      */
     private Set<Receptor> unmarked = new HashSet<>();
-
-    /**
-     * Construct a Progress object.
-     *
-     * @param grid Grid from which the receptors are taken at the start of the game.
-     */
-    public Progress(Grid grid) {
-        for (int i = 0; i < grid.getWidth(); i++) {
-            for (int j = 0; j < grid.getHeight(); j++) {
-                Tileable t = grid.get(i, j).getTileable();
-                if (t instanceof Receptor) {
-                    unmarked.add((Receptor) t);
-                    t.addListener(this);
-                }
-            }
-        }
-    }
 
     /**
      * Return if the set is empty, which means the game is won.
@@ -76,6 +60,25 @@ public class Progress implements ReceptorListener {
      */
     public void score(int points) {
         score += points;
+    }
+
+    /**
+     * Track the given {@link Grid} for progress.
+     *
+     * @param grid The grid to track.
+     */
+    public void track(Grid grid) {
+        unmarked.clear();
+
+        for (int i = 0; i < grid.getWidth(); i++) {
+            for (int j = 0; j < grid.getHeight(); j++) {
+                Tileable t = grid.get(i, j).getTileable();
+                if (t instanceof Receptor) {
+                    unmarked.add((Receptor) t);
+                    t.addListener(this);
+                }
+            }
+        }
     }
 
     /**

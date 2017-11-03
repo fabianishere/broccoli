@@ -47,16 +47,16 @@ public interface Level {
     GameSession create(Configuration config);
 
     /**
-     * Return the name of this level.
+     * Return the {@link LevelFactory} of this level.
      *
-     * @return A string representing the name of this level.
+     * @return The factory that this level was created by.
      */
-    String getName();
+    LevelFactory getFactory();
 
     /**
-     * Return the difficulty of this level.
+     * Return the index of this level.
      *
-     * @return The difficulty of this level.
+     * @return The index of this level.
      */
-    Difficulty getDifficulty();
+    int getIndex();
 }

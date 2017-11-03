@@ -93,7 +93,7 @@ public class PowerUpTest {
 
             @Override
             public Level getLevel() {
-                return null;
+                return mock(Level.class);
             }
         };
 
@@ -185,7 +185,7 @@ public class PowerUpTest {
         receptor.addListener(spy);
         assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
 
-        verify(spy, after(200).atLeast(2)).receptorAssigned(receptor);
+        verify(spy, after(800).atLeast(2)).receptorAssigned(receptor);
         verify(spy).receptorMarked(receptor);
     }
 
@@ -238,7 +238,7 @@ public class PowerUpTest {
         assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
         app.postRunnable(() -> receptor.setPowerUp(new BonusPowerUp()));
 
-        verify(spy, after(200).atLeast(2)).receptorAssigned(receptor);
+        verify(spy, after(800).atLeast(2)).receptorAssigned(receptor);
         verify(spy, never()).receptorMarked(receptor);
     }
 }

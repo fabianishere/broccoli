@@ -46,7 +46,7 @@ public class JokerPowerUpTest {
     public void setUp() {
         context = mock(NexusContext.class);
         GameSession session = mock(GameSession.class);
-        when(session.getProgress()).thenReturn(new Progress(new Grid(session, 1, 1)));
+        when(session.getProgress()).thenReturn(new Progress());
         when(session.getNexusContext()).thenReturn(context);
         Grid grid = new Grid(session, 1, 1);
         receptor = new Receptor();

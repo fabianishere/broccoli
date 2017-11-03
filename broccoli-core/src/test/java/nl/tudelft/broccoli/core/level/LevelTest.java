@@ -47,7 +47,7 @@ public abstract class LevelTest {
     /**
      * The level under test.
      */
-    Level level;
+    public Level level;
 
     /**
      * The configuration of the level.
@@ -84,14 +84,6 @@ public abstract class LevelTest {
     }
 
     /**
-     * Test to see if getting the name of the level is simple.
-     */
-    @Test
-    public void getName() {
-        assertThat(level.getName()).isEqualTo("simple");
-    }
-
-    /**
      * Test that the game is linked to the level that created it.
      */
     @Test
@@ -109,7 +101,7 @@ public abstract class LevelTest {
             "BLUE", "PINK", "JOKER", "YELLOW", "INVALID"));
 
         GameSession session = level.create(config);
-        SpawningNexus nexus = (SpawningNexus) session.getGrid().get(3, 3).getTileable();
+        SpawningNexus nexus = (SpawningNexus) session.getGrid().get(5, 5).getTileable();
         assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.GREEN);
         nexus.getContext().setOccupied(false);
         assertThat(nexus.spawn().getType()).isEqualTo(MarbleType.BLUE);

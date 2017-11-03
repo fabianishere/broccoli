@@ -15,7 +15,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import nl.tudelft.broccoli.core.config.ConfigurationLoader;
 import nl.tudelft.broccoli.core.level.GameSession;
+import nl.tudelft.broccoli.core.level.Level;
 import nl.tudelft.broccoli.core.level.Progress;
+import nl.tudelft.broccoli.core.level.easy.EasyLevelFactory;
 import nl.tudelft.broccoli.libgdx.scene.ActorContext;
 import nl.tudelft.broccoli.libgdx.scene.StackableStage;
 import org.junit.After;
@@ -117,6 +119,7 @@ public class FinishScreenTest {
 
         Progress progress = mock(Progress.class);
         GameSession session = mock(GameSession.class);
+        when(session.getLevel()).thenReturn(mock(Level.class));
         when(session.getProgress()).thenReturn(progress);
         when(progress.isWon()).thenReturn(false);
 
@@ -147,6 +150,7 @@ public class FinishScreenTest {
         // Add finish screen to scene.
         Progress progress = mock(Progress.class);
         GameSession session = mock(GameSession.class);
+        when(session.getLevel()).thenReturn(mock(Level.class));
         when(session.getProgress()).thenReturn(progress);
         when(progress.isWon()).thenReturn(true);
 
@@ -163,5 +167,38 @@ public class FinishScreenTest {
         assertThat(((Label) screen[0].getActor().getChildren().first()).getText())
             .contains("Congratulations, you won the game\n")
             .contains("Your score was 0");
+    }
+
+    /**
+     * Test if the next button works.
+     */
+    @Test
+    public void testNext() throws Exception {
+        // Wait until the actor becomes available.
+        assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
+
+        Progress progress = mock(Progress.class);
+        Level level = mock(Level.class);
+        GameSession session = mock(GameSession.class);
+        when(level.getIndex()).thenReturn(1);
+        when(level.getFactory()).thenReturn(new EasyLevelFactory());
+        when(session.getLevel()).thenReturn(level);
+        when(session.getProgress()).thenReturn(progress);
+        when(progress.isWon()).thenReturn(false);
+
+        latch = new CountDownLatch(1);
+
+        // Create finish screen
+        app.postRunnable(() -> {
+            FinishScreen screen = new FinishScreen(context, session);
+            stage.addActor(screen);
+            screen.getActor().getChildren().get(2).fire(new ChangeListener.ChangeEvent());
+            latch.countDown();
+        });
+
+        assertThat(latch.await(5, TimeUnit.SECONDS)).isTrue();
+
+        // Wait 500ms in order for the events to be processed
+        verify(stage.getScreenStack(), after(500)).replace(any(GameScreen.class));
     }
 }
