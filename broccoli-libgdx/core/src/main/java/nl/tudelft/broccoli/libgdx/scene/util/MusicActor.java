@@ -37,6 +37,8 @@ public class MusicActor extends Actor implements Disposable {
      */
     @Override
     public void dispose() {
-        this.theme.stop();
+        if (this.theme != null) {
+            this.theme.stop();
+        }
     }
 }

@@ -39,6 +39,7 @@ public class GameStage extends StackableStage {
 
         this.music = initMusic();
         this.addActor(music);
+
         this.getScreenStack().replace(new StartScreen(context));
     }
 
@@ -61,7 +62,10 @@ public class GameStage extends StackableStage {
      */
     private MusicActor initMusic() {
         MusicActor music = new MusicActor();
-        music.play(Gdx.audio.newMusic(Gdx.files.classpath("sound/music/placeholder.mp3")));
+
+        // Uncomment this lines to enable background music
+        // music.play(Gdx.audio.newMusic(Gdx.files.classpath("sound/music/placeholder.mp3")));
+
         return music;
     }
 }
